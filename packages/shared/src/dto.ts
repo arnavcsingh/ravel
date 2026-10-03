@@ -71,6 +71,7 @@ export const DebuggerSnapshotSchema = z.object({
   eventCount: z.number(),
   heads: z.record(z.string()),
   canRepair: z.boolean(),
+  guard: z.object({ rejectedWrites: z.number(), retries: z.number() }),
 });
 export const DiffLineSchema = z.object({
   kind: z.enum(['context', 'added', 'removed']),

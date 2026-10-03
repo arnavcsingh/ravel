@@ -78,6 +78,7 @@ export function applyEvent(state: RunState, event: RavelEvent): RunState {
       )
         throw new Error('Invalid task attempt identity.');
       state.tasks[task.id] = structuredClone(task);
+      state.agents[attempt.agentId].status = 'running';
       state.attempts[attempt.id] = {
         ...structuredClone(attempt),
         frontier: Object.assign(Object.create(null), attempt.frontier),

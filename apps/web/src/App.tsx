@@ -376,6 +376,21 @@ export default function App() {
           <div className="empty-state">Loading the recorded execution…</div>
         ) : (
           <>
+            {snapshot.run.mode === 'guard' && snapshot.guard.rejectedWrites > 0 && (
+              <div className="guard-banner" role="status">
+                <strong>
+                  Guard prevented {snapshot.guard.rejectedWrites} stale write
+                  {snapshot.guard.rejectedWrites === 1 ? '' : 's'}.
+                </strong>
+                <span>
+                  {snapshot.guard.retries} replacement attempt
+                  {snapshot.guard.retries === 1 ? '' : 's'} used fresh state.{' '}
+                  {snapshot.activeAffectedCount === 0
+                    ? 'Current heads are clean.'
+                    : 'Inspect the remaining affected heads.'}
+                </span>
+              </div>
+            )}
             <div className="stats">
               <div>
                 <span className="stat-label">Agents</span>

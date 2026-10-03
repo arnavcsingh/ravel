@@ -1,22 +1,26 @@
 import 'dotenv/config';
 import { createApp } from './app';
-import { resolve, dirname } from 'node:path';
-import { existsSync, renameSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { createServer as createViteServer } from 'vite';
+import { acquireServerLease, resetDemo } from './lifecycle';
 
 const directory = resolve(process.env.RAVEL_DATA_DIR ?? '.ravel/v2');
 if (process.argv.includes('reset')) {
   // Preserve the entire previous database, blobs, and demo workspaces for recovery.
-  if (existsSync(directory)) {
-    const target = `${directory}.saved-${new Date().toISOString().replaceAll(':', '-')}`;
-    if (dirname(target) !== dirname(directory) || directory === process.cwd())
-      throw new Error('Unsafe reset destination.');
-    renameSync(directory, target);
-    console.log(`Saved previous demo state at ${target}`);
-  }
+  const target = resetDemo(directory);
+  if (target) console.log(`Saved previous demo state at ${target}`);
   console.log('Demo reset. Run pnpm demo to initialize a new trace.');
 } else {
-  const { app } = await createApp({ directory });
+  const releaseLease = acquireServerLease(directory);
+  let service;
+  try {
+    service = await createApp({ directory });
+  } catch (error) {
+    releaseLease();
+    throw error;
+  }
+  const { app } = service;
+  app.addHook('onClose', async () => releaseLease());
   if (process.argv.includes('--dev')) {
     const vite = await createViteServer({
       configFile: resolve('apps/web/vite.config.ts'),

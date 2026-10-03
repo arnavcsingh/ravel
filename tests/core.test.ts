@@ -184,6 +184,42 @@ describe('content and observation semantics', () => {
 });
 
 describe('atomic concurrency and durable state', () => {
+  it('keeps a retired stale root active while a downstream head still depends on it', async () => {
+    const { run, a, b } = await fixture();
+    await a.observeResource('input');
+    await b.writeResource('input', 'B');
+    const stale = await output(a, 'output', 'A');
+    await a.complete();
+    const consumer = await run.createAttempt(await run.createAgent('Consumer'), 'Consume output');
+    await consumer.observeResource('output');
+    const child = await output(consumer, 'child', 'A');
+    const repair = await run.createAttempt(a.identity.agentId, 'Repair');
+    await repair.observeResource('input');
+    const clean = await output(repair, 'output', 'B');
+    const radius = blastRadius(stale.id, run.state.edges, run.state.heads);
+    expect(radius.active).toEqual([child.id]);
+    expect(radius.historical).not.toContain(clean.id);
+  });
+  it('returned observations and intents cannot rewrite captured runtime state', async () => {
+    const { run, a, b } = await fixture();
+    const observed = await a.observeResource('input');
+    observed.version.contentHash = 'spoof';
+    const intent = await run.prepareWrite(a.attemptId, 'output', 'A');
+    intent.observationIds.length = 0;
+    intent.candidateHash = null;
+    await b.writeResource('input', 'B');
+    const result = await run.commitWrite(intent.id);
+    expect(result.version!.tombstone).toBe(false);
+    expect(run.state.hazards).toHaveLength(1);
+  });
+  it('rejects overlapping mutations in one attempt without blocking other agents', async () => {
+    const { run, a, b } = await fixture();
+    const intent = await run.prepareWrite(a.attemptId, 'output', 'A');
+    await expect(run.prepareWrite(a.attemptId, 'second', 'B')).rejects.toThrow('pending');
+    await b.writeResource('input', 'B');
+    await run.commitWrite(intent.id);
+    await a.complete();
+  });
   it('holds a captured mutation outside the lock, then validates and commits atomically', async () => {
     const scheduler = new ControlledScheduler();
     const { run, a, b } = await fixture({ gate: scheduler });

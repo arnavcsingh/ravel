@@ -166,6 +166,10 @@ export class DebuggerProjector {
       currentRuntimeSeq: state.seq,
       latestRuntimeSeq: all.at(-1)?.runtimeSeq ?? 0,
       activeAffectedCount: new Set(hazards.flatMap((h) => h.activeBlastRadius)).size,
+      guard: {
+        rejectedWrites: state.events.filter((event) => event.kind === 'WRITE_REJECTED').length,
+        retries: Object.values(state.attempts).filter((attempt) => attempt.number > 1).length,
+      },
       eventCount: state.events.length,
       heads: state.heads,
       canRepair:

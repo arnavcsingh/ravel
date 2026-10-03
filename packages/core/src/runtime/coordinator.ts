@@ -307,6 +307,13 @@ export class RunCoordinator extends EventEmitter {
     return this.lock.run(() => {
       const attempt = this.requireAttempt(attemptId),
         head = this.snapshotLocked(path);
+      if (
+        [...this.pending.values()].some((intent) => intent.attemptId === attemptId) ||
+        this.activeCommands.has(attemptId)
+      )
+        throw new Error(
+          'Finish this attempt’s pending mutation or command before preparing another mutation.',
+        );
       const candidateHash = content === null ? null : this.store.putBlob(content);
       let observations = Object.values(attempt.frontier);
       if (baseVersionId) {
@@ -455,6 +462,8 @@ export class RunCoordinator extends EventEmitter {
     const commandId = id();
     const { files, inputVersionIds } = await this.lock.run(() => {
       this.requireAttempt(attemptId);
+      if ([...this.pending.values()].some((intent) => intent.attemptId === attemptId))
+        throw new Error('Finish this attempt’s pending mutation before running a command.');
       const inputVersionIds = Object.values(this.current.heads),
         files = Object.fromEntries(
           inputVersionIds.map((v) => [

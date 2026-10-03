@@ -1331,3 +1331,22 @@ dialog p {
     font-size: 10px;
   }
 }
+:root {
+  color-scheme: light;
+}
+.guard-banner {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  border: 1px solid #d2dfc4;
+  background: #edf3e5;
+  color: #657e4f;
+  padding: 17px 20px;
+  border-radius: 6px;
+  margin-top: 20px;
+  font-size: 12px;
+}
+.guard-banner span {
+  font-size: 11px;
+  color: #7c8d6b;
+}
