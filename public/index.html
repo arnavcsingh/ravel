@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7f2">
+  <title>Ravel — follow the cause</title>
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="/" aria-label="Ravel home"><svg viewBox="0 0 32 36" aria-hidden="true"><path d="M6 31V5h12c12 0 12 16 0 16H6m10 0 11 10M6 12h12"/></svg>ravel<span class="brand-dot">.</span></a>
+    <div class="workspace-label">WORKSPACE <span>LOCAL</span></div>
+    <div class="workspace-name"><span class="repo-icon">⌘</span> identifier-migration</div>
+    <div class="nav-label">OBSERVABILITY</div>
+    <nav aria-label="Main navigation">
+      <button id="debugger-nav" class="nav-item active"><span>⌁</span> Causal debugger <span class="nav-count" id="nav-count">1</span></button>
+      <button id="events-nav" class="nav-item"><span>≡</span> Event log</button>
+    </nav>
+    <div class="sidebar-note"><div class="mini-threads"><i></i><i></i><i></i></div><strong>Follow the cause.</strong><p>See where shared context drifts, and what follows.</p></div>
+    <div class="sidebar-bottom"><span class="connection-dot"></span><span id="connection">Connecting</span><span>v0.1</span></div>
+  </aside>
+  <main>
+    <header class="topbar"><div><span class="muted">Workspace</span><span class="slash">/</span>Causal debugger</div><button class="text-button" id="about">How to read this trace <span>↗</span></button></header>
+    <div class="page-heading"><div><div class="eyebrow">SHARED STATE. VISIBLE CONSEQUENCES.</div><h1>A race, unraveled<span>.</span></h1><p>Trace an observation from the moment it becomes stale to the work it shapes.</p></div><button class="button primary" id="new-demo"><span>＋</span> Run live demo</button></div>
+    <div class="runbar"><div class="run-choice"><span class="run-icon">◈</span><label for="run-select">Run</label><select id="run-select" aria-label="Select recorded run"></select></div><div class="run-meta"><span class="pill">OBSERVE MODE</span><span id="run-status" class="status-label"></span></div></div>
+    <div class="stats"><div><span class="stat-label">Agents</span><strong id="agent-count">—</strong><span class="stat-detail">working in parallel</span></div><div><span class="stat-label">Recorded events</span><strong id="event-count">—</strong><span class="stat-detail">ordered by the runtime</span></div><div><span class="stat-label">Active incidents</span><strong class="danger" id="hazard-count">—</strong><span class="stat-detail">stale observations</span></div><div><span class="stat-label">Affected heads</span><strong id="affected-count">—</strong><span class="stat-detail">in the current workspace</span></div></div>
+    <div id="error" class="error hidden" role="alert"></div>
+    <section id="event-view" class="panel hidden"><div class="panel-heading"><h2>Immutable event log</h2><span class="mono">ORDERED BY RUNTIME SEQUENCE</span></div><div class="event-table-wrap"><table><thead><tr><th>SEQ</th><th>AGENT</th><th>EVENT</th><th>RESOURCE / DETAIL</th></tr></thead><tbody id="event-rows"></tbody></table></div></section>
+    <div class="debugger-grid" id="debugger-view">
+      <div class="visuals">
+        <section class="panel timeline-panel"><div class="panel-heading"><div><h2>Execution timeline</h2><span class="panel-subtitle">The order that made the difference</span></div><div class="legend"><span><i class="dot read"></i> Observe</span><span><i class="dot write"></i> Write</span><span><i class="dot stale"></i> Stale input</span></div></div><div id="timeline" class="diagram-scroll"></div><div class="timeline-foot"><span>→ Runtime sequence</span><span>Ordering is independent of wall-clock time</span></div></section>
+        <section class="panel graph-panel"><div class="panel-heading"><div><h2>Provenance graph</h2><span class="panel-subtitle">What each artifact was built from</span></div><span class="small-tag">VERSION LEVEL</span></div><div id="graph" class="diagram-scroll"></div><div class="graph-foot"><span><i class="line-key"></i> Candidate derivation</span><span><i class="line-key dashed"></i> Version succession</span><span class="head-key">● Current head</span></div></section>
+        <section class="replay-panel"><div class="replay-title"><span class="replay-symbol">↶</span><div><strong>Replay the execution</strong><span>Recorded facts. One event at a time.</span></div><button class="text-button" id="jump-live">Jump to latest ↗</button></div><div class="replay-controls"><button id="rewind" class="icon-button" aria-label="Go to first event">|◀</button><button id="play" class="icon-button play-button" aria-label="Play trace">▶</button><button id="step" class="icon-button" aria-label="Step forward">▶|</button><input id="scrubber" type="range" min="1" max="1" value="1" aria-label="Replay sequence"><span id="seq-label" class="mono">01 / 01</span></div></section>
+      </div>
+      <aside class="panel inspector"><div class="panel-heading"><h2>Incident inspector</h2><span class="incident-index" id="incident-index">01</span></div><div id="incident-body"></div></aside>
+    </div>
+    <footer><span class="footer-brand">ravel.</span><span>A causal concurrency debugger for coding agents</span><span>MHACKS 2026</span></footer>
+  </main>
+  <dialog id="about-dialog"><button id="close-about" class="icon-button dialog-close" aria-label="Close explanation">×</button><div class="eyebrow">A NOTE ON EVIDENCE</div><h2>Stale is a fact.<br>Impact needs context.</h2><p>Ravel detects when an agent writes after one of its directly observed resources changes. Every write inherits candidate provenance from the current task attempt's observation frontier.</p><p><strong>Downstream</strong> means an artifact descends from stale-derived work. It does not prove that artifact is incorrect. Dashed version-succession lines are excluded from the blast radius.</p><p>This demo uses scripted agents and a narrow semantic rule for the INTEGER → UUID migration. The rule is labeled in the inspector. General model-based analysis and real agent adapters are not connected yet.</p><p>Only operations mediated by the runtime are covered. Replay shows stored events; Repair creates new task attempts and preserves historical findings.</p></dialog>
+</body>
+</html>

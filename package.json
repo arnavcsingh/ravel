@@ -1,0 +1,14 @@
+{
+  "name": "ravel",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A causal concurrency debugger for coding agents.",
+  "engines": { "node": ">=22.18.0" },
+  "scripts": {
+    "start": "node src/cli.js serve",
+    "demo": "node src/cli.js demo",
+    "test": "node --test",
+    "check": "node --check src/runtime/coordinator.js && node --check src/replay/projector.js && node --check src/api/server.js && node --check public/app.js"
+  }
+}

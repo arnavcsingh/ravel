@@ -1,0 +1,4 @@
+.ravel/
+node_modules/
+coverage/
+*.log
