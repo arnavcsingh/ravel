@@ -1,0 +1,12 @@
+{
+  "name": "@ravel/web",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@ravel/shared": "workspace:*",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "@xyflow/react": "^12.8.4"
+  }
+}

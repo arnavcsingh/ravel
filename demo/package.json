@@ -1,0 +1,11 @@
+{
+  "name": "@ravel/demo",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@ravel/core": "workspace:*",
+    "@ravel/shared": "workspace:*"
+  }
+}
