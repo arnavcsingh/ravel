@@ -5,6 +5,7 @@ export * from './runtime/coordinator';
 export * from './runtime/workspace';
 export * from './runtime/scheduler';
 export * from './replay/reducer';
+export * from './replay/projector';
 export * from './provenance/graph';
 export * from './detection/stale';
 export * from './adapters';
