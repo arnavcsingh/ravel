@@ -1,0 +1,544 @@
+{
+  "events": [
+    {
+      "id": "83f1b95b-9c38-44f8-9d13-16c4609eeca5",
+      "runId": "47afc261-01c0-4066-9bf6-784fdb58d3a3",
+      "runtimeSeq": 1,
+      "agentId": null,
+      "taskId": null,
+      "attemptId": null,
+      "agentSeq": null,
+      "wallTime": "2026-10-03T21:42:06.775Z",
+      "monotonicTime": 665.1768,
+      "commandId": null,
+      "kind": "RUN_START",
+      "payload": {
+        "id": "47afc261-01c0-4066-9bf6-784fdb58d3a3",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\observe\\47afc261-01c0-4066-9bf6-784fdb58d3a3",
+        "scenario": "identifier-migration",
+        "mode": "observe",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:06.773Z",
+        "endedAt": null
+      }
+    },
+    {
+      "id": "998a8c35-fee1-489e-b47c-6b61dd349405",
+      "runId": "47afc261-01c0-4066-9bf6-784fdb58d3a3",
+      "runtimeSeq": 2,
+      "agentId": null,
+      "taskId": null,
+      "attemptId": null,
+      "agentSeq": null,
+      "wallTime": "2026-10-03T21:42:06.793Z",
+      "monotonicTime": 682.3019,
+      "commandId": null,
+      "kind": "RESOURCE_SNAPSHOT",
+      "payload": {
+        "version": {
+          "id": "2697ceba-d252-4266-abe4-1c9cdb785920",
+          "resourceId": "schema.sql",
+          "generation": 17,
+          "contentHash": "a676b91d30165271aa4aedd6c53bcee0094433ff2bdebe3e9095ca8e7d5bdf0e",
+          "blobRef": "a676b91d30165271aa4aedd6c53bcee0094433ff2bdebe3e9095ca8e7d5bdf0e",
+          "previousVersionId": null,
+          "producerAttemptId": null,
+          "createdEventId": "998a8c35-fee1-489e-b47c-6b61dd349405",
+          "creationSeq": 2,
+          "tombstone": false
+        }
+      }
+    },
+    {
+      "id": "ded8b232-cbb0-4f00-bac3-7e45393ff0c7",
+      "runId": "47afc261-01c0-4066-9bf6-784fdb58d3a3",
+      "runtimeSeq": 3,
+      "agentId": null,
+      "taskId": null,
+      "attemptId": null,
+      "agentSeq": null,
+      "wallTime": "2026-10-03T21:42:06.804Z",
+      "monotonicTime": 693.5462,
+      "commandId": null,
+      "kind": "RESOURCE_SNAPSHOT",
+      "payload": {
+        "version": {
+          "id": "ca65c94c-9ff2-47be-b631-280825642de7",
+          "resourceId": "api/types.ts",
+          "generation": 4,
+          "contentHash": "18d1e3cd89f0ebbfdeb00d884ad7bd6ae5ed9909088abe57513437a7e74bf494",
+          "blobRef": "18d1e3cd89f0ebbfdeb00d884ad7bd6ae5ed9909088abe57513437a7e74bf494",
+          "previousVersionId": null,
+          "producerAttemptId": null,
+          "createdEventId": "ded8b232-cbb0-4f00-bac3-7e45393ff0c7",
+          "creationSeq": 3,
+          "tombstone": false
+        }
+      }
+    },
+    {
+      "id": "1c28aecf-4103-4706-9049-493d96e8bb35",
+      "runId": "47afc261-01c0-4066-9bf6-784fdb58d3a3",
+      "runtimeSeq": 4,
+      "agentId": null,
+      "taskId": null,
+      "attemptId": null,
+      "agentSeq": null,
+      "wallTime": "2026-10-03T21:42:06.813Z",
+      "monotonicTime": 702.5903,
+      "commandId": null,
+      "kind": "RESOURCE_SNAPSHOT",
+      "payload": {
+        "version": {
+          "id": "e655f4a9-9d0d-47fb-ab58-b13a516527aa",
+          "resourceId": "frontend/client.ts",
+          "generation": 8,
+          "contentHash": "ed5bd5f1ca53aab330b26242e6d32c620d09b5bec62d5f97027f38bcbcefa85b",
+          "blobRef": "ed5bd5f1ca53aab330b26242e6d32c620d09b5bec62d5f97027f38bcbcefa85b",
+          "previousVersionId": null,
+          "producerAttemptId": null,
+          "createdEventId": "1c28aecf-4103-4706-9049-493d96e8bb35",
+          "creationSeq": 4,
+          "tombstone": false
+        }
+      }
+    },
+    {
+      "id": "0de402a2-da7f-44cc-90f8-cddf16e2dd99",
+      "runId": "47afc261-01c0-4066-9bf6-784fdb58d3a3",
+      "runtimeSeq": 5,
+      "agentId": "84ba7e32-f912-4152-a400-ff8c16b428ba",
+      "taskId": null,
+      "attemptId": null,
+      "agentSeq": 1,
+      "wallTime": "2026-10-03T21:42:06.818Z",
+      "monotonicTime": 707.461,
+      "commandId": null,
+      "kind": "AGENT_START",
+      "payload": {
+        "id": "84ba7e32-f912-4152-a400-ff8c16b428ba",
+        "runId": "47afc261-01c0-4066-9bf6-784fdb58d3a3",
+        "name": "Backend",
+        "adapter": "scripted",
+        "status": "running"
+      }
+    },
+    {
+      "id": "3d956a65-5720-40fd-ac3e-78b7f441488a",
+      "runId": "47afc261-01c0-4066-9bf6-784fdb58d3a3",
+      "runtimeSeq": 6,
+      "agentId": "e2d61c19-be63-4606-b200-8eda0aa49512",
+      "taskId": null,
+      "attemptId": null,
+      "agentSeq": 1,
+      "wallTime": "2026-10-03T21:42:06.822Z",
+      "monotonicTime": 711.5789,
+      "commandId": null,
+      "kind": "AGENT_START",
+      "payload": {
+        "id": "e2d61c19-be63-4606-b200-8eda0aa49512",
+        "runId": "47afc261-01c0-4066-9bf6-784fdb58d3a3",
+        "name": "Database",
+        "adapter": "scripted",
+        "status": "running"
+      }
+    },
+    {
+      "id": "71f1bce7-9269-4fb6-a6f5-ab6032ccf2b6",
+      "runId": "47afc261-01c0-4066-9bf6-784fdb58d3a3",
+      "runtimeSeq": 7,
+      "agentId": "7af7f71d-22c0-4831-8b9e-a186875bf17f",
+      "taskId": null,
+      "attemptId": null,
+      "agentSeq": 1,
+      "wallTime": "2026-10-03T21:42:06.825Z",
+      "monotonicTime": 715.0292,
+      "commandId": null,
+      "kind": "AGENT_START",
+      "payload": {
+        "id": "7af7f71d-22c0-4831-8b9e-a186875bf17f",
+        "runId": "47afc261-01c0-4066-9bf6-784fdb58d3a3",
+        "name": "Frontend",
+        "adapter": "scripted",
+        "status": "running"
+      }
+    },
+    {
+      "id": "17ccbb3e-084a-440a-8e09-da82f830e9bd",
+      "runId": "47afc261-01c0-4066-9bf6-784fdb58d3a3",
+      "runtimeSeq": 8,
+      "agentId": "84ba7e32-f912-4152-a400-ff8c16b428ba",
+      "taskId": "abcc9307-5707-46ab-8192-39df1947774f",
+      "attemptId": "53b42162-458b-474c-8bcb-41059007ea02",
+      "agentSeq": 2,
+      "wallTime": "2026-10-03T21:42:06.829Z",
+      "monotonicTime": 718.7241,
+      "commandId": null,
+      "kind": "TASK_ATTEMPT_START",
+      "payload": {
+        "task": {
+          "id": "abcc9307-5707-46ab-8192-39df1947774f",
+          "runId": "47afc261-01c0-4066-9bf6-784fdb58d3a3",
+          "name": "Generate API types",
+          "prompt": "Read schema.sql and update api/types.ts."
+        },
+        "attempt": {
+          "id": "53b42162-458b-474c-8bcb-41059007ea02",
+          "taskId": "abcc9307-5707-46ab-8192-39df1947774f",
+          "agentId": "84ba7e32-f912-4152-a400-ff8c16b428ba",
+          "number": 1,
+          "status": "running",
+          "startedEventId": "17ccbb3e-084a-440a-8e09-da82f830e9bd",
+          "endedEventId": null,
+          "frontier": {},
+          "observedVersions": [],
+          "producedVersions": []
+        }
+      }
+    },
+    {
+      "id": "4f205b00-609b-4164-8297-6c036a1e2569",
+      "runId": "47afc261-01c0-4066-9bf6-784fdb58d3a3",
+      "runtimeSeq": 9,
+      "agentId": "84ba7e32-f912-4152-a400-ff8c16b428ba",
+      "taskId": "abcc9307-5707-46ab-8192-39df1947774f",
+      "attemptId": "53b42162-458b-474c-8bcb-41059007ea02",
+      "agentSeq": 3,
+      "wallTime": "2026-10-03T21:42:06.835Z",
+      "monotonicTime": 724.8529,
+      "commandId": null,
+      "kind": "OBSERVE_RESOURCE",
+      "payload": {
+        "observation": {
+          "id": "7d585c2e-9fa9-4c68-bc3b-77bdd9ab1433",
+          "attemptId": "53b42162-458b-474c-8bcb-41059007ea02",
+          "versionId": "2697ceba-d252-4266-abe4-1c9cdb785920",
+          "eventId": "4f205b00-609b-4164-8297-6c036a1e2569",
+          "type": "DIRECT_READ"
+        }
+      }
+    },
+    {
+      "id": "7743b1e5-d498-4f3a-89fb-50997c32e1d3",
+      "runId": "47afc261-01c0-4066-9bf6-784fdb58d3a3",
+      "runtimeSeq": 10,
+      "agentId": "84ba7e32-f912-4152-a400-ff8c16b428ba",
+      "taskId": "abcc9307-5707-46ab-8192-39df1947774f",
+      "attemptId": "53b42162-458b-474c-8bcb-41059007ea02",
+      "agentSeq": 4,
+      "wallTime": "2026-10-03T21:42:06.841Z",
+      "monotonicTime": 730.6479,
+      "commandId": null,
+      "kind": "WRITE_INTENT",
+      "payload": {
+        "id": "52cf6f44-686e-4b3d-803a-8f4cf69897a9",
+        "attemptId": "53b42162-458b-474c-8bcb-41059007ea02",
+        "resourceId": "api/types.ts",
+        "candidateHash": "79eb5c679a3be9b4fef133a9f458637c07d04fa58f00c35d78075af0d887b53a",
+        "observationIds": [
+          "7d585c2e-9fa9-4c68-bc3b-77bdd9ab1433"
+        ],
+        "baseVersionId": null
+      }
+    },
+    {
+      "id": "97548ec9-f4da-4fb5-9bc6-a8413d03cb32",
+      "runId": "47afc261-01c0-4066-9bf6-784fdb58d3a3",
+      "runtimeSeq": 11,
+      "agentId": "e2d61c19-be63-4606-b200-8eda0aa49512",
+      "taskId": "62dbcb4d-167d-4582-8eb6-d325a0022f56",
+      "attemptId": "a29500f3-9ff6-41eb-a2dd-d8432eb0c4e2",
+      "agentSeq": 2,
+      "wallTime": "2026-10-03T21:42:06.845Z",
+      "monotonicTime": 735.0214,
+      "commandId": null,
+      "kind": "TASK_ATTEMPT_START",
+      "payload": {
+        "task": {
+          "id": "62dbcb4d-167d-4582-8eb6-d325a0022f56",
+          "runId": "47afc261-01c0-4066-9bf6-784fdb58d3a3",
+          "name": "Migrate identifiers",
+          "prompt": "Migrate User.id from INTEGER to UUID."
+        },
+        "attempt": {
+          "id": "a29500f3-9ff6-41eb-a2dd-d8432eb0c4e2",
+          "taskId": "62dbcb4d-167d-4582-8eb6-d325a0022f56",
+          "agentId": "e2d61c19-be63-4606-b200-8eda0aa49512",
+          "number": 1,
+          "status": "running",
+          "startedEventId": "97548ec9-f4da-4fb5-9bc6-a8413d03cb32",
+          "endedEventId": null,
+          "frontier": {},
+          "observedVersions": [],
+          "producedVersions": []
+        }
+      }
+    },
+    {
+      "id": "234342b0-a5d8-447e-a4d5-e79a83849b48",
+      "runId": "47afc261-01c0-4066-9bf6-784fdb58d3a3",
+      "runtimeSeq": 12,
+      "agentId": "e2d61c19-be63-4606-b200-8eda0aa49512",
+      "taskId": "62dbcb4d-167d-4582-8eb6-d325a0022f56",
+      "attemptId": "a29500f3-9ff6-41eb-a2dd-d8432eb0c4e2",
+      "agentSeq": 3,
+      "wallTime": "2026-10-03T21:42:06.850Z",
+      "monotonicTime": 740.1575,
+      "commandId": null,
+      "kind": "OBSERVE_RESOURCE",
+      "payload": {
+        "observation": {
+          "id": "1a82839b-6d9f-40b4-9ccb-53a03d61110a",
+          "attemptId": "a29500f3-9ff6-41eb-a2dd-d8432eb0c4e2",
+          "versionId": "2697ceba-d252-4266-abe4-1c9cdb785920",
+          "eventId": "234342b0-a5d8-447e-a4d5-e79a83849b48",
+          "type": "DIRECT_READ"
+        }
+      }
+    },
+    {
+      "id": "92a9e893-4fb1-4eb7-8a8e-5f0623c53e65",
+      "runId": "47afc261-01c0-4066-9bf6-784fdb58d3a3",
+      "runtimeSeq": 13,
+      "agentId": "e2d61c19-be63-4606-b200-8eda0aa49512",
+      "taskId": "62dbcb4d-167d-4582-8eb6-d325a0022f56",
+      "attemptId": "a29500f3-9ff6-41eb-a2dd-d8432eb0c4e2",
+      "agentSeq": 4,
+      "wallTime": "2026-10-03T21:42:06.854Z",
+      "monotonicTime": 744.1361,
+      "commandId": null,
+      "kind": "WRITE_INTENT",
+      "payload": {
+        "id": "112b9394-e7ee-44ef-9997-1e9598f32892",
+        "attemptId": "a29500f3-9ff6-41eb-a2dd-d8432eb0c4e2",
+        "resourceId": "schema.sql",
+        "candidateHash": "c3d5777862c17360fa42010d23057d1a4c50e9961d89a92f6a16c223ea864b32",
+        "observationIds": [
+          "1a82839b-6d9f-40b4-9ccb-53a03d61110a"
+        ],
+        "baseVersionId": "2697ceba-d252-4266-abe4-1c9cdb785920"
+      }
+    },
+    {
+      "id": "d48b6a65-b455-41b6-910a-4b177f0f419a",
+      "runId": "47afc261-01c0-4066-9bf6-784fdb58d3a3",
+      "runtimeSeq": 14,
+      "agentId": "e2d61c19-be63-4606-b200-8eda0aa49512",
+      "taskId": "62dbcb4d-167d-4582-8eb6-d325a0022f56",
+      "attemptId": "a29500f3-9ff6-41eb-a2dd-d8432eb0c4e2",
+      "agentSeq": 5,
+      "wallTime": "2026-10-03T21:42:06.857Z",
+      "monotonicTime": 747.0779,
+      "commandId": null,
+      "kind": "WRITE_COMMIT",
+      "payload": {
+        "version": {
+          "id": "57c58cad-eb28-4bb1-a95a-ea0a0006dde7",
+          "resourceId": "schema.sql",
+          "generation": 18,
+          "contentHash": "c3d5777862c17360fa42010d23057d1a4c50e9961d89a92f6a16c223ea864b32",
+          "blobRef": "c3d5777862c17360fa42010d23057d1a4c50e9961d89a92f6a16c223ea864b32",
+          "previousVersionId": "2697ceba-d252-4266-abe4-1c9cdb785920",
+          "producerAttemptId": "a29500f3-9ff6-41eb-a2dd-d8432eb0c4e2",
+          "createdEventId": "d48b6a65-b455-41b6-910a-4b177f0f419a",
+          "creationSeq": 14,
+          "tombstone": false
+        },
+        "observationIds": [
+          "1a82839b-6d9f-40b4-9ccb-53a03d61110a"
+        ],
+        "observation": {
+          "id": "673a56df-08b8-40f9-8c58-e6290953d6cb",
+          "attemptId": "a29500f3-9ff6-41eb-a2dd-d8432eb0c4e2",
+          "versionId": "57c58cad-eb28-4bb1-a95a-ea0a0006dde7",
+          "eventId": "d48b6a65-b455-41b6-910a-4b177f0f419a",
+          "type": "OWN_WRITE"
+        },
+        "intentId": "112b9394-e7ee-44ef-9997-1e9598f32892"
+      }
+    },
+    {
+      "id": "68465b4c-8be6-4710-97ab-93ab5c0ac702",
+      "runId": "47afc261-01c0-4066-9bf6-784fdb58d3a3",
+      "runtimeSeq": 15,
+      "agentId": "e2d61c19-be63-4606-b200-8eda0aa49512",
+      "taskId": "62dbcb4d-167d-4582-8eb6-d325a0022f56",
+      "attemptId": "a29500f3-9ff6-41eb-a2dd-d8432eb0c4e2",
+      "agentSeq": 6,
+      "wallTime": "2026-10-03T21:42:06.870Z",
+      "monotonicTime": 759.4032,
+      "commandId": null,
+      "kind": "TASK_ATTEMPT_END",
+      "payload": {
+        "status": "completed"
+      }
+    }
+  ],
+  "snapshot": {
+    "run": {
+      "id": "47afc261-01c0-4066-9bf6-784fdb58d3a3",
+      "name": "The identifier migration",
+      "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\observe\\47afc261-01c0-4066-9bf6-784fdb58d3a3",
+      "scenario": "identifier-migration",
+      "mode": "observe",
+      "status": "running",
+      "startedAt": "2026-10-03T21:42:06.773Z",
+      "endedAt": null
+    },
+    "agents": [
+      {
+        "id": "84ba7e32-f912-4152-a400-ff8c16b428ba",
+        "runId": "47afc261-01c0-4066-9bf6-784fdb58d3a3",
+        "name": "Backend",
+        "adapter": "scripted",
+        "status": "running"
+      },
+      {
+        "id": "e2d61c19-be63-4606-b200-8eda0aa49512",
+        "runId": "47afc261-01c0-4066-9bf6-784fdb58d3a3",
+        "name": "Database",
+        "adapter": "scripted",
+        "status": "running"
+      },
+      {
+        "id": "7af7f71d-22c0-4831-8b9e-a186875bf17f",
+        "runId": "47afc261-01c0-4066-9bf6-784fdb58d3a3",
+        "name": "Frontend",
+        "adapter": "scripted",
+        "status": "running"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "4f205b00-609b-4164-8297-6c036a1e2569",
+        "runtimeSeq": 9,
+        "agentId": "84ba7e32-f912-4152-a400-ff8c16b428ba",
+        "agentName": "Backend",
+        "action": "OBSERVE",
+        "description": "Backend observed schema.sql@17",
+        "versionId": "2697ceba-d252-4266-abe4-1c9cdb785920",
+        "resourceId": "schema.sql",
+        "state": "CLEAN",
+        "hazardIds": []
+      },
+      {
+        "id": "234342b0-a5d8-447e-a4d5-e79a83849b48",
+        "runtimeSeq": 12,
+        "agentId": "e2d61c19-be63-4606-b200-8eda0aa49512",
+        "agentName": "Database",
+        "action": "OBSERVE",
+        "description": "Database observed schema.sql@17",
+        "versionId": "2697ceba-d252-4266-abe4-1c9cdb785920",
+        "resourceId": "schema.sql",
+        "state": "CLEAN",
+        "hazardIds": []
+      },
+      {
+        "id": "d48b6a65-b455-41b6-910a-4b177f0f419a",
+        "runtimeSeq": 14,
+        "agentId": "e2d61c19-be63-4606-b200-8eda0aa49512",
+        "agentName": "Database",
+        "action": "WRITE",
+        "description": "Database produced schema.sql@18",
+        "versionId": "57c58cad-eb28-4bb1-a95a-ea0a0006dde7",
+        "resourceId": "schema.sql",
+        "state": "CLEAN",
+        "hazardIds": []
+      }
+    ],
+    "graph": {
+      "nodes": [
+        {
+          "id": "2697ceba-d252-4266-abe4-1c9cdb785920",
+          "label": "schema.sql@17",
+          "resourceId": "schema.sql",
+          "generation": 17,
+          "state": "CLEAN",
+          "currentHead": false,
+          "tombstone": false,
+          "x": 0,
+          "y": 0,
+          "hazardIds": []
+        },
+        {
+          "id": "ca65c94c-9ff2-47be-b631-280825642de7",
+          "label": "types.ts@4",
+          "resourceId": "api/types.ts",
+          "generation": 4,
+          "state": "CLEAN",
+          "currentHead": true,
+          "tombstone": false,
+          "x": 270,
+          "y": 0,
+          "hazardIds": []
+        },
+        {
+          "id": "e655f4a9-9d0d-47fb-ab58-b13a516527aa",
+          "label": "client.ts@8",
+          "resourceId": "frontend/client.ts",
+          "generation": 8,
+          "state": "CLEAN",
+          "currentHead": true,
+          "tombstone": false,
+          "x": 540,
+          "y": 0,
+          "hazardIds": []
+        },
+        {
+          "id": "57c58cad-eb28-4bb1-a95a-ea0a0006dde7",
+          "label": "schema.sql@18",
+          "resourceId": "schema.sql",
+          "generation": 18,
+          "state": "CLEAN",
+          "currentHead": true,
+          "tombstone": false,
+          "x": 0,
+          "y": 120,
+          "hazardIds": []
+        }
+      ],
+      "edges": [
+        {
+          "id": "7512c461-bee8-798f-bc6e-06faad45f653",
+          "source": "2697ceba-d252-4266-abe4-1c9cdb785920",
+          "target": "57c58cad-eb28-4bb1-a95a-ea0a0006dde7",
+          "kind": "DERIVED_FROM",
+          "label": "same resource base"
+        },
+        {
+          "id": "b896af8f-b567-1249-6c11-ae80dba0b59f",
+          "source": "2697ceba-d252-4266-abe4-1c9cdb785920",
+          "target": "57c58cad-eb28-4bb1-a95a-ea0a0006dde7",
+          "kind": "VERSION_SUCCESSOR",
+          "label": "next version"
+        }
+      ]
+    },
+    "hazards": [],
+    "staleWindows": [
+      {
+        "hazardId": "52cf6f44-686e-4b3d-803a-8f4cf69897a9",
+        "agentId": "84ba7e32-f912-4152-a400-ff8c16b428ba",
+        "observedSeq": 9,
+        "startSeq": 14,
+        "endSeq": 15,
+        "resourceId": "schema.sql"
+      }
+    ],
+    "currentRuntimeSeq": 15,
+    "latestRuntimeSeq": 15,
+    "activeAffectedCount": 0,
+    "eventCount": 15,
+    "heads": {
+      "schema.sql": "57c58cad-eb28-4bb1-a95a-ea0a0006dde7",
+      "api/types.ts": "ca65c94c-9ff2-47be-b631-280825642de7",
+      "frontend/client.ts": "e655f4a9-9d0d-47fb-ab58-b13a516527aa"
+    },
+    "canRepair": false,
+    "guard": {
+      "rejectedWrites": 0,
+      "retries": 0
+    }
+  }
+}

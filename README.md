@@ -2,155 +2,103 @@
 
 **A causal concurrency debugger for asynchronous coding agents.**
 
-Ravel records what repository state each agent observed, detects when that state changed before the agent committed its work, and follows the resulting artifacts through a version-level provenance graph.
+Ravel records what repository state each agent observed, detects when that state changed before publication, and follows resulting artifacts through immutable version provenance.
 
 ## Start
 
-Use Node.js **22.18+** and pnpm **11.25+**.
+Install **Go 1.26+**, **Python 3.11+**, **Node.js 22.18+**, and **pnpm 11.25+**. SQLite is embedded; no database service, model, or API key is needed.
 
 ```sh
 pnpm install
 pnpm demo
 ```
 
-Open **http://127.0.0.1:4317**. This builds React, starts Fastify, initializes an isolated workspace, and records the controlled three-agent race. No API keys or external services are needed.
+Open **http://127.0.0.1:4317**. This builds the existing React debugger and Go executable, initializes an isolated workspace, and records the controlled three-agent race. First installation downloads npm and Go dependencies; subsequent runs can use cached dependencies.
 
-After dependencies have been downloaded, `pnpm install --offline --frozen-lockfile`, tests, builds, and the demo work without network access. A first installation with an empty package cache still needs the package registry. The browser loads all runtime assets locally.
+Set `RAVEL_GO` or `RAVEL_PYTHON` if the executables are not on PATH. The launcher also recognizes the workspace-local Go SDK and Codex's bundled Python when available. `.env` is loaded by the pnpm launcher; directly launched Go/Python programs use their process environment. `PORT` defaults to `4317`; `RAVEL_DATA_DIR` defaults to `.ravel/v3`. Earlier `.ravel/v2` data is preserved.
 
 ## Try it
 
-1. Inspect the recorded incident. Backend observed `schema.sql@17`; Database changed INTEGER to UUID; Backend produced `types.ts@5` with `id: number`.
-2. Follow the graph to `client.ts@9`, which consumed the stale-derived types. The active blast radius contains two versions.
-3. Click **Replay race**. Five backend-authored steps highlight the observation, invalidation, consuming write, downstream read, and downstream write.
-4. Click **Run live demo** with **Pause before the stale write commits** checked. The candidate is genuinely held outside the lock while Database changes. **Release pending write** commits it and detects the race.
-5. Click **Repair demo**. New attempts produce clean current heads; historical stale branches remain visible.
-6. Select **Guard and retry** for another run. Guard rejects the stale candidate before publication and reruns Backend from fresh state.
+1. Inspect the recorded incident: Backend observed `schema.sql@17`; Database changed INTEGER to UUID; Backend produced `types.ts@5` with `id: number`.
+2. Follow the graph to `client.ts@9`. Two current versions are affected.
+3. Click **Replay race** for five backend-authored steps through the stored causal chain.
+4. Click **Run live demo** with **Pause before the stale write commits** checked, then **Release pending write**.
+5. Click **Repair demo**. Current heads become clean; historical stale branches remain visible.
+6. Choose **Guard and retry** for a fresh run. The runtime rejects stale publication and the scripted agent retries with a fresh attempt.
 
-Agents are deterministic scripts. Semantic annotations use a labeled local heuristic. The demonstration does not depend on model-provider availability.
+See [the demo guide](docs/DEMO.md).
 
 ## Commands
 
-| Command           | Purpose                                                             |
-| ----------------- | ------------------------------------------------------------------- |
-| `pnpm demo`       | Build and start the complete demo                                   |
-| `pnpm start`      | Start using the existing frontend build                             |
-| `pnpm dev`        | Serve the frontend through Vite development transforms              |
-| `pnpm demo:reset` | Archive the stopped server's data and start fresh on next launch    |
-| `pnpm test`       | Semantic, concurrency, storage, projection, API and lifecycle tests |
-| `pnpm benchmark`  | Run the local OFF/Observe/Guard benchmark and save reports          |
-| `pnpm typecheck`  | Strict TypeScript checking                                          |
-| `pnpm build`      | Type check and build the frontend                                   |
-| `pnpm format`     | Format source and configuration                                     |
-| `pnpm check`      | Type check and verify formatting                                    |
+| Command                          | Purpose                                                      |
+| -------------------------------- | ------------------------------------------------------------ |
+| `pnpm demo`                      | Build frontend/runtime and start the complete app            |
+| `pnpm start`                     | Build/start Go with the existing frontend build              |
+| `pnpm dev`                       | Go API on 4317 and Vite with HMR on 5173                     |
+| `pnpm demo:reset`                | Archive stopped runtime data; fresh demo on next launch      |
+| `pnpm test`                      | Go runtime tests, Python benchmark tests, frontend DTO tests |
+| `pnpm test:race`                 | Go race detector; requires a supported C compiler            |
+| `pnpm benchmark --repetitions 5` | Python OFF/Observe/Guard suite with saved traces             |
+| `pnpm build`                     | Typecheck and build frontend plus Go runtime                 |
+| `pnpm check`                     | TypeScript checking and frontend/document formatting         |
+| `pnpm format`                    | Format frontend, tooling and documentation                   |
 
-Stop the server before resetting. Reset preserves history in a neighboring `.saved-<timestamp>` directory. A process lease prevents two CLI servers from owning the same data directory.
+Go source uses `gofmt`; `go vet ./...` runs from `runtime`. Python uses only the standard library. The small JavaScript launcher locates Python for pnpm; it implements no runtime semantics.
 
-`PORT` defaults to `4317`; `RAVEL_DATA_DIR` defaults to `.ravel/v2`. Each run has a separate workspace below it. Demo operations never edit this source repository. The old v0.1 `.ravel/ravel.db` is preserved.
+Stop the server before reset. A sibling process lease prevents simultaneous CLI owners and reset while running. Reset renames verified Ravel data to `.saved-<timestamp>` rather than deleting history. Demo workspaces never edit this source repository.
 
-## Architecture
+## Why three languages
 
-```text
-AgentDriver → RavelSession → RunCoordinator
-                                │
-                         per-run mutex
-                                │
-             SQLite facts + normalized projections + blobs
-                       │                    │
-               DebuggerProjector     Workspace materializer
-                       │
-                 Fastify + SSE
-                       │
-               React + React Flow
+| Component           | Language and responsibility                                                                                                                                          |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `runtime/`          | Go: coordinator, domain, SQLite, immutable blobs, workspace recovery, observations/intents, atomic validation and commit, provenance, hazards, projections, HTTP/SSE |
+| `apps/web/`         | Existing TypeScript/React/Vite UI: React Flow graph, timeline, incident inspector, diff viewer, Replay Race                                                          |
+| `packages/shared/`  | Frontend TypeScript/Zod DTO declarations and validation                                                                                                              |
+| `python/ravel/`     | Python: mediated agent client, benchmark orchestration, existing optional provider interfaces                                                                        |
+| `runtime/testdata/` | Frozen TypeScript baseline events and every-sequence projections                                                                                                     |
+
+Go owns concurrency and durable state because these concerns need one explicit synchronization and transaction boundary. Python fits coding-agent and benchmark ecosystems; it makes HTTP calls and never duplicates validation decisions. React remains the debugger's presentation layer. Every client uses the same model-independent API.
+
+The Go demo scheduler and fixture heuristic are deterministic conformance fixtures, not external coding-agent integrations. Gemini and Fetch interfaces have moved to Python; their transports remain unimplemented. SpacetimeDB and further provider/AsynCodeBench work are deferred. Persistence remains SQLite plus SHA-256 blobs.
+
+## Agent API
+
+Start the runtime, set `PYTHONPATH=python`, then use a bound session:
+
+```python
+from ravel.client import Client
+
+client = Client("http://127.0.0.1:4317")
+run = client.create_run("Generate types", "guard", {"schema.sql": "id UUID"})
+agent = client.create_agent(run, "Backend")
+session = client.create_attempt(run, agent, "Generate types", "Read the schema")
+observed = session.observe_resource("schema.sql")
+# Inference happens in Python, outside the runtime lock.
+result = session.write_resource("types.ts", "export interface User { id: string }\n")
+if result["rejected"]:
+    session = session.retry()  # Reobserve and regenerate before publishing again.
+else:
+    session.complete()
+    client.end(run)
 ```
 
-`packages/core` has no provider, HTTP framework, React, or sponsor dependencies. It uses shared schemas, SQLite, and a diff utility.
+Sessions also expose exact-base `apply_patch`, `list_resources`, `search_repository`, and explicit `write_intent`/`commit_write`. See [HTTP and SSE contracts](docs/API.md) for request/response details and debugger routes.
 
-| Directory         | Responsibility                                                   |
-| ----------------- | ---------------------------------------------------------------- |
-| `packages/shared` | TypeScript/Zod domain schemas and debugger DTOs                  |
-| `packages/core`   | Runtime, storage, observations, provenance, detection and replay |
-| `apps/server`     | Fastify, run-scoped SSE, CLI and local lifecycle controls        |
-| `apps/web`        | React/Vite debugger and React Flow graph                         |
-| `demo`            | Scripted drivers, event-driven scheduling, fixtures and repair   |
-| `integrations`    | Optional Gemini, SpacetimeDB and Fetch interfaces                |
-| `tests`           | Deterministic acceptance and regression coverage                 |
-| `docs`            | Designs, implementation status and demo guide                    |
+## Runtime guarantees
 
-### Shared-state correctness
+- Sequences establish order; wall clocks do not determine causality.
+- Generations identify immutable versions; hashes establish content validity. Identical writes are no-ops; tombstones distinguish absence from empty files.
+- Each attempt has a latest-observation frontier. Rereads refresh it; own writes advance it. An intent captures inputs before any scheduling pause.
+- Validation and publication share one per-run critical section. Accepted write facts, version, head, observations, provenance and hazards commit in one SQLite transaction.
+- SQLite and blobs are authoritative. Materialization follows commit and can be reconstructed after failure.
+- For `A → B → A → C`, the continuous stale interval starts at `C`. Reverting to observed content restores validity despite generation changes.
+- Blast radius follows derivation edges, with active and historical views. Replay reads facts; repair/retry append new attempts.
+- Guard applies per write; it does not roll back earlier writes in an attempt. One CLI process owns the store. Unmediated filesystem operations are outside the observation contract.
 
-- Runtime and agent sequences establish order. Wall clocks do not determine causality.
-- Generations establish succession; SHA-256 establishes content identity. Identical writes are no-ops. Tombstones distinguish absence from empty content.
-- Each attempt has a latest-observation frontier. Rereads replace observations; writes advance their own resource frontier.
-- A pending mutation captures its frontier before it can be held. Later rereads cannot change the candidate's captured inputs.
-- Validation and logical commit use one critical section. The event, version, head, observations, frontier, provenance and hazards commit in one SQLite transaction.
-- Database state and blobs are authoritative. Workspace files are materialized after commit. Failed materialization is reported and can be reconstructed.
-- A stale interval starts at the most recent transition away from observed content. For `A → B → A → C`, it starts at `C`.
-- Blast radius follows derivation edges only. Version succession is separate. Multiple stale inputs create separate hazards.
-- Replay reads stored facts. Repair and retry create new attempts without rewriting old history.
+The API binds loopback for trusted local clients and has no remote authentication layer. Registered read-only command handlers receive snapshots; HTTP does not expose arbitrary shell execution. Pending candidates are not automatically published after restart; recover with fresh attempts.
 
-## Core API
+## Verification and benchmark
 
-Inside a workspace package that depends on `@ravel/core`:
+[Migration evidence](docs/MIGRATION.md) maps the original 35 tests to Go/Python coverage and frozen replay fixtures. The old implementation is preserved on branch `ravel` at `077f277`; migration branch: `codex/ravel-polyglot`.
 
-```ts
-import { RavelStore, RunCoordinator } from '@ravel/core';
-
-const store = new RavelStore('.ravel/my-run');
-const run = new RunCoordinator(store, '/absolute/path/to/workspace');
-await run.start('Generate API types');
-await run.importWorkspace();
-const agentId = await run.createAgent('Backend', 'custom');
-const session = await run.createAttempt(agentId, 'Generate types', 'Read the schema.');
-const { content, version } = await session.observeResource('schema.sql');
-
-// Inference or computation happens outside the runtime lock.
-const generatedTypes = 'export interface User { id: string; }\n';
-await session.writeResource('api/types.ts', generatedTypes);
-await session.complete();
-await run.end();
-run.close();
-store.close();
-```
-
-Sessions also expose `applyPatch(path, observedBaseVersionId, unifiedDiff)`, `listResources()`, `searchRepository(literalQuery)`, and `runCommand(registeredName)`.
-
-Search results become observations of matched versions. Listing names does not claim content observations. Commands use application-registered handlers receiving immutable snapshots; arbitrary shell strings are rejected. Input versions are recorded with tool results but do not automatically enter the model-observation frontier.
-
-One coordinator must own each active run. An attempt can have one pending mutation at a time; other agents remain concurrent. Reads can refresh while a candidate is held without changing its captured dependencies.
-
-## HTTP API
-
-All routes have an `/api` prefix.
-
-| Endpoint                           | Result                                                     |
-| ---------------------------------- | ---------------------------------------------------------- |
-| `GET /health`                      | Service and optional-integration status                    |
-| `GET /runs`                        | Recorded runs                                              |
-| `GET /runs/:runId/debugger?seq=N`  | Validated snapshot through sequence N                      |
-| `GET /runs/:runId/events?seq=N`    | Factual event log                                          |
-| `GET /runs/:runId/stream`          | SSE with `Last-Event-ID` reconnection                      |
-| `GET /hazards/:hazardId?seq=N`     | Exact versions, observations, diff and assessment          |
-| `GET /hazards/:hazardId/replay`    | Annotated focused replay plan                              |
-| `GET /versions/:versionId/content` | Immutable contents                                         |
-| `POST /demo`                       | Start Observe or Guard demo, optionally held before commit |
-| `GET /runs/:runId/demo`            | Scheduler/materialization status                           |
-| `POST /runs/:runId/release`        | Release the controlled pending write                       |
-| `POST /runs/:runId/reconstruct`    | Rebuild tracked workspace files                            |
-| `POST /hazards/:hazardId/analyze`  | Apply the local heuristic asynchronously                   |
-| `POST /hazards/:hazardId/repair`   | Execute the scripted repair                                |
-
-The server binds to loopback. It is a local application without production authentication or multi-tenant access control.
-
-## Optional integrations and boundaries
-
-`.env.example` lists Gemini, SpacetimeDB and Fetch configuration. Missing keys never prevent installation, testing, build, or the demo. Interfaces and disabled transport placeholders are implemented as requested by the updated design. No live provider calls are made.
-
-Provenance overapproximates influence within an attempt. **Downstream** means potentially affected, not proven wrong. The semantic heuristic covers the identifier-migration fixture; it is not general semantic AI.
-
-Only mediated operations are covered. Tracked reads use immutable logical versions. External edits to materialized files are not new commits and may be overwritten during reconstruction. Symlinks are rejected. Command handlers are trusted application code, not an OS sandbox.
-
-Guard validates individual writes. It does not stage or roll back all writes in an attempt. The demo has one backend output, allowing a safe retry of its rejected attempt. Generic rollback, distributed execution, kernel tracing and live model drivers are outside the completed core/demo scope. See the [benchmark guide](docs/BENCHMARK.md) for the working local controlled suite and the separate upstream AsynCodeBench setup.
-
-After a crash, committed heads can be reconstructed. Uncommitted intents remain historical facts and are never automatically published; start a new run for an interrupted scripted execution. Normalized projections are transactional, while in-memory state is rebuilt from the event log. Large-run performance will need incremental projection and caching.
-
-The [updated design](docs/updated_design.md) defines scope. [Implementation status](docs/IMPLEMENTATION_STATUS.md) records verification. The [demo guide](docs/DEMO.md) gives a presentation sequence.
+`pnpm benchmark` runs six deterministic scenarios in OFF, Observe and Guard. It independently executes generated artifacts and records correctness, hazards, retries, generation work and elapsed time. It is **not an official AsynCodeBench score**. See [benchmark status](docs/BENCHMARK.md) and [implementation status](docs/IMPLEMENTATION_STATUS.md).

@@ -24,11 +24,11 @@ Choose **Guard and retry** for the next run. Guard rejects the held stale write 
 
 ## Scope
 
-- Agents are scripts using the provider-independent `RavelSession` interface.
+- The in-process Go demo scripts are conformance fixtures. External Python agents use the provider-independent HTTP session client.
 - Semantic explanation uses a labeled fixture heuristic.
 - Downstream reachability does not prove incorrectness.
 - Guard is per write; general staging/rollback is not implemented.
-- Gemini, SpacetimeDB and Fetch are optional transport placeholders. No keys are required.
+- Gemini and Fetch Python interfaces have no installed transports. SpacetimeDB and further integrations are deferred. No keys are required.
 
 ## Reset
 

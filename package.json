@@ -1,6 +1,6 @@
 {
   "name": "ravel",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
   "description": "A causal concurrency debugger for coding agents.",
@@ -9,28 +9,29 @@
     "node": ">=22.18.0"
   },
   "scripts": {
-    "start": "tsx apps/server/src/cli.ts",
+    "start": "node scripts/python.mjs serve",
     "demo": "pnpm build && pnpm start",
-    "demo:reset": "tsx apps/server/src/cli.ts reset",
-    "dev": "tsx apps/server/src/cli.ts --dev",
-    "test": "vitest run --configLoader runner",
+    "demo:reset": "node scripts/python.mjs reset",
+    "dev": "node scripts/python.mjs dev",
+    "test": "node scripts/python.mjs test",
+    "test:ui": "vitest run --configLoader runner",
+    "test:race": "node scripts/python.mjs test:race",
     "test:watch": "vitest --configLoader runner",
-    "benchmark": "tsx benchmarks/cli.ts",
-    "benchmark:upstream": "node benchmarks/upstream.mjs",
+    "benchmark": "node scripts/python.mjs benchmark",
+    "benchmark:upstream": "node scripts/python.mjs upstream",
     "typecheck": "tsc --noEmit",
     "check": "pnpm typecheck && pnpm format:check",
-    "format": "prettier --write packages apps integrations demo tests benchmarks/*.{ts,mjs} *.json *.yaml *.ts README.md docs/IMPLEMENTATION_STATUS.md docs/DEMO.md docs/BENCHMARK.md",
-    "format:check": "prettier --check packages apps integrations demo tests benchmarks/*.{ts,mjs} *.json *.yaml *.ts README.md docs/IMPLEMENTATION_STATUS.md docs/DEMO.md docs/BENCHMARK.md",
-    "build": "pnpm typecheck && vite build --config apps/web/vite.config.ts --configLoader runner"
+    "format": "prettier --write packages apps tests scripts *.json *.yaml *.ts README.md docs/IMPLEMENTATION_STATUS.md docs/DEMO.md docs/BENCHMARK.md docs/MIGRATION.md docs/API.md",
+    "format:check": "prettier --check packages apps tests scripts *.json *.yaml *.ts README.md docs/IMPLEMENTATION_STATUS.md docs/DEMO.md docs/BENCHMARK.md docs/MIGRATION.md docs/API.md",
+    "build:runtime": "node scripts/python.mjs build",
+    "build": "pnpm typecheck && vite build --config apps/web/vite.config.ts --configLoader runner && pnpm build:runtime"
   },
   "devDependencies": {
-    "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^22.18.0",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
     "@vitejs/plugin-react": "^4.7.0",
     "prettier": "^3.6.2",
-    "tsx": "^4.20.5",
     "typescript": "^5.9.2",
     "vite": "^6.4.0",
     "vitest": "^3.2.4"

@@ -246,7 +246,7 @@ export default function App() {
         <div className="sidebar-bottom">
           <span className="connection-dot" />
           <span>{connected ? 'Runtime connected' : 'Reconnecting…'}</span>
-          <span>v0.2</span>
+          <span>v0.3</span>
         </div>
       </aside>
       <main>

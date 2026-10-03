@@ -15,10 +15,7 @@
     "apps/**/*.ts",
     "apps/**/*.tsx",
     "packages/**/*.ts",
-    "integrations/**/*.ts",
-    "demo/**/*.ts",
     "tests/**/*.ts",
-    "benchmarks/**/*.ts",
     "vitest.config.ts"
   ],
   "exclude": ["**/node_modules", "**/dist", "demo/workspace", ".ravel"]
