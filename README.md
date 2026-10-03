@@ -37,6 +37,7 @@ Agents are deterministic scripts. Semantic annotations use a labeled local heuri
 | `pnpm dev`        | Serve the frontend through Vite development transforms              |
 | `pnpm demo:reset` | Archive the stopped server's data and start fresh on next launch    |
 | `pnpm test`       | Semantic, concurrency, storage, projection, API and lifecycle tests |
+| `pnpm benchmark`  | Run the local OFF/Observe/Guard benchmark and save reports          |
 | `pnpm typecheck`  | Strict TypeScript checking                                          |
 | `pnpm build`      | Type check and build the frontend                                   |
 | `pnpm format`     | Format source and configuration                                     |
@@ -148,7 +149,7 @@ Provenance overapproximates influence within an attempt. **Downstream** means po
 
 Only mediated operations are covered. Tracked reads use immutable logical versions. External edits to materialized files are not new commits and may be overwritten during reconstruction. Symlinks are rejected. Command handlers are trusted application code, not an OS sandbox.
 
-Guard validates individual writes. It does not stage or roll back all writes in an attempt. The demo has one backend output, allowing a safe retry of its rejected attempt. Generic rollback, distributed execution, kernel tracing, live model drivers and AsynCodeBench are outside the completed core/demo scope.
+Guard validates individual writes. It does not stage or roll back all writes in an attempt. The demo has one backend output, allowing a safe retry of its rejected attempt. Generic rollback, distributed execution, kernel tracing and live model drivers are outside the completed core/demo scope. See the [benchmark guide](docs/BENCHMARK.md) for the working local controlled suite and the separate upstream AsynCodeBench setup.
 
 After a crash, committed heads can be reconstructed. Uncommitted intents remain historical facts and are never automatically published; start a new run for an interrupted scripted execution. Normalized projections are transactional, while in-memory state is rebuilt from the event log. Large-run performance will need incremental projection and caching.
 

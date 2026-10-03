@@ -15,10 +15,12 @@
     "dev": "tsx apps/server/src/cli.ts --dev",
     "test": "vitest run --configLoader runner",
     "test:watch": "vitest --configLoader runner",
+    "benchmark": "tsx benchmarks/cli.ts",
+    "benchmark:upstream": "node benchmarks/upstream.mjs",
     "typecheck": "tsc --noEmit",
     "check": "pnpm typecheck && pnpm format:check",
-    "format": "prettier --write packages apps integrations demo tests *.json *.yaml *.ts README.md docs/IMPLEMENTATION_STATUS.md docs/DEMO.md",
-    "format:check": "prettier --check packages apps integrations demo tests *.json *.yaml *.ts README.md docs/IMPLEMENTATION_STATUS.md docs/DEMO.md",
+    "format": "prettier --write packages apps integrations demo tests benchmarks/*.{ts,mjs} *.json *.yaml *.ts README.md docs/IMPLEMENTATION_STATUS.md docs/DEMO.md docs/BENCHMARK.md",
+    "format:check": "prettier --check packages apps integrations demo tests benchmarks/*.{ts,mjs} *.json *.yaml *.ts README.md docs/IMPLEMENTATION_STATUS.md docs/DEMO.md docs/BENCHMARK.md",
     "build": "pnpm typecheck && vite build --config apps/web/vite.config.ts --configLoader runner"
   },
   "devDependencies": {
