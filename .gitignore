@@ -8,3 +8,5 @@ dist/
 demo/workspace/
 .pnpm-store/
 .pnpm-cache/
+__pycache__/
+*.pyc

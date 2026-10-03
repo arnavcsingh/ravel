@@ -1,0 +1,5605 @@
+{
+  "events": [
+    {
+      "id": "4d0f12de-0d9b-425b-82b7-f4bf8a9cf078",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 1,
+      "agentId": null,
+      "taskId": null,
+      "attemptId": null,
+      "agentSeq": null,
+      "wallTime": "2026-10-03T21:42:07.188Z",
+      "monotonicTime": 1077.6346,
+      "commandId": null,
+      "kind": "RUN_START",
+      "payload": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      }
+    },
+    {
+      "id": "68e0dea6-7ddd-420f-bcf6-647aacf38ea1",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 2,
+      "agentId": null,
+      "taskId": null,
+      "attemptId": null,
+      "agentSeq": null,
+      "wallTime": "2026-10-03T21:42:07.191Z",
+      "monotonicTime": 1081.1295,
+      "commandId": null,
+      "kind": "RESOURCE_SNAPSHOT",
+      "payload": {
+        "version": {
+          "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "generation": 17,
+          "contentHash": "a676b91d30165271aa4aedd6c53bcee0094433ff2bdebe3e9095ca8e7d5bdf0e",
+          "blobRef": "a676b91d30165271aa4aedd6c53bcee0094433ff2bdebe3e9095ca8e7d5bdf0e",
+          "previousVersionId": null,
+          "producerAttemptId": null,
+          "createdEventId": "68e0dea6-7ddd-420f-bcf6-647aacf38ea1",
+          "creationSeq": 2,
+          "tombstone": false
+        }
+      }
+    },
+    {
+      "id": "5807996d-75af-49e7-ac44-5ee9b038ab97",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 3,
+      "agentId": null,
+      "taskId": null,
+      "attemptId": null,
+      "agentSeq": null,
+      "wallTime": "2026-10-03T21:42:07.194Z",
+      "monotonicTime": 1084.0598,
+      "commandId": null,
+      "kind": "RESOURCE_SNAPSHOT",
+      "payload": {
+        "version": {
+          "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+          "resourceId": "api/types.ts",
+          "generation": 4,
+          "contentHash": "18d1e3cd89f0ebbfdeb00d884ad7bd6ae5ed9909088abe57513437a7e74bf494",
+          "blobRef": "18d1e3cd89f0ebbfdeb00d884ad7bd6ae5ed9909088abe57513437a7e74bf494",
+          "previousVersionId": null,
+          "producerAttemptId": null,
+          "createdEventId": "5807996d-75af-49e7-ac44-5ee9b038ab97",
+          "creationSeq": 3,
+          "tombstone": false
+        }
+      }
+    },
+    {
+      "id": "e6665490-d49b-4cf1-a1d5-0be5a4b4cc5c",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 4,
+      "agentId": null,
+      "taskId": null,
+      "attemptId": null,
+      "agentSeq": null,
+      "wallTime": "2026-10-03T21:42:07.198Z",
+      "monotonicTime": 1088.0273,
+      "commandId": null,
+      "kind": "RESOURCE_SNAPSHOT",
+      "payload": {
+        "version": {
+          "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+          "resourceId": "frontend/client.ts",
+          "generation": 8,
+          "contentHash": "ed5bd5f1ca53aab330b26242e6d32c620d09b5bec62d5f97027f38bcbcefa85b",
+          "blobRef": "ed5bd5f1ca53aab330b26242e6d32c620d09b5bec62d5f97027f38bcbcefa85b",
+          "previousVersionId": null,
+          "producerAttemptId": null,
+          "createdEventId": "e6665490-d49b-4cf1-a1d5-0be5a4b4cc5c",
+          "creationSeq": 4,
+          "tombstone": false
+        }
+      }
+    },
+    {
+      "id": "e4a464eb-21ae-4d36-8ea8-54331f086800",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 5,
+      "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+      "taskId": null,
+      "attemptId": null,
+      "agentSeq": 1,
+      "wallTime": "2026-10-03T21:42:07.201Z",
+      "monotonicTime": 1090.475,
+      "commandId": null,
+      "kind": "AGENT_START",
+      "payload": {
+        "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+        "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "Backend",
+        "adapter": "scripted",
+        "status": "running"
+      }
+    },
+    {
+      "id": "70da6652-231c-4bea-834b-4ab327c00af9",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 6,
+      "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+      "taskId": null,
+      "attemptId": null,
+      "agentSeq": 1,
+      "wallTime": "2026-10-03T21:42:07.202Z",
+      "monotonicTime": 1092.1305,
+      "commandId": null,
+      "kind": "AGENT_START",
+      "payload": {
+        "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+        "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "Database",
+        "adapter": "scripted",
+        "status": "running"
+      }
+    },
+    {
+      "id": "99d02e30-c8bd-44d4-afff-aaf9bdc733eb",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 7,
+      "agentId": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+      "taskId": null,
+      "attemptId": null,
+      "agentSeq": 1,
+      "wallTime": "2026-10-03T21:42:07.204Z",
+      "monotonicTime": 1093.7239,
+      "commandId": null,
+      "kind": "AGENT_START",
+      "payload": {
+        "id": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+        "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "Frontend",
+        "adapter": "scripted",
+        "status": "running"
+      }
+    },
+    {
+      "id": "ced52ab7-b03c-4a11-b355-dacf0aee2071",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 8,
+      "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+      "taskId": "1fd59e1a-837a-4b13-99e2-e728c181240e",
+      "attemptId": "f7ac2455-1444-49e9-a75b-20f65e0bc645",
+      "agentSeq": 2,
+      "wallTime": "2026-10-03T21:42:07.206Z",
+      "monotonicTime": 1095.2813,
+      "commandId": null,
+      "kind": "TASK_ATTEMPT_START",
+      "payload": {
+        "task": {
+          "id": "1fd59e1a-837a-4b13-99e2-e728c181240e",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Generate API types",
+          "prompt": "Read schema.sql and update api/types.ts."
+        },
+        "attempt": {
+          "id": "f7ac2455-1444-49e9-a75b-20f65e0bc645",
+          "taskId": "1fd59e1a-837a-4b13-99e2-e728c181240e",
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "number": 1,
+          "status": "running",
+          "startedEventId": "ced52ab7-b03c-4a11-b355-dacf0aee2071",
+          "endedEventId": null,
+          "frontier": {},
+          "observedVersions": [],
+          "producedVersions": []
+        }
+      }
+    },
+    {
+      "id": "cc6681fe-79b6-47c5-ba57-129cf44840ba",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 9,
+      "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+      "taskId": "1fd59e1a-837a-4b13-99e2-e728c181240e",
+      "attemptId": "f7ac2455-1444-49e9-a75b-20f65e0bc645",
+      "agentSeq": 3,
+      "wallTime": "2026-10-03T21:42:07.208Z",
+      "monotonicTime": 1097.56,
+      "commandId": null,
+      "kind": "OBSERVE_RESOURCE",
+      "payload": {
+        "observation": {
+          "id": "8346a729-6bf9-449f-ae21-c0f56d807c1e",
+          "attemptId": "f7ac2455-1444-49e9-a75b-20f65e0bc645",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "eventId": "cc6681fe-79b6-47c5-ba57-129cf44840ba",
+          "type": "DIRECT_READ"
+        }
+      }
+    },
+    {
+      "id": "dab3b125-b514-4bd7-b069-e44c388fe0f3",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 10,
+      "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+      "taskId": "1fd59e1a-837a-4b13-99e2-e728c181240e",
+      "attemptId": "f7ac2455-1444-49e9-a75b-20f65e0bc645",
+      "agentSeq": 4,
+      "wallTime": "2026-10-03T21:42:07.210Z",
+      "monotonicTime": 1099.9884,
+      "commandId": null,
+      "kind": "WRITE_INTENT",
+      "payload": {
+        "id": "882536f3-fc02-46a5-8550-162f31a176e8",
+        "attemptId": "f7ac2455-1444-49e9-a75b-20f65e0bc645",
+        "resourceId": "api/types.ts",
+        "candidateHash": "79eb5c679a3be9b4fef133a9f458637c07d04fa58f00c35d78075af0d887b53a",
+        "observationIds": [
+          "8346a729-6bf9-449f-ae21-c0f56d807c1e"
+        ],
+        "baseVersionId": null
+      }
+    },
+    {
+      "id": "a0620cad-35ef-4bda-9398-e062bc0c58ed",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 11,
+      "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+      "taskId": "c0edd5af-a207-4411-8bb9-83b615b17a12",
+      "attemptId": "5e95063e-a317-4093-be70-e1bbe405a639",
+      "agentSeq": 2,
+      "wallTime": "2026-10-03T21:42:07.212Z",
+      "monotonicTime": 1101.9094,
+      "commandId": null,
+      "kind": "TASK_ATTEMPT_START",
+      "payload": {
+        "task": {
+          "id": "c0edd5af-a207-4411-8bb9-83b615b17a12",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Migrate identifiers",
+          "prompt": "Migrate User.id from INTEGER to UUID."
+        },
+        "attempt": {
+          "id": "5e95063e-a317-4093-be70-e1bbe405a639",
+          "taskId": "c0edd5af-a207-4411-8bb9-83b615b17a12",
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "number": 1,
+          "status": "running",
+          "startedEventId": "a0620cad-35ef-4bda-9398-e062bc0c58ed",
+          "endedEventId": null,
+          "frontier": {},
+          "observedVersions": [],
+          "producedVersions": []
+        }
+      }
+    },
+    {
+      "id": "852af453-df88-4a3c-a80d-a0b0259839cc",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 12,
+      "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+      "taskId": "c0edd5af-a207-4411-8bb9-83b615b17a12",
+      "attemptId": "5e95063e-a317-4093-be70-e1bbe405a639",
+      "agentSeq": 3,
+      "wallTime": "2026-10-03T21:42:07.215Z",
+      "monotonicTime": 1104.7686,
+      "commandId": null,
+      "kind": "OBSERVE_RESOURCE",
+      "payload": {
+        "observation": {
+          "id": "85c7ceb6-0c64-4d85-92e1-35cfd548f54b",
+          "attemptId": "5e95063e-a317-4093-be70-e1bbe405a639",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "eventId": "852af453-df88-4a3c-a80d-a0b0259839cc",
+          "type": "DIRECT_READ"
+        }
+      }
+    },
+    {
+      "id": "b2b0de73-38d4-489d-93ca-2bb21a9114ca",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 13,
+      "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+      "taskId": "c0edd5af-a207-4411-8bb9-83b615b17a12",
+      "attemptId": "5e95063e-a317-4093-be70-e1bbe405a639",
+      "agentSeq": 4,
+      "wallTime": "2026-10-03T21:42:07.217Z",
+      "monotonicTime": 1107.1581,
+      "commandId": null,
+      "kind": "WRITE_INTENT",
+      "payload": {
+        "id": "50753517-07b9-48ad-8e2b-a0372075bc42",
+        "attemptId": "5e95063e-a317-4093-be70-e1bbe405a639",
+        "resourceId": "schema.sql",
+        "candidateHash": "c3d5777862c17360fa42010d23057d1a4c50e9961d89a92f6a16c223ea864b32",
+        "observationIds": [
+          "85c7ceb6-0c64-4d85-92e1-35cfd548f54b"
+        ],
+        "baseVersionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c"
+      }
+    },
+    {
+      "id": "c649018f-a7b3-48b3-8ac3-61846239c2f1",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 14,
+      "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+      "taskId": "c0edd5af-a207-4411-8bb9-83b615b17a12",
+      "attemptId": "5e95063e-a317-4093-be70-e1bbe405a639",
+      "agentSeq": 5,
+      "wallTime": "2026-10-03T21:42:07.219Z",
+      "monotonicTime": 1108.8161,
+      "commandId": null,
+      "kind": "WRITE_COMMIT",
+      "payload": {
+        "version": {
+          "id": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "generation": 18,
+          "contentHash": "c3d5777862c17360fa42010d23057d1a4c50e9961d89a92f6a16c223ea864b32",
+          "blobRef": "c3d5777862c17360fa42010d23057d1a4c50e9961d89a92f6a16c223ea864b32",
+          "previousVersionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "producerAttemptId": "5e95063e-a317-4093-be70-e1bbe405a639",
+          "createdEventId": "c649018f-a7b3-48b3-8ac3-61846239c2f1",
+          "creationSeq": 14,
+          "tombstone": false
+        },
+        "observationIds": [
+          "85c7ceb6-0c64-4d85-92e1-35cfd548f54b"
+        ],
+        "observation": {
+          "id": "5083ba63-3ffa-4d90-9327-1b02918ec1eb",
+          "attemptId": "5e95063e-a317-4093-be70-e1bbe405a639",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "eventId": "c649018f-a7b3-48b3-8ac3-61846239c2f1",
+          "type": "OWN_WRITE"
+        },
+        "intentId": "50753517-07b9-48ad-8e2b-a0372075bc42"
+      }
+    },
+    {
+      "id": "0bfdc440-a21d-4031-9a43-08d19aef6984",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 15,
+      "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+      "taskId": "c0edd5af-a207-4411-8bb9-83b615b17a12",
+      "attemptId": "5e95063e-a317-4093-be70-e1bbe405a639",
+      "agentSeq": 6,
+      "wallTime": "2026-10-03T21:42:07.225Z",
+      "monotonicTime": 1114.1757,
+      "commandId": null,
+      "kind": "TASK_ATTEMPT_END",
+      "payload": {
+        "status": "completed"
+      }
+    },
+    {
+      "id": "7442a73e-9fb7-4b2b-9316-619c52923525",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 16,
+      "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+      "taskId": "1fd59e1a-837a-4b13-99e2-e728c181240e",
+      "attemptId": "f7ac2455-1444-49e9-a75b-20f65e0bc645",
+      "agentSeq": 5,
+      "wallTime": "2026-10-03T21:42:07.227Z",
+      "monotonicTime": 1116.7208,
+      "commandId": null,
+      "kind": "WRITE_REJECTED",
+      "payload": {
+        "intentId": "882536f3-fc02-46a5-8550-162f31a176e8",
+        "staleObservationIds": [
+          "8346a729-6bf9-449f-ae21-c0f56d807c1e"
+        ],
+        "reason": "Observed content changed before publication."
+      }
+    },
+    {
+      "id": "caf777a2-b04d-49cc-a2ac-50b921b27e48",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 17,
+      "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+      "taskId": "1fd59e1a-837a-4b13-99e2-e728c181240e",
+      "attemptId": "f7ac2455-1444-49e9-a75b-20f65e0bc645",
+      "agentSeq": 6,
+      "wallTime": "2026-10-03T21:42:07.229Z",
+      "monotonicTime": 1118.7085,
+      "commandId": null,
+      "kind": "TASK_ATTEMPT_END",
+      "payload": {
+        "status": "invalidated"
+      }
+    },
+    {
+      "id": "3f78c949-9dd8-4d9a-b3d0-fa61e9504647",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 18,
+      "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+      "taskId": "1fd59e1a-837a-4b13-99e2-e728c181240e",
+      "attemptId": "b4b4dfc2-8f54-4f7d-bc05-7286609466c2",
+      "agentSeq": 7,
+      "wallTime": "2026-10-03T21:42:07.231Z",
+      "monotonicTime": 1120.972,
+      "commandId": null,
+      "kind": "TASK_ATTEMPT_START",
+      "payload": {
+        "task": {
+          "id": "1fd59e1a-837a-4b13-99e2-e728c181240e",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Generate API types",
+          "prompt": "Read schema.sql and update api/types.ts."
+        },
+        "attempt": {
+          "id": "b4b4dfc2-8f54-4f7d-bc05-7286609466c2",
+          "taskId": "1fd59e1a-837a-4b13-99e2-e728c181240e",
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "number": 2,
+          "status": "running",
+          "startedEventId": "3f78c949-9dd8-4d9a-b3d0-fa61e9504647",
+          "endedEventId": null,
+          "frontier": {},
+          "observedVersions": [],
+          "producedVersions": []
+        }
+      }
+    },
+    {
+      "id": "6f690380-c936-475b-a76a-808c8f22bf84",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 19,
+      "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+      "taskId": "1fd59e1a-837a-4b13-99e2-e728c181240e",
+      "attemptId": "b4b4dfc2-8f54-4f7d-bc05-7286609466c2",
+      "agentSeq": 8,
+      "wallTime": "2026-10-03T21:42:07.234Z",
+      "monotonicTime": 1123.7582,
+      "commandId": null,
+      "kind": "OBSERVE_RESOURCE",
+      "payload": {
+        "observation": {
+          "id": "e017cc3b-6612-4fbe-91f0-85f194aaf97a",
+          "attemptId": "b4b4dfc2-8f54-4f7d-bc05-7286609466c2",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "eventId": "6f690380-c936-475b-a76a-808c8f22bf84",
+          "type": "DIRECT_READ"
+        }
+      }
+    },
+    {
+      "id": "fb6fc60e-fa8e-4e7c-abfa-8686c0e507ea",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 20,
+      "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+      "taskId": "1fd59e1a-837a-4b13-99e2-e728c181240e",
+      "attemptId": "b4b4dfc2-8f54-4f7d-bc05-7286609466c2",
+      "agentSeq": 9,
+      "wallTime": "2026-10-03T21:42:07.236Z",
+      "monotonicTime": 1126.0395,
+      "commandId": null,
+      "kind": "WRITE_INTENT",
+      "payload": {
+        "id": "feb7be54-336e-4b64-97be-70557bd575e3",
+        "attemptId": "b4b4dfc2-8f54-4f7d-bc05-7286609466c2",
+        "resourceId": "api/types.ts",
+        "candidateHash": "c4d25e9c1b04c251f75729a4747e9a4fa8414aa2afa5f0ba318edab9e3f9fb97",
+        "observationIds": [
+          "e017cc3b-6612-4fbe-91f0-85f194aaf97a"
+        ],
+        "baseVersionId": null
+      }
+    },
+    {
+      "id": "ae0cbe4e-1e31-4faa-9ec9-84e0cbebc9ac",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 21,
+      "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+      "taskId": "1fd59e1a-837a-4b13-99e2-e728c181240e",
+      "attemptId": "b4b4dfc2-8f54-4f7d-bc05-7286609466c2",
+      "agentSeq": 10,
+      "wallTime": "2026-10-03T21:42:07.239Z",
+      "monotonicTime": 1128.2574,
+      "commandId": null,
+      "kind": "WRITE_COMMIT",
+      "payload": {
+        "version": {
+          "id": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+          "resourceId": "api/types.ts",
+          "generation": 5,
+          "contentHash": "c4d25e9c1b04c251f75729a4747e9a4fa8414aa2afa5f0ba318edab9e3f9fb97",
+          "blobRef": "c4d25e9c1b04c251f75729a4747e9a4fa8414aa2afa5f0ba318edab9e3f9fb97",
+          "previousVersionId": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+          "producerAttemptId": "b4b4dfc2-8f54-4f7d-bc05-7286609466c2",
+          "createdEventId": "ae0cbe4e-1e31-4faa-9ec9-84e0cbebc9ac",
+          "creationSeq": 21,
+          "tombstone": false
+        },
+        "observationIds": [
+          "e017cc3b-6612-4fbe-91f0-85f194aaf97a"
+        ],
+        "observation": {
+          "id": "30c2688d-02dd-46de-8822-f4fb54262d70",
+          "attemptId": "b4b4dfc2-8f54-4f7d-bc05-7286609466c2",
+          "versionId": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+          "eventId": "ae0cbe4e-1e31-4faa-9ec9-84e0cbebc9ac",
+          "type": "OWN_WRITE"
+        },
+        "intentId": "feb7be54-336e-4b64-97be-70557bd575e3"
+      }
+    },
+    {
+      "id": "7df34e4b-40e8-423a-ab50-fecb34e7b6a9",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 22,
+      "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+      "taskId": "1fd59e1a-837a-4b13-99e2-e728c181240e",
+      "attemptId": "b4b4dfc2-8f54-4f7d-bc05-7286609466c2",
+      "agentSeq": 11,
+      "wallTime": "2026-10-03T21:42:07.243Z",
+      "monotonicTime": 1132.913,
+      "commandId": null,
+      "kind": "TASK_ATTEMPT_END",
+      "payload": {
+        "status": "completed"
+      }
+    },
+    {
+      "id": "b8acb7dd-0bec-4570-bbe4-fda1e5baee91",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 23,
+      "agentId": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+      "taskId": "5b6eeb58-90c1-49c1-9008-d9563660f1d8",
+      "attemptId": "f88994d0-08dc-4a9a-9365-3be49592d021",
+      "agentSeq": 2,
+      "wallTime": "2026-10-03T21:42:07.246Z",
+      "monotonicTime": 1135.17,
+      "commandId": null,
+      "kind": "TASK_ATTEMPT_START",
+      "payload": {
+        "task": {
+          "id": "5b6eeb58-90c1-49c1-9008-d9563660f1d8",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Update the client",
+          "prompt": "Read api/types.ts and update frontend/client.ts."
+        },
+        "attempt": {
+          "id": "f88994d0-08dc-4a9a-9365-3be49592d021",
+          "taskId": "5b6eeb58-90c1-49c1-9008-d9563660f1d8",
+          "agentId": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "number": 1,
+          "status": "running",
+          "startedEventId": "b8acb7dd-0bec-4570-bbe4-fda1e5baee91",
+          "endedEventId": null,
+          "frontier": {},
+          "observedVersions": [],
+          "producedVersions": []
+        }
+      }
+    },
+    {
+      "id": "15a23515-1247-4923-99ae-34eda920c12f",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 24,
+      "agentId": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+      "taskId": "5b6eeb58-90c1-49c1-9008-d9563660f1d8",
+      "attemptId": "f88994d0-08dc-4a9a-9365-3be49592d021",
+      "agentSeq": 3,
+      "wallTime": "2026-10-03T21:42:07.249Z",
+      "monotonicTime": 1138.7284,
+      "commandId": null,
+      "kind": "OBSERVE_RESOURCE",
+      "payload": {
+        "observation": {
+          "id": "09b37382-9340-4eb6-9a92-d2de5dffa9d2",
+          "attemptId": "f88994d0-08dc-4a9a-9365-3be49592d021",
+          "versionId": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+          "eventId": "15a23515-1247-4923-99ae-34eda920c12f",
+          "type": "DIRECT_READ"
+        }
+      }
+    },
+    {
+      "id": "3f834057-2e32-40f8-98b4-eb7fecaaff13",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 25,
+      "agentId": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+      "taskId": "5b6eeb58-90c1-49c1-9008-d9563660f1d8",
+      "attemptId": "f88994d0-08dc-4a9a-9365-3be49592d021",
+      "agentSeq": 4,
+      "wallTime": "2026-10-03T21:42:07.252Z",
+      "monotonicTime": 1142.0365,
+      "commandId": null,
+      "kind": "WRITE_INTENT",
+      "payload": {
+        "id": "ec079030-892c-4f09-bf1b-2c9a567e9c3e",
+        "attemptId": "f88994d0-08dc-4a9a-9365-3be49592d021",
+        "resourceId": "frontend/client.ts",
+        "candidateHash": "37033b3ce13ca8c415537364f8e60896f5a42521d392ec3e2854c3232a118fe1",
+        "observationIds": [
+          "09b37382-9340-4eb6-9a92-d2de5dffa9d2"
+        ],
+        "baseVersionId": null
+      }
+    },
+    {
+      "id": "1319ddae-5d2b-4bae-9856-d444e89f8d5a",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 26,
+      "agentId": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+      "taskId": "5b6eeb58-90c1-49c1-9008-d9563660f1d8",
+      "attemptId": "f88994d0-08dc-4a9a-9365-3be49592d021",
+      "agentSeq": 5,
+      "wallTime": "2026-10-03T21:42:07.256Z",
+      "monotonicTime": 1145.4713,
+      "commandId": null,
+      "kind": "WRITE_COMMIT",
+      "payload": {
+        "version": {
+          "id": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1",
+          "resourceId": "frontend/client.ts",
+          "generation": 9,
+          "contentHash": "37033b3ce13ca8c415537364f8e60896f5a42521d392ec3e2854c3232a118fe1",
+          "blobRef": "37033b3ce13ca8c415537364f8e60896f5a42521d392ec3e2854c3232a118fe1",
+          "previousVersionId": "d8e36145-8b53-4ad5-8288-6301864111d1",
+          "producerAttemptId": "f88994d0-08dc-4a9a-9365-3be49592d021",
+          "createdEventId": "1319ddae-5d2b-4bae-9856-d444e89f8d5a",
+          "creationSeq": 26,
+          "tombstone": false
+        },
+        "observationIds": [
+          "09b37382-9340-4eb6-9a92-d2de5dffa9d2"
+        ],
+        "observation": {
+          "id": "50b1a8eb-02c4-46cf-b111-7c56f32aae8b",
+          "attemptId": "f88994d0-08dc-4a9a-9365-3be49592d021",
+          "versionId": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1",
+          "eventId": "1319ddae-5d2b-4bae-9856-d444e89f8d5a",
+          "type": "OWN_WRITE"
+        },
+        "intentId": "ec079030-892c-4f09-bf1b-2c9a567e9c3e"
+      }
+    },
+    {
+      "id": "206f3915-e104-4ff9-a20b-27d5e19156b8",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 27,
+      "agentId": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+      "taskId": "5b6eeb58-90c1-49c1-9008-d9563660f1d8",
+      "attemptId": "f88994d0-08dc-4a9a-9365-3be49592d021",
+      "agentSeq": 6,
+      "wallTime": "2026-10-03T21:42:07.261Z",
+      "monotonicTime": 1150.6558,
+      "commandId": null,
+      "kind": "TASK_ATTEMPT_END",
+      "payload": {
+        "status": "completed"
+      }
+    },
+    {
+      "id": "12b47e18-e75e-4815-8e32-3a65bc2f9fb1",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 28,
+      "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+      "taskId": null,
+      "attemptId": null,
+      "agentSeq": 12,
+      "wallTime": "2026-10-03T21:42:07.264Z",
+      "monotonicTime": 1154.1079,
+      "commandId": null,
+      "kind": "AGENT_END",
+      "payload": {
+        "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac"
+      }
+    },
+    {
+      "id": "59473bdf-d83b-444f-bb8b-90af99e0cec1",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 29,
+      "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+      "taskId": null,
+      "attemptId": null,
+      "agentSeq": 7,
+      "wallTime": "2026-10-03T21:42:07.267Z",
+      "monotonicTime": 1156.8628,
+      "commandId": null,
+      "kind": "AGENT_END",
+      "payload": {
+        "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760"
+      }
+    },
+    {
+      "id": "a0adbb96-2455-44e7-b2e9-c935afa85474",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 30,
+      "agentId": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+      "taskId": null,
+      "attemptId": null,
+      "agentSeq": 7,
+      "wallTime": "2026-10-03T21:42:07.269Z",
+      "monotonicTime": 1159.146,
+      "commandId": null,
+      "kind": "AGENT_END",
+      "payload": {
+        "agentId": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7"
+      }
+    },
+    {
+      "id": "39638d20-5c49-4bb4-bcc8-78112d4c6d29",
+      "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+      "runtimeSeq": 31,
+      "agentId": null,
+      "taskId": null,
+      "attemptId": null,
+      "agentSeq": null,
+      "wallTime": "2026-10-03T21:42:07.272Z",
+      "monotonicTime": 1161.784,
+      "commandId": null,
+      "kind": "RUN_END",
+      "payload": {
+        "status": "completed"
+      }
+    }
+  ],
+  "snapshots": [
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [],
+      "timeline": [],
+      "graph": {
+        "nodes": [],
+        "edges": []
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 1,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 1,
+      "heads": {},
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 0,
+        "retries": 0
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [],
+      "timeline": [],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          }
+        ],
+        "edges": []
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 2,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 2,
+      "heads": {
+        "schema.sql": "9be6a86a-eb61-44ec-98a3-4fb7c110325c"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 0,
+        "retries": 0
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [],
+      "timeline": [],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          }
+        ],
+        "edges": []
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 3,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 3,
+      "heads": {
+        "schema.sql": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+        "api/types.ts": "45886a7b-b349-4439-b0d1-2f0d45db0e47"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 0,
+        "retries": 0
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [],
+      "timeline": [],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          }
+        ],
+        "edges": []
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 4,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 4,
+      "heads": {
+        "schema.sql": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+        "api/types.ts": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+        "frontend/client.ts": "d8e36145-8b53-4ad5-8288-6301864111d1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 0,
+        "retries": 0
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "running"
+        }
+      ],
+      "timeline": [],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          }
+        ],
+        "edges": []
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 5,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 5,
+      "heads": {
+        "schema.sql": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+        "api/types.ts": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+        "frontend/client.ts": "d8e36145-8b53-4ad5-8288-6301864111d1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 0,
+        "retries": 0
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Database",
+          "adapter": "scripted",
+          "status": "running"
+        }
+      ],
+      "timeline": [],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          }
+        ],
+        "edges": []
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 6,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 6,
+      "heads": {
+        "schema.sql": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+        "api/types.ts": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+        "frontend/client.ts": "d8e36145-8b53-4ad5-8288-6301864111d1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 0,
+        "retries": 0
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Database",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Frontend",
+          "adapter": "scripted",
+          "status": "running"
+        }
+      ],
+      "timeline": [],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          }
+        ],
+        "edges": []
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 7,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 7,
+      "heads": {
+        "schema.sql": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+        "api/types.ts": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+        "frontend/client.ts": "d8e36145-8b53-4ad5-8288-6301864111d1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 0,
+        "retries": 0
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Database",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Frontend",
+          "adapter": "scripted",
+          "status": "running"
+        }
+      ],
+      "timeline": [],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          }
+        ],
+        "edges": []
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 8,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 8,
+      "heads": {
+        "schema.sql": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+        "api/types.ts": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+        "frontend/client.ts": "d8e36145-8b53-4ad5-8288-6301864111d1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 0,
+        "retries": 0
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Database",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Frontend",
+          "adapter": "scripted",
+          "status": "running"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "cc6681fe-79b6-47c5-ba57-129cf44840ba",
+          "runtimeSeq": 9,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          }
+        ],
+        "edges": []
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 9,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 9,
+      "heads": {
+        "schema.sql": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+        "api/types.ts": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+        "frontend/client.ts": "d8e36145-8b53-4ad5-8288-6301864111d1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 0,
+        "retries": 0
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Database",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Frontend",
+          "adapter": "scripted",
+          "status": "running"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "cc6681fe-79b6-47c5-ba57-129cf44840ba",
+          "runtimeSeq": 9,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          }
+        ],
+        "edges": []
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 10,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 10,
+      "heads": {
+        "schema.sql": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+        "api/types.ts": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+        "frontend/client.ts": "d8e36145-8b53-4ad5-8288-6301864111d1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 0,
+        "retries": 0
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Database",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Frontend",
+          "adapter": "scripted",
+          "status": "running"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "cc6681fe-79b6-47c5-ba57-129cf44840ba",
+          "runtimeSeq": 9,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          }
+        ],
+        "edges": []
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 11,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 11,
+      "heads": {
+        "schema.sql": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+        "api/types.ts": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+        "frontend/client.ts": "d8e36145-8b53-4ad5-8288-6301864111d1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 0,
+        "retries": 0
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Database",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Frontend",
+          "adapter": "scripted",
+          "status": "running"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "cc6681fe-79b6-47c5-ba57-129cf44840ba",
+          "runtimeSeq": 9,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "852af453-df88-4a3c-a80d-a0b0259839cc",
+          "runtimeSeq": 12,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "OBSERVE",
+          "description": "Database observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          }
+        ],
+        "edges": []
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 12,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 12,
+      "heads": {
+        "schema.sql": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+        "api/types.ts": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+        "frontend/client.ts": "d8e36145-8b53-4ad5-8288-6301864111d1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 0,
+        "retries": 0
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Database",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Frontend",
+          "adapter": "scripted",
+          "status": "running"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "cc6681fe-79b6-47c5-ba57-129cf44840ba",
+          "runtimeSeq": 9,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "852af453-df88-4a3c-a80d-a0b0259839cc",
+          "runtimeSeq": 12,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "OBSERVE",
+          "description": "Database observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          }
+        ],
+        "edges": []
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 13,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 13,
+      "heads": {
+        "schema.sql": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+        "api/types.ts": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+        "frontend/client.ts": "d8e36145-8b53-4ad5-8288-6301864111d1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 0,
+        "retries": 0
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Database",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Frontend",
+          "adapter": "scripted",
+          "status": "running"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "cc6681fe-79b6-47c5-ba57-129cf44840ba",
+          "runtimeSeq": 9,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "852af453-df88-4a3c-a80d-a0b0259839cc",
+          "runtimeSeq": 12,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "OBSERVE",
+          "description": "Database observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "c649018f-a7b3-48b3-8ac3-61846239c2f1",
+          "runtimeSeq": 14,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "WRITE",
+          "description": "Database produced schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "label": "schema.sql@18",
+            "resourceId": "schema.sql",
+            "generation": 18,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 120,
+            "hazardIds": []
+          }
+        ],
+        "edges": [
+          {
+            "id": "da118a6c-e1aa-c5c2-4cab-ff03046110ea",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "DERIVED_FROM",
+            "label": "same resource base"
+          },
+          {
+            "id": "238b4d80-1c4a-fadd-ced5-16b235bbc911",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          }
+        ]
+      },
+      "hazards": [],
+      "staleWindows": [
+        {
+          "hazardId": "882536f3-fc02-46a5-8550-162f31a176e8",
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "observedSeq": 9,
+          "startSeq": 14,
+          "endSeq": 14,
+          "resourceId": "schema.sql"
+        }
+      ],
+      "currentRuntimeSeq": 14,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 14,
+      "heads": {
+        "schema.sql": "1dde9bdc-b11a-472b-91da-482de8516204",
+        "api/types.ts": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+        "frontend/client.ts": "d8e36145-8b53-4ad5-8288-6301864111d1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 0,
+        "retries": 0
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Database",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Frontend",
+          "adapter": "scripted",
+          "status": "running"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "cc6681fe-79b6-47c5-ba57-129cf44840ba",
+          "runtimeSeq": 9,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "852af453-df88-4a3c-a80d-a0b0259839cc",
+          "runtimeSeq": 12,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "OBSERVE",
+          "description": "Database observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "c649018f-a7b3-48b3-8ac3-61846239c2f1",
+          "runtimeSeq": 14,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "WRITE",
+          "description": "Database produced schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "label": "schema.sql@18",
+            "resourceId": "schema.sql",
+            "generation": 18,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 120,
+            "hazardIds": []
+          }
+        ],
+        "edges": [
+          {
+            "id": "da118a6c-e1aa-c5c2-4cab-ff03046110ea",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "DERIVED_FROM",
+            "label": "same resource base"
+          },
+          {
+            "id": "238b4d80-1c4a-fadd-ced5-16b235bbc911",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          }
+        ]
+      },
+      "hazards": [],
+      "staleWindows": [
+        {
+          "hazardId": "882536f3-fc02-46a5-8550-162f31a176e8",
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "observedSeq": 9,
+          "startSeq": 14,
+          "endSeq": 15,
+          "resourceId": "schema.sql"
+        }
+      ],
+      "currentRuntimeSeq": 15,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 15,
+      "heads": {
+        "schema.sql": "1dde9bdc-b11a-472b-91da-482de8516204",
+        "api/types.ts": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+        "frontend/client.ts": "d8e36145-8b53-4ad5-8288-6301864111d1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 0,
+        "retries": 0
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Database",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Frontend",
+          "adapter": "scripted",
+          "status": "running"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "cc6681fe-79b6-47c5-ba57-129cf44840ba",
+          "runtimeSeq": 9,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "852af453-df88-4a3c-a80d-a0b0259839cc",
+          "runtimeSeq": 12,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "OBSERVE",
+          "description": "Database observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "c649018f-a7b3-48b3-8ac3-61846239c2f1",
+          "runtimeSeq": 14,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "WRITE",
+          "description": "Database produced schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "label": "schema.sql@18",
+            "resourceId": "schema.sql",
+            "generation": 18,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 120,
+            "hazardIds": []
+          }
+        ],
+        "edges": [
+          {
+            "id": "da118a6c-e1aa-c5c2-4cab-ff03046110ea",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "DERIVED_FROM",
+            "label": "same resource base"
+          },
+          {
+            "id": "238b4d80-1c4a-fadd-ced5-16b235bbc911",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          }
+        ]
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 16,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 16,
+      "heads": {
+        "schema.sql": "1dde9bdc-b11a-472b-91da-482de8516204",
+        "api/types.ts": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+        "frontend/client.ts": "d8e36145-8b53-4ad5-8288-6301864111d1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 1,
+        "retries": 0
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Database",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Frontend",
+          "adapter": "scripted",
+          "status": "running"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "cc6681fe-79b6-47c5-ba57-129cf44840ba",
+          "runtimeSeq": 9,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "852af453-df88-4a3c-a80d-a0b0259839cc",
+          "runtimeSeq": 12,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "OBSERVE",
+          "description": "Database observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "c649018f-a7b3-48b3-8ac3-61846239c2f1",
+          "runtimeSeq": 14,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "WRITE",
+          "description": "Database produced schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "label": "schema.sql@18",
+            "resourceId": "schema.sql",
+            "generation": 18,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 120,
+            "hazardIds": []
+          }
+        ],
+        "edges": [
+          {
+            "id": "da118a6c-e1aa-c5c2-4cab-ff03046110ea",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "DERIVED_FROM",
+            "label": "same resource base"
+          },
+          {
+            "id": "238b4d80-1c4a-fadd-ced5-16b235bbc911",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          }
+        ]
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 17,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 17,
+      "heads": {
+        "schema.sql": "1dde9bdc-b11a-472b-91da-482de8516204",
+        "api/types.ts": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+        "frontend/client.ts": "d8e36145-8b53-4ad5-8288-6301864111d1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 1,
+        "retries": 0
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Database",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Frontend",
+          "adapter": "scripted",
+          "status": "running"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "cc6681fe-79b6-47c5-ba57-129cf44840ba",
+          "runtimeSeq": 9,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "852af453-df88-4a3c-a80d-a0b0259839cc",
+          "runtimeSeq": 12,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "OBSERVE",
+          "description": "Database observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "c649018f-a7b3-48b3-8ac3-61846239c2f1",
+          "runtimeSeq": 14,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "WRITE",
+          "description": "Database produced schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "label": "schema.sql@18",
+            "resourceId": "schema.sql",
+            "generation": 18,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 120,
+            "hazardIds": []
+          }
+        ],
+        "edges": [
+          {
+            "id": "da118a6c-e1aa-c5c2-4cab-ff03046110ea",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "DERIVED_FROM",
+            "label": "same resource base"
+          },
+          {
+            "id": "238b4d80-1c4a-fadd-ced5-16b235bbc911",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          }
+        ]
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 18,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 18,
+      "heads": {
+        "schema.sql": "1dde9bdc-b11a-472b-91da-482de8516204",
+        "api/types.ts": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+        "frontend/client.ts": "d8e36145-8b53-4ad5-8288-6301864111d1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 1,
+        "retries": 1
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Database",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Frontend",
+          "adapter": "scripted",
+          "status": "running"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "cc6681fe-79b6-47c5-ba57-129cf44840ba",
+          "runtimeSeq": 9,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "852af453-df88-4a3c-a80d-a0b0259839cc",
+          "runtimeSeq": 12,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "OBSERVE",
+          "description": "Database observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "c649018f-a7b3-48b3-8ac3-61846239c2f1",
+          "runtimeSeq": 14,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "WRITE",
+          "description": "Database produced schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "6f690380-c936-475b-a76a-808c8f22bf84",
+          "runtimeSeq": 19,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "label": "schema.sql@18",
+            "resourceId": "schema.sql",
+            "generation": 18,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 120,
+            "hazardIds": []
+          }
+        ],
+        "edges": [
+          {
+            "id": "da118a6c-e1aa-c5c2-4cab-ff03046110ea",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "DERIVED_FROM",
+            "label": "same resource base"
+          },
+          {
+            "id": "238b4d80-1c4a-fadd-ced5-16b235bbc911",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          }
+        ]
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 19,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 19,
+      "heads": {
+        "schema.sql": "1dde9bdc-b11a-472b-91da-482de8516204",
+        "api/types.ts": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+        "frontend/client.ts": "d8e36145-8b53-4ad5-8288-6301864111d1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 1,
+        "retries": 1
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Database",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Frontend",
+          "adapter": "scripted",
+          "status": "running"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "cc6681fe-79b6-47c5-ba57-129cf44840ba",
+          "runtimeSeq": 9,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "852af453-df88-4a3c-a80d-a0b0259839cc",
+          "runtimeSeq": 12,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "OBSERVE",
+          "description": "Database observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "c649018f-a7b3-48b3-8ac3-61846239c2f1",
+          "runtimeSeq": 14,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "WRITE",
+          "description": "Database produced schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "6f690380-c936-475b-a76a-808c8f22bf84",
+          "runtimeSeq": 19,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "label": "schema.sql@18",
+            "resourceId": "schema.sql",
+            "generation": 18,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 120,
+            "hazardIds": []
+          }
+        ],
+        "edges": [
+          {
+            "id": "da118a6c-e1aa-c5c2-4cab-ff03046110ea",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "DERIVED_FROM",
+            "label": "same resource base"
+          },
+          {
+            "id": "238b4d80-1c4a-fadd-ced5-16b235bbc911",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          }
+        ]
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 20,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 20,
+      "heads": {
+        "schema.sql": "1dde9bdc-b11a-472b-91da-482de8516204",
+        "api/types.ts": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+        "frontend/client.ts": "d8e36145-8b53-4ad5-8288-6301864111d1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 1,
+        "retries": 1
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Database",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Frontend",
+          "adapter": "scripted",
+          "status": "running"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "cc6681fe-79b6-47c5-ba57-129cf44840ba",
+          "runtimeSeq": 9,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "852af453-df88-4a3c-a80d-a0b0259839cc",
+          "runtimeSeq": 12,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "OBSERVE",
+          "description": "Database observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "c649018f-a7b3-48b3-8ac3-61846239c2f1",
+          "runtimeSeq": 14,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "WRITE",
+          "description": "Database produced schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "6f690380-c936-475b-a76a-808c8f22bf84",
+          "runtimeSeq": 19,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "ae0cbe4e-1e31-4faa-9ec9-84e0cbebc9ac",
+          "runtimeSeq": 21,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "WRITE",
+          "description": "Backend produced api/types.ts@5",
+          "versionId": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+          "resourceId": "api/types.ts",
+          "state": "CLEAN",
+          "hazardIds": []
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "label": "schema.sql@18",
+            "resourceId": "schema.sql",
+            "generation": 18,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 120,
+            "hazardIds": []
+          },
+          {
+            "id": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "label": "types.ts@5",
+            "resourceId": "api/types.ts",
+            "generation": 5,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 120,
+            "hazardIds": []
+          }
+        ],
+        "edges": [
+          {
+            "id": "da118a6c-e1aa-c5c2-4cab-ff03046110ea",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "DERIVED_FROM",
+            "label": "same resource base"
+          },
+          {
+            "id": "0f0a94e5-fc71-6fe3-b765-aebf956863a8",
+            "source": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "target": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "kind": "DERIVED_FROM",
+            "label": "model observation"
+          },
+          {
+            "id": "238b4d80-1c4a-fadd-ced5-16b235bbc911",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          },
+          {
+            "id": "b5dbb9db-e182-f76f-10f9-34aeddba5be1",
+            "source": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "target": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          }
+        ]
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 21,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 21,
+      "heads": {
+        "schema.sql": "1dde9bdc-b11a-472b-91da-482de8516204",
+        "api/types.ts": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+        "frontend/client.ts": "d8e36145-8b53-4ad5-8288-6301864111d1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 1,
+        "retries": 1
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Database",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Frontend",
+          "adapter": "scripted",
+          "status": "running"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "cc6681fe-79b6-47c5-ba57-129cf44840ba",
+          "runtimeSeq": 9,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "852af453-df88-4a3c-a80d-a0b0259839cc",
+          "runtimeSeq": 12,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "OBSERVE",
+          "description": "Database observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "c649018f-a7b3-48b3-8ac3-61846239c2f1",
+          "runtimeSeq": 14,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "WRITE",
+          "description": "Database produced schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "6f690380-c936-475b-a76a-808c8f22bf84",
+          "runtimeSeq": 19,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "ae0cbe4e-1e31-4faa-9ec9-84e0cbebc9ac",
+          "runtimeSeq": 21,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "WRITE",
+          "description": "Backend produced api/types.ts@5",
+          "versionId": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+          "resourceId": "api/types.ts",
+          "state": "CLEAN",
+          "hazardIds": []
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "label": "schema.sql@18",
+            "resourceId": "schema.sql",
+            "generation": 18,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 120,
+            "hazardIds": []
+          },
+          {
+            "id": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "label": "types.ts@5",
+            "resourceId": "api/types.ts",
+            "generation": 5,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 120,
+            "hazardIds": []
+          }
+        ],
+        "edges": [
+          {
+            "id": "da118a6c-e1aa-c5c2-4cab-ff03046110ea",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "DERIVED_FROM",
+            "label": "same resource base"
+          },
+          {
+            "id": "0f0a94e5-fc71-6fe3-b765-aebf956863a8",
+            "source": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "target": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "kind": "DERIVED_FROM",
+            "label": "model observation"
+          },
+          {
+            "id": "238b4d80-1c4a-fadd-ced5-16b235bbc911",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          },
+          {
+            "id": "b5dbb9db-e182-f76f-10f9-34aeddba5be1",
+            "source": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "target": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          }
+        ]
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 22,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 22,
+      "heads": {
+        "schema.sql": "1dde9bdc-b11a-472b-91da-482de8516204",
+        "api/types.ts": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+        "frontend/client.ts": "d8e36145-8b53-4ad5-8288-6301864111d1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 1,
+        "retries": 1
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Database",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Frontend",
+          "adapter": "scripted",
+          "status": "running"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "cc6681fe-79b6-47c5-ba57-129cf44840ba",
+          "runtimeSeq": 9,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "852af453-df88-4a3c-a80d-a0b0259839cc",
+          "runtimeSeq": 12,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "OBSERVE",
+          "description": "Database observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "c649018f-a7b3-48b3-8ac3-61846239c2f1",
+          "runtimeSeq": 14,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "WRITE",
+          "description": "Database produced schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "6f690380-c936-475b-a76a-808c8f22bf84",
+          "runtimeSeq": 19,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "ae0cbe4e-1e31-4faa-9ec9-84e0cbebc9ac",
+          "runtimeSeq": 21,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "WRITE",
+          "description": "Backend produced api/types.ts@5",
+          "versionId": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+          "resourceId": "api/types.ts",
+          "state": "CLEAN",
+          "hazardIds": []
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "label": "schema.sql@18",
+            "resourceId": "schema.sql",
+            "generation": 18,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 120,
+            "hazardIds": []
+          },
+          {
+            "id": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "label": "types.ts@5",
+            "resourceId": "api/types.ts",
+            "generation": 5,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 120,
+            "hazardIds": []
+          }
+        ],
+        "edges": [
+          {
+            "id": "da118a6c-e1aa-c5c2-4cab-ff03046110ea",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "DERIVED_FROM",
+            "label": "same resource base"
+          },
+          {
+            "id": "0f0a94e5-fc71-6fe3-b765-aebf956863a8",
+            "source": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "target": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "kind": "DERIVED_FROM",
+            "label": "model observation"
+          },
+          {
+            "id": "238b4d80-1c4a-fadd-ced5-16b235bbc911",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          },
+          {
+            "id": "b5dbb9db-e182-f76f-10f9-34aeddba5be1",
+            "source": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "target": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          }
+        ]
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 23,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 23,
+      "heads": {
+        "schema.sql": "1dde9bdc-b11a-472b-91da-482de8516204",
+        "api/types.ts": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+        "frontend/client.ts": "d8e36145-8b53-4ad5-8288-6301864111d1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 1,
+        "retries": 1
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Database",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Frontend",
+          "adapter": "scripted",
+          "status": "running"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "cc6681fe-79b6-47c5-ba57-129cf44840ba",
+          "runtimeSeq": 9,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "852af453-df88-4a3c-a80d-a0b0259839cc",
+          "runtimeSeq": 12,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "OBSERVE",
+          "description": "Database observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "c649018f-a7b3-48b3-8ac3-61846239c2f1",
+          "runtimeSeq": 14,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "WRITE",
+          "description": "Database produced schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "6f690380-c936-475b-a76a-808c8f22bf84",
+          "runtimeSeq": 19,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "ae0cbe4e-1e31-4faa-9ec9-84e0cbebc9ac",
+          "runtimeSeq": 21,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "WRITE",
+          "description": "Backend produced api/types.ts@5",
+          "versionId": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+          "resourceId": "api/types.ts",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "15a23515-1247-4923-99ae-34eda920c12f",
+          "runtimeSeq": 24,
+          "agentId": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "agentName": "Frontend",
+          "action": "OBSERVE",
+          "description": "Frontend observed api/types.ts@5",
+          "versionId": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+          "resourceId": "api/types.ts",
+          "state": "CLEAN",
+          "hazardIds": []
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "label": "schema.sql@18",
+            "resourceId": "schema.sql",
+            "generation": 18,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 120,
+            "hazardIds": []
+          },
+          {
+            "id": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "label": "types.ts@5",
+            "resourceId": "api/types.ts",
+            "generation": 5,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 120,
+            "hazardIds": []
+          }
+        ],
+        "edges": [
+          {
+            "id": "da118a6c-e1aa-c5c2-4cab-ff03046110ea",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "DERIVED_FROM",
+            "label": "same resource base"
+          },
+          {
+            "id": "0f0a94e5-fc71-6fe3-b765-aebf956863a8",
+            "source": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "target": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "kind": "DERIVED_FROM",
+            "label": "model observation"
+          },
+          {
+            "id": "238b4d80-1c4a-fadd-ced5-16b235bbc911",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          },
+          {
+            "id": "b5dbb9db-e182-f76f-10f9-34aeddba5be1",
+            "source": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "target": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          }
+        ]
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 24,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 24,
+      "heads": {
+        "schema.sql": "1dde9bdc-b11a-472b-91da-482de8516204",
+        "api/types.ts": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+        "frontend/client.ts": "d8e36145-8b53-4ad5-8288-6301864111d1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 1,
+        "retries": 1
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Database",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Frontend",
+          "adapter": "scripted",
+          "status": "running"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "cc6681fe-79b6-47c5-ba57-129cf44840ba",
+          "runtimeSeq": 9,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "852af453-df88-4a3c-a80d-a0b0259839cc",
+          "runtimeSeq": 12,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "OBSERVE",
+          "description": "Database observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "c649018f-a7b3-48b3-8ac3-61846239c2f1",
+          "runtimeSeq": 14,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "WRITE",
+          "description": "Database produced schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "6f690380-c936-475b-a76a-808c8f22bf84",
+          "runtimeSeq": 19,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "ae0cbe4e-1e31-4faa-9ec9-84e0cbebc9ac",
+          "runtimeSeq": 21,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "WRITE",
+          "description": "Backend produced api/types.ts@5",
+          "versionId": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+          "resourceId": "api/types.ts",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "15a23515-1247-4923-99ae-34eda920c12f",
+          "runtimeSeq": 24,
+          "agentId": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "agentName": "Frontend",
+          "action": "OBSERVE",
+          "description": "Frontend observed api/types.ts@5",
+          "versionId": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+          "resourceId": "api/types.ts",
+          "state": "CLEAN",
+          "hazardIds": []
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "label": "schema.sql@18",
+            "resourceId": "schema.sql",
+            "generation": 18,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 120,
+            "hazardIds": []
+          },
+          {
+            "id": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "label": "types.ts@5",
+            "resourceId": "api/types.ts",
+            "generation": 5,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 120,
+            "hazardIds": []
+          }
+        ],
+        "edges": [
+          {
+            "id": "da118a6c-e1aa-c5c2-4cab-ff03046110ea",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "DERIVED_FROM",
+            "label": "same resource base"
+          },
+          {
+            "id": "0f0a94e5-fc71-6fe3-b765-aebf956863a8",
+            "source": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "target": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "kind": "DERIVED_FROM",
+            "label": "model observation"
+          },
+          {
+            "id": "238b4d80-1c4a-fadd-ced5-16b235bbc911",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          },
+          {
+            "id": "b5dbb9db-e182-f76f-10f9-34aeddba5be1",
+            "source": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "target": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          }
+        ]
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 25,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 25,
+      "heads": {
+        "schema.sql": "1dde9bdc-b11a-472b-91da-482de8516204",
+        "api/types.ts": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+        "frontend/client.ts": "d8e36145-8b53-4ad5-8288-6301864111d1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 1,
+        "retries": 1
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Database",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Frontend",
+          "adapter": "scripted",
+          "status": "running"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "cc6681fe-79b6-47c5-ba57-129cf44840ba",
+          "runtimeSeq": 9,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "852af453-df88-4a3c-a80d-a0b0259839cc",
+          "runtimeSeq": 12,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "OBSERVE",
+          "description": "Database observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "c649018f-a7b3-48b3-8ac3-61846239c2f1",
+          "runtimeSeq": 14,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "WRITE",
+          "description": "Database produced schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "6f690380-c936-475b-a76a-808c8f22bf84",
+          "runtimeSeq": 19,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "ae0cbe4e-1e31-4faa-9ec9-84e0cbebc9ac",
+          "runtimeSeq": 21,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "WRITE",
+          "description": "Backend produced api/types.ts@5",
+          "versionId": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+          "resourceId": "api/types.ts",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "15a23515-1247-4923-99ae-34eda920c12f",
+          "runtimeSeq": 24,
+          "agentId": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "agentName": "Frontend",
+          "action": "OBSERVE",
+          "description": "Frontend observed api/types.ts@5",
+          "versionId": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+          "resourceId": "api/types.ts",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "1319ddae-5d2b-4bae-9856-d444e89f8d5a",
+          "runtimeSeq": 26,
+          "agentId": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "agentName": "Frontend",
+          "action": "WRITE",
+          "description": "Frontend produced frontend/client.ts@9",
+          "versionId": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1",
+          "resourceId": "frontend/client.ts",
+          "state": "CLEAN",
+          "hazardIds": []
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "label": "schema.sql@18",
+            "resourceId": "schema.sql",
+            "generation": 18,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 120,
+            "hazardIds": []
+          },
+          {
+            "id": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "label": "types.ts@5",
+            "resourceId": "api/types.ts",
+            "generation": 5,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 120,
+            "hazardIds": []
+          },
+          {
+            "id": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1",
+            "label": "client.ts@9",
+            "resourceId": "frontend/client.ts",
+            "generation": 9,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 120,
+            "hazardIds": []
+          }
+        ],
+        "edges": [
+          {
+            "id": "da118a6c-e1aa-c5c2-4cab-ff03046110ea",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "DERIVED_FROM",
+            "label": "same resource base"
+          },
+          {
+            "id": "0f0a94e5-fc71-6fe3-b765-aebf956863a8",
+            "source": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "target": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "kind": "DERIVED_FROM",
+            "label": "model observation"
+          },
+          {
+            "id": "c880dce7-635c-9a9c-0294-0230585f9733",
+            "source": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "target": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1",
+            "kind": "DERIVED_FROM",
+            "label": "model observation"
+          },
+          {
+            "id": "238b4d80-1c4a-fadd-ced5-16b235bbc911",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          },
+          {
+            "id": "b5dbb9db-e182-f76f-10f9-34aeddba5be1",
+            "source": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "target": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          },
+          {
+            "id": "c5c1c4a3-2843-c6a9-9894-563cdaf2d71d",
+            "source": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "target": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          }
+        ]
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 26,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 26,
+      "heads": {
+        "schema.sql": "1dde9bdc-b11a-472b-91da-482de8516204",
+        "api/types.ts": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+        "frontend/client.ts": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 1,
+        "retries": 1
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Database",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Frontend",
+          "adapter": "scripted",
+          "status": "running"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "cc6681fe-79b6-47c5-ba57-129cf44840ba",
+          "runtimeSeq": 9,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "852af453-df88-4a3c-a80d-a0b0259839cc",
+          "runtimeSeq": 12,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "OBSERVE",
+          "description": "Database observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "c649018f-a7b3-48b3-8ac3-61846239c2f1",
+          "runtimeSeq": 14,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "WRITE",
+          "description": "Database produced schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "6f690380-c936-475b-a76a-808c8f22bf84",
+          "runtimeSeq": 19,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "ae0cbe4e-1e31-4faa-9ec9-84e0cbebc9ac",
+          "runtimeSeq": 21,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "WRITE",
+          "description": "Backend produced api/types.ts@5",
+          "versionId": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+          "resourceId": "api/types.ts",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "15a23515-1247-4923-99ae-34eda920c12f",
+          "runtimeSeq": 24,
+          "agentId": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "agentName": "Frontend",
+          "action": "OBSERVE",
+          "description": "Frontend observed api/types.ts@5",
+          "versionId": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+          "resourceId": "api/types.ts",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "1319ddae-5d2b-4bae-9856-d444e89f8d5a",
+          "runtimeSeq": 26,
+          "agentId": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "agentName": "Frontend",
+          "action": "WRITE",
+          "description": "Frontend produced frontend/client.ts@9",
+          "versionId": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1",
+          "resourceId": "frontend/client.ts",
+          "state": "CLEAN",
+          "hazardIds": []
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "label": "schema.sql@18",
+            "resourceId": "schema.sql",
+            "generation": 18,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 120,
+            "hazardIds": []
+          },
+          {
+            "id": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "label": "types.ts@5",
+            "resourceId": "api/types.ts",
+            "generation": 5,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 120,
+            "hazardIds": []
+          },
+          {
+            "id": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1",
+            "label": "client.ts@9",
+            "resourceId": "frontend/client.ts",
+            "generation": 9,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 120,
+            "hazardIds": []
+          }
+        ],
+        "edges": [
+          {
+            "id": "da118a6c-e1aa-c5c2-4cab-ff03046110ea",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "DERIVED_FROM",
+            "label": "same resource base"
+          },
+          {
+            "id": "0f0a94e5-fc71-6fe3-b765-aebf956863a8",
+            "source": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "target": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "kind": "DERIVED_FROM",
+            "label": "model observation"
+          },
+          {
+            "id": "c880dce7-635c-9a9c-0294-0230585f9733",
+            "source": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "target": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1",
+            "kind": "DERIVED_FROM",
+            "label": "model observation"
+          },
+          {
+            "id": "238b4d80-1c4a-fadd-ced5-16b235bbc911",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          },
+          {
+            "id": "b5dbb9db-e182-f76f-10f9-34aeddba5be1",
+            "source": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "target": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          },
+          {
+            "id": "c5c1c4a3-2843-c6a9-9894-563cdaf2d71d",
+            "source": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "target": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          }
+        ]
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 27,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 27,
+      "heads": {
+        "schema.sql": "1dde9bdc-b11a-472b-91da-482de8516204",
+        "api/types.ts": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+        "frontend/client.ts": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 1,
+        "retries": 1
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "completed"
+        },
+        {
+          "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Database",
+          "adapter": "scripted",
+          "status": "running"
+        },
+        {
+          "id": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Frontend",
+          "adapter": "scripted",
+          "status": "running"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "cc6681fe-79b6-47c5-ba57-129cf44840ba",
+          "runtimeSeq": 9,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "852af453-df88-4a3c-a80d-a0b0259839cc",
+          "runtimeSeq": 12,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "OBSERVE",
+          "description": "Database observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "c649018f-a7b3-48b3-8ac3-61846239c2f1",
+          "runtimeSeq": 14,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "WRITE",
+          "description": "Database produced schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "6f690380-c936-475b-a76a-808c8f22bf84",
+          "runtimeSeq": 19,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "ae0cbe4e-1e31-4faa-9ec9-84e0cbebc9ac",
+          "runtimeSeq": 21,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "WRITE",
+          "description": "Backend produced api/types.ts@5",
+          "versionId": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+          "resourceId": "api/types.ts",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "15a23515-1247-4923-99ae-34eda920c12f",
+          "runtimeSeq": 24,
+          "agentId": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "agentName": "Frontend",
+          "action": "OBSERVE",
+          "description": "Frontend observed api/types.ts@5",
+          "versionId": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+          "resourceId": "api/types.ts",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "1319ddae-5d2b-4bae-9856-d444e89f8d5a",
+          "runtimeSeq": 26,
+          "agentId": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "agentName": "Frontend",
+          "action": "WRITE",
+          "description": "Frontend produced frontend/client.ts@9",
+          "versionId": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1",
+          "resourceId": "frontend/client.ts",
+          "state": "CLEAN",
+          "hazardIds": []
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "label": "schema.sql@18",
+            "resourceId": "schema.sql",
+            "generation": 18,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 120,
+            "hazardIds": []
+          },
+          {
+            "id": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "label": "types.ts@5",
+            "resourceId": "api/types.ts",
+            "generation": 5,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 120,
+            "hazardIds": []
+          },
+          {
+            "id": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1",
+            "label": "client.ts@9",
+            "resourceId": "frontend/client.ts",
+            "generation": 9,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 120,
+            "hazardIds": []
+          }
+        ],
+        "edges": [
+          {
+            "id": "da118a6c-e1aa-c5c2-4cab-ff03046110ea",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "DERIVED_FROM",
+            "label": "same resource base"
+          },
+          {
+            "id": "0f0a94e5-fc71-6fe3-b765-aebf956863a8",
+            "source": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "target": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "kind": "DERIVED_FROM",
+            "label": "model observation"
+          },
+          {
+            "id": "c880dce7-635c-9a9c-0294-0230585f9733",
+            "source": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "target": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1",
+            "kind": "DERIVED_FROM",
+            "label": "model observation"
+          },
+          {
+            "id": "238b4d80-1c4a-fadd-ced5-16b235bbc911",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          },
+          {
+            "id": "b5dbb9db-e182-f76f-10f9-34aeddba5be1",
+            "source": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "target": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          },
+          {
+            "id": "c5c1c4a3-2843-c6a9-9894-563cdaf2d71d",
+            "source": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "target": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          }
+        ]
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 28,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 28,
+      "heads": {
+        "schema.sql": "1dde9bdc-b11a-472b-91da-482de8516204",
+        "api/types.ts": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+        "frontend/client.ts": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 1,
+        "retries": 1
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "completed"
+        },
+        {
+          "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Database",
+          "adapter": "scripted",
+          "status": "completed"
+        },
+        {
+          "id": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Frontend",
+          "adapter": "scripted",
+          "status": "running"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "cc6681fe-79b6-47c5-ba57-129cf44840ba",
+          "runtimeSeq": 9,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "852af453-df88-4a3c-a80d-a0b0259839cc",
+          "runtimeSeq": 12,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "OBSERVE",
+          "description": "Database observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "c649018f-a7b3-48b3-8ac3-61846239c2f1",
+          "runtimeSeq": 14,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "WRITE",
+          "description": "Database produced schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "6f690380-c936-475b-a76a-808c8f22bf84",
+          "runtimeSeq": 19,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "ae0cbe4e-1e31-4faa-9ec9-84e0cbebc9ac",
+          "runtimeSeq": 21,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "WRITE",
+          "description": "Backend produced api/types.ts@5",
+          "versionId": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+          "resourceId": "api/types.ts",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "15a23515-1247-4923-99ae-34eda920c12f",
+          "runtimeSeq": 24,
+          "agentId": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "agentName": "Frontend",
+          "action": "OBSERVE",
+          "description": "Frontend observed api/types.ts@5",
+          "versionId": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+          "resourceId": "api/types.ts",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "1319ddae-5d2b-4bae-9856-d444e89f8d5a",
+          "runtimeSeq": 26,
+          "agentId": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "agentName": "Frontend",
+          "action": "WRITE",
+          "description": "Frontend produced frontend/client.ts@9",
+          "versionId": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1",
+          "resourceId": "frontend/client.ts",
+          "state": "CLEAN",
+          "hazardIds": []
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "label": "schema.sql@18",
+            "resourceId": "schema.sql",
+            "generation": 18,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 120,
+            "hazardIds": []
+          },
+          {
+            "id": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "label": "types.ts@5",
+            "resourceId": "api/types.ts",
+            "generation": 5,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 120,
+            "hazardIds": []
+          },
+          {
+            "id": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1",
+            "label": "client.ts@9",
+            "resourceId": "frontend/client.ts",
+            "generation": 9,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 120,
+            "hazardIds": []
+          }
+        ],
+        "edges": [
+          {
+            "id": "da118a6c-e1aa-c5c2-4cab-ff03046110ea",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "DERIVED_FROM",
+            "label": "same resource base"
+          },
+          {
+            "id": "0f0a94e5-fc71-6fe3-b765-aebf956863a8",
+            "source": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "target": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "kind": "DERIVED_FROM",
+            "label": "model observation"
+          },
+          {
+            "id": "c880dce7-635c-9a9c-0294-0230585f9733",
+            "source": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "target": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1",
+            "kind": "DERIVED_FROM",
+            "label": "model observation"
+          },
+          {
+            "id": "238b4d80-1c4a-fadd-ced5-16b235bbc911",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          },
+          {
+            "id": "b5dbb9db-e182-f76f-10f9-34aeddba5be1",
+            "source": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "target": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          },
+          {
+            "id": "c5c1c4a3-2843-c6a9-9894-563cdaf2d71d",
+            "source": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "target": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          }
+        ]
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 29,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 29,
+      "heads": {
+        "schema.sql": "1dde9bdc-b11a-472b-91da-482de8516204",
+        "api/types.ts": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+        "frontend/client.ts": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 1,
+        "retries": 1
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "running",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": null
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "completed"
+        },
+        {
+          "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Database",
+          "adapter": "scripted",
+          "status": "completed"
+        },
+        {
+          "id": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Frontend",
+          "adapter": "scripted",
+          "status": "completed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "cc6681fe-79b6-47c5-ba57-129cf44840ba",
+          "runtimeSeq": 9,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "852af453-df88-4a3c-a80d-a0b0259839cc",
+          "runtimeSeq": 12,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "OBSERVE",
+          "description": "Database observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "c649018f-a7b3-48b3-8ac3-61846239c2f1",
+          "runtimeSeq": 14,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "WRITE",
+          "description": "Database produced schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "6f690380-c936-475b-a76a-808c8f22bf84",
+          "runtimeSeq": 19,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "ae0cbe4e-1e31-4faa-9ec9-84e0cbebc9ac",
+          "runtimeSeq": 21,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "WRITE",
+          "description": "Backend produced api/types.ts@5",
+          "versionId": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+          "resourceId": "api/types.ts",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "15a23515-1247-4923-99ae-34eda920c12f",
+          "runtimeSeq": 24,
+          "agentId": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "agentName": "Frontend",
+          "action": "OBSERVE",
+          "description": "Frontend observed api/types.ts@5",
+          "versionId": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+          "resourceId": "api/types.ts",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "1319ddae-5d2b-4bae-9856-d444e89f8d5a",
+          "runtimeSeq": 26,
+          "agentId": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "agentName": "Frontend",
+          "action": "WRITE",
+          "description": "Frontend produced frontend/client.ts@9",
+          "versionId": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1",
+          "resourceId": "frontend/client.ts",
+          "state": "CLEAN",
+          "hazardIds": []
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "label": "schema.sql@18",
+            "resourceId": "schema.sql",
+            "generation": 18,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 120,
+            "hazardIds": []
+          },
+          {
+            "id": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "label": "types.ts@5",
+            "resourceId": "api/types.ts",
+            "generation": 5,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 120,
+            "hazardIds": []
+          },
+          {
+            "id": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1",
+            "label": "client.ts@9",
+            "resourceId": "frontend/client.ts",
+            "generation": 9,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 120,
+            "hazardIds": []
+          }
+        ],
+        "edges": [
+          {
+            "id": "da118a6c-e1aa-c5c2-4cab-ff03046110ea",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "DERIVED_FROM",
+            "label": "same resource base"
+          },
+          {
+            "id": "0f0a94e5-fc71-6fe3-b765-aebf956863a8",
+            "source": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "target": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "kind": "DERIVED_FROM",
+            "label": "model observation"
+          },
+          {
+            "id": "c880dce7-635c-9a9c-0294-0230585f9733",
+            "source": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "target": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1",
+            "kind": "DERIVED_FROM",
+            "label": "model observation"
+          },
+          {
+            "id": "238b4d80-1c4a-fadd-ced5-16b235bbc911",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          },
+          {
+            "id": "b5dbb9db-e182-f76f-10f9-34aeddba5be1",
+            "source": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "target": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          },
+          {
+            "id": "c5c1c4a3-2843-c6a9-9894-563cdaf2d71d",
+            "source": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "target": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          }
+        ]
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 30,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 30,
+      "heads": {
+        "schema.sql": "1dde9bdc-b11a-472b-91da-482de8516204",
+        "api/types.ts": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+        "frontend/client.ts": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 1,
+        "retries": 1
+      }
+    },
+    {
+      "run": {
+        "id": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "name": "The identifier migration",
+        "workspace": "C:\\Users\\arnsf\\AppData\\Local\\Temp\\ravel-golden-ihvg0w\\guard\\47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+        "scenario": "identifier-migration",
+        "mode": "guard",
+        "status": "completed",
+        "startedAt": "2026-10-03T21:42:07.188Z",
+        "endedAt": "2026-10-03T21:42:07.272Z"
+      },
+      "agents": [
+        {
+          "id": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Backend",
+          "adapter": "scripted",
+          "status": "completed"
+        },
+        {
+          "id": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Database",
+          "adapter": "scripted",
+          "status": "completed"
+        },
+        {
+          "id": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "runId": "47cab7d7-2621-481d-b9ee-3f4eab9db5c7",
+          "name": "Frontend",
+          "adapter": "scripted",
+          "status": "completed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "cc6681fe-79b6-47c5-ba57-129cf44840ba",
+          "runtimeSeq": 9,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "852af453-df88-4a3c-a80d-a0b0259839cc",
+          "runtimeSeq": 12,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "OBSERVE",
+          "description": "Database observed schema.sql@17",
+          "versionId": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "c649018f-a7b3-48b3-8ac3-61846239c2f1",
+          "runtimeSeq": 14,
+          "agentId": "ee2c67dd-ec5c-4fac-b027-f6841da5b760",
+          "agentName": "Database",
+          "action": "WRITE",
+          "description": "Database produced schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "6f690380-c936-475b-a76a-808c8f22bf84",
+          "runtimeSeq": 19,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "OBSERVE",
+          "description": "Backend observed schema.sql@18",
+          "versionId": "1dde9bdc-b11a-472b-91da-482de8516204",
+          "resourceId": "schema.sql",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "ae0cbe4e-1e31-4faa-9ec9-84e0cbebc9ac",
+          "runtimeSeq": 21,
+          "agentId": "147d13f1-27ba-49d1-acc6-9156a372bfac",
+          "agentName": "Backend",
+          "action": "WRITE",
+          "description": "Backend produced api/types.ts@5",
+          "versionId": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+          "resourceId": "api/types.ts",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "15a23515-1247-4923-99ae-34eda920c12f",
+          "runtimeSeq": 24,
+          "agentId": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "agentName": "Frontend",
+          "action": "OBSERVE",
+          "description": "Frontend observed api/types.ts@5",
+          "versionId": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+          "resourceId": "api/types.ts",
+          "state": "CLEAN",
+          "hazardIds": []
+        },
+        {
+          "id": "1319ddae-5d2b-4bae-9856-d444e89f8d5a",
+          "runtimeSeq": 26,
+          "agentId": "e0c42e1f-6c7f-43de-9ade-2f1f448cd9a7",
+          "agentName": "Frontend",
+          "action": "WRITE",
+          "description": "Frontend produced frontend/client.ts@9",
+          "versionId": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1",
+          "resourceId": "frontend/client.ts",
+          "state": "CLEAN",
+          "hazardIds": []
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "label": "schema.sql@17",
+            "resourceId": "schema.sql",
+            "generation": 17,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 0,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "label": "types.ts@4",
+            "resourceId": "api/types.ts",
+            "generation": 4,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 270,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "label": "client.ts@8",
+            "resourceId": "frontend/client.ts",
+            "generation": 8,
+            "state": "CLEAN",
+            "currentHead": false,
+            "tombstone": false,
+            "x": 540,
+            "y": 0,
+            "hazardIds": []
+          },
+          {
+            "id": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "label": "schema.sql@18",
+            "resourceId": "schema.sql",
+            "generation": 18,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 0,
+            "y": 120,
+            "hazardIds": []
+          },
+          {
+            "id": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "label": "types.ts@5",
+            "resourceId": "api/types.ts",
+            "generation": 5,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 270,
+            "y": 120,
+            "hazardIds": []
+          },
+          {
+            "id": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1",
+            "label": "client.ts@9",
+            "resourceId": "frontend/client.ts",
+            "generation": 9,
+            "state": "CLEAN",
+            "currentHead": true,
+            "tombstone": false,
+            "x": 540,
+            "y": 120,
+            "hazardIds": []
+          }
+        ],
+        "edges": [
+          {
+            "id": "da118a6c-e1aa-c5c2-4cab-ff03046110ea",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "DERIVED_FROM",
+            "label": "same resource base"
+          },
+          {
+            "id": "0f0a94e5-fc71-6fe3-b765-aebf956863a8",
+            "source": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "target": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "kind": "DERIVED_FROM",
+            "label": "model observation"
+          },
+          {
+            "id": "c880dce7-635c-9a9c-0294-0230585f9733",
+            "source": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "target": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1",
+            "kind": "DERIVED_FROM",
+            "label": "model observation"
+          },
+          {
+            "id": "238b4d80-1c4a-fadd-ced5-16b235bbc911",
+            "source": "9be6a86a-eb61-44ec-98a3-4fb7c110325c",
+            "target": "1dde9bdc-b11a-472b-91da-482de8516204",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          },
+          {
+            "id": "b5dbb9db-e182-f76f-10f9-34aeddba5be1",
+            "source": "45886a7b-b349-4439-b0d1-2f0d45db0e47",
+            "target": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          },
+          {
+            "id": "c5c1c4a3-2843-c6a9-9894-563cdaf2d71d",
+            "source": "d8e36145-8b53-4ad5-8288-6301864111d1",
+            "target": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1",
+            "kind": "VERSION_SUCCESSOR",
+            "label": "next version"
+          }
+        ]
+      },
+      "hazards": [],
+      "staleWindows": [],
+      "currentRuntimeSeq": 31,
+      "latestRuntimeSeq": 31,
+      "activeAffectedCount": 0,
+      "eventCount": 31,
+      "heads": {
+        "schema.sql": "1dde9bdc-b11a-472b-91da-482de8516204",
+        "api/types.ts": "7e31b6d8-a8a3-4ff2-af84-238b7eecb78f",
+        "frontend/client.ts": "43cf1c45-1b48-4bd2-bd11-6c1ae1d6a6a1"
+      },
+      "canRepair": false,
+      "guard": {
+        "rejectedWrites": 1,
+        "retries": 1
+      }
+    }
+  ],
+  "content": {
+    "a676b91d30165271aa4aedd6c53bcee0094433ff2bdebe3e9095ca8e7d5bdf0e": "CREATE TABLE users (\n    id INTEGER PRIMARY KEY,\n    email TEXT NOT NULL\n);\n",
+    "18d1e3cd89f0ebbfdeb00d884ad7bd6ae5ed9909088abe57513437a7e74bf494": "export interface User {\n  id: number;\n}\n",
+    "ed5bd5f1ca53aab330b26242e6d32c620d09b5bec62d5f97027f38bcbcefa85b": "// Generate the client from api/types.ts.\n",
+    "c3d5777862c17360fa42010d23057d1a4c50e9961d89a92f6a16c223ea864b32": "CREATE TABLE users (\n    id UUID PRIMARY KEY,\n    email TEXT NOT NULL\n);\n",
+    "c4d25e9c1b04c251f75729a4747e9a4fa8414aa2afa5f0ba318edab9e3f9fb97": "export interface User {\n  id: string;\n  email: string;\n}\n",
+    "37033b3ce13ca8c415537364f8e60896f5a42521d392ec3e2854c3232a118fe1": "import type { User } from '../api/types';\n\nexport function userUrl(id: User['id']): string {\n  return `/users/${encodeURIComponent(id)}`;\n}\n"
+  },
+  "hazards": [],
+  "plans": []
+}
