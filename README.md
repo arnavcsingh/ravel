@@ -59,7 +59,7 @@ Stop the server before reset. A sibling process lease prevents simultaneous CLI 
 
 Go owns concurrency and durable state because these concerns need one explicit synchronization and transaction boundary. Python fits coding-agent and benchmark ecosystems; it makes HTTP calls and never duplicates validation decisions. React remains the debugger's presentation layer. Every client uses the same model-independent API.
 
-The Go demo scheduler and fixture heuristic are deterministic conformance fixtures, not external coding-agent integrations. Gemini and Fetch interfaces have moved to Python; their transports remain unimplemented. SpacetimeDB and further provider/AsynCodeBench work are deferred. Persistence remains SQLite plus SHA-256 blobs.
+The Go demo scheduler and fixture heuristic remain deterministic conformance fixtures. The optional Python Gemini driver uses mediated HTTP tools; its semantic analyzer appends labeled annotations through Go. Invoke it explicitly with `pnpm gemini`; normal startup stays offline. See [Gemini setup and commands](docs/GEMINI.md). Fetch, SpacetimeDB and further AsynCodeBench work remain deferred. Persistence remains SQLite plus SHA-256 blobs.
 
 ## Agent API
 

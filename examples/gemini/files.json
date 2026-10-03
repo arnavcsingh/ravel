@@ -1,0 +1,3 @@
+{
+  "schema.sql": "CREATE TABLE users (\n  id UUID PRIMARY KEY,\n  email TEXT NOT NULL\n);\n"
+}

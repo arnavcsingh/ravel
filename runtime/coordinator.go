@@ -567,6 +567,22 @@ func (c *Coordinator) FinishAttempt(attemptID, status string) error {
 func (c *Coordinator) Assess(hazardID string, result Assessment) error {
 	c.mu.Lock()
 	defer c.mu.Unlock()
+	if strings.TrimSpace(result.Analyzer) == "" || len(result.Analyzer) > 200 || strings.TrimSpace(result.Reason) == "" || len(result.Reason) > 16000 {
+		return fmt.Errorf("assessment requires a bounded analyzer and reason")
+	}
+	switch result.Relevance {
+	case "IRRELEVANT", "POSSIBLE", "LIKELY", "CONFLICT":
+	default:
+		return fmt.Errorf("invalid assessment relevance")
+	}
+	if result.AffectedElements == nil || len(result.AffectedElements) > 100 {
+		return fmt.Errorf("affectedElements must be an array with at most 100 entries")
+	}
+	for _, element := range result.AffectedElements {
+		if strings.TrimSpace(element) == "" || len(element) > 1000 {
+			return fmt.Errorf("invalid affected element")
+		}
+	}
 	return c.record("SEMANTIC_ASSESSMENT", func(_ string, seq int) any {
 		result.ID = ID()
 		result.HazardID = hazardID

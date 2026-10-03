@@ -19,6 +19,9 @@ def main():
     action = sys.argv[1] if len(sys.argv) > 1 else "serve"
     args = sys.argv[2:]
     os.chdir(ROOT)
+    if action == "gemini":
+        from ravel.gemini_cli import main as gemini
+        return gemini(args)
     if action == "benchmark":
         from ravel.benchmark import main as benchmark
         return benchmark(args)

@@ -9,13 +9,14 @@ Version 0.3 migrates runtime responsibilities to Go while retaining the React de
 - Provenance DAG, continuous stale intervals, active/historical blast radius, deterministic historical projections and focused replay.
 - Compatible HTTP/SSE debugger API, mediated agent endpoints, script-controlled hold/release, repair, local process lease and archive reset.
 - Existing React/Vite, React Flow, timeline, inspector, diff and Replay Race UI retained. Vite now proxies the Go API in development.
-- Python HTTP client, six-scenario synthetic benchmark, independent executable artifact checker and moved provider interfaces. No new provider transports.
+- Python HTTP client, six-scenario synthetic benchmark and independent executable artifact checker.
+- Optional Gemini REST transport: bounded mediated coding-agent loop, fresh Guard retry, validated semantic annotations through a provider-neutral Go endpoint, CLI commands and offline contract tests. Live agent and analysis checks pass; see `GEMINI.md`.
 - Frozen every-event baseline projections, Go concurrency/storage/API tests, Python benchmark parity tests and frontend contract tests.
 
 ## Boundaries
 
 Guard prevents individual stale writes; it does not undo earlier publications. Agents must use mediated operations for observations/provenance. Local file materialization follows durable commit and can need reconstruction. Replay is factual playback, not model re-execution. Semantic annotations are labeled fixture heuristics.
 
-Gemini and Fetch transports remain deferred. No SpacetimeDB service or alternative database is introduced. Official AsynCodeBench work remains at the prior checkpoint; the Python wrapper preserves the existing pinned bootstrap without extending or rerunning upstream integration.
+Fetch remains deferred. No SpacetimeDB service or alternative database is introduced. Official AsynCodeBench work remains at the prior checkpoint; the Python wrapper preserves the existing pinned bootstrap without extending or rerunning upstream integration. Gemini is optional and invoked explicitly; it never replaces deterministic validation.
 
 See [migration evidence](MIGRATION.md), [API contract](API.md), [benchmark results and limitations](BENCHMARK.md), and [the demo guide](DEMO.md).

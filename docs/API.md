@@ -41,6 +41,10 @@ Explicit `"content": null` creates a tombstone; missing content is an error. Gua
 
 `POST /runs/{runId}/end` completes a run; `/resume` reopens it. Rejected attempts cannot publish again. One pending mutation per attempt is allowed, while other agents remain concurrent. Registered commands and agent computation run outside the coordinator lock.
 
+## External semantic assessments
+
+External semantic analyzers may append annotations with `POST /hazards/{hazardId}/assessments`: `{ "analyzer": "provider/model", "relevance": "LIKELY", "reason": "Evidence-based explanation", "affectedElements": ["User.id"] }`. Relevance is `IRRELEVANT`, `POSSIBLE`, `LIKELY` or `CONFLICT`. Go validates bounded strings/arrays, generates the assessment ID and sequence, appends the event and emits an SSE update. Existing causal facts and historical snapshots are preserved. IDs, sequences and extra fields supplied by callers are rejected. See [Gemini integration](GEMINI.md).
+
 ## Demo controls
 
 `POST /demo` accepts `{ "mode": "observe", "interactive": true }`. `GET /runs/{runId}/demo` reports phase; `POST /runs/{runId}/release` releases a held candidate. `POST /hazards/{hazardId}/analyze` appends a labeled fixture assessment. `POST /hazards/{hazardId}/repair` runs scripted repair. These controls target the identifier-migration fixture, not general model orchestration.

@@ -1,11 +1,11 @@
-"""Moved provider boundaries only; no new SDK, transport, or provider work."""
+"""Provider interfaces. Gemini's concrete transport lives in ravel.gemini."""
 
 from typing import Any, Protocol
 from .client import Session
 
 
 class GeminiTransport(Protocol):
-    def run_agent(self, task: dict, environment: Session, model: str) -> None: ...
+    def run_agent(self, task: dict, environment: Session, model: str) -> dict: ...
     def analyze(self, semantic_input: dict, model: str) -> dict: ...
 
 
