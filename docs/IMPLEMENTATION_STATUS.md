@@ -2,7 +2,7 @@
 
 The current specification is `docs/updated_design.md`. The original prototype is preserved in commit `f7d7f3e` on `codex/ravel-v0.2`.
 
-## Completed milestones: 1–2 — deterministic core and debugger API
+## Completed milestones: 1–5 — core, debugger API, React UI, and scheduler
 
 ### Completed
 
@@ -17,6 +17,9 @@ The current specification is `docs/updated_design.md`. The original prototype is
 - Added validated backend-owned debugger snapshots, graph layout/status, stale windows, hazard detail/diffs, and annotated focused replay plans.
 - Added Fastify endpoints, run-scoped SSE with reconnect cursors, live demo controls, asynchronous heuristic annotation, repair, and reconstruction endpoints.
 - Added optional Gemini, SpacetimeDB, and Fetch interfaces/placeholders. Missing credentials leave the entire local product operational.
+- Replaced the UI with React, Vite and React Flow. It renders backend-authored timeline windows, graph states, diffs, incident selection, historical branches, event log, and replay annotations.
+- Added interactive held-write release, Observe/Guard demo selection, version content inspection, and repair in the browser.
+- Removed remote font loading; all runtime assets are local.
 
 ### Tests
 
@@ -25,12 +28,14 @@ The current specification is `docs/updated_design.md`. The original prototype is
 - Vitest uses Vite's runner config loader because config bundling attempts to enumerate a parent directory outside the Windows workspace sandbox.
 - All 22 tests pass, including DTO validation, historical projection isolation, five-step replay plans, Fastify endpoints, held-mutation release, and SSE reconnection.
 - Strict TypeScript checking passes.
+- Production Vite build passes without warnings. Browser checks verified held writes, release, five-step replay, clean repaired heads with historical branches, and Guard retry.
 
 ### Known issues
 
-- React migration remains in progress. The previous local server continues to serve v0.1 until the new application is ready.
+- The new server is running at port 4317. Its TS runner requires an elevated shell in this particular Windows sandbox because `os.userInfo()` is blocked in the restricted shell; ordinary user terminals are unaffected.
+- The superseded prototype source is still present and will be removed after the migration checkpoint.
 - Provider credentials are intentionally unnecessary. Optional integrations will remain disabled stubs unless configured and implemented.
 
 ### Next milestone
 
-Milestones 3–4: React UI and React Flow, connected to the new DTOs and SSE. Then polish the offline demo, verify the browser flows, and remove the superseded prototype source.
+Milestone 6 and final audit: polish one-command startup/reset, update README and demo documentation, remove superseded source, strengthen invariant coverage, verify offline operation, and commit the final working tree.
