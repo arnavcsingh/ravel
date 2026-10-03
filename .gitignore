@@ -2,3 +2,9 @@
 node_modules/
 coverage/
 *.log
+dist/
+.env
+.env.local
+demo/workspace/
+.pnpm-store/
+.pnpm-cache/

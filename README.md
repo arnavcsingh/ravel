@@ -92,14 +92,14 @@ The event log is the source of truth. Entities and derived findings are currentl
 
 ## HTTP API
 
-| Endpoint | Result |
-| --- | --- |
-| `GET /api/runs` | Recorded runs |
-| `GET /api/runs/:id?seq=N` | Backend projection through sequence N |
+| Endpoint                                  | Result                                  |
+| ----------------------------------------- | --------------------------------------- |
+| `GET /api/runs`                           | Recorded runs                           |
+| `GET /api/runs/:id?seq=N`                 | Backend projection through sequence N   |
 | `GET /api/runs/:id/version?id=VERSION_ID` | Immutable contents and version metadata |
-| `GET /api/runs/:id/race?hazard=HAZARD_ID` | Focused causal event slice |
-| `GET /api/stream` | Live SSE event notifications |
-| `POST /api/demo` | Start a new controlled race |
-| `POST /api/runs/:id/repair` | Execute the scripted repair once |
+| `GET /api/runs/:id/race?hazard=HAZARD_ID` | Focused causal event slice              |
+| `GET /api/stream`                         | Live SSE event notifications            |
+| `POST /api/demo`                          | Start a new controlled race             |
+| `POST /api/runs/:id/repair`               | Execute the scripted repair once        |
 
 The server binds to loopback and is intended for local development.

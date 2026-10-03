@@ -1,14 +1,36 @@
 {
   "name": "ravel",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "description": "A causal concurrency debugger for coding agents.",
-  "engines": { "node": ">=22.18.0" },
+  "packageManager": "pnpm@11.25.0",
+  "engines": {
+    "node": ">=22.18.0"
+  },
   "scripts": {
-    "start": "node src/cli.js serve",
-    "demo": "node src/cli.js demo",
-    "test": "node --test",
-    "check": "node --check src/runtime/coordinator.js && node --check src/replay/projector.js && node --check src/api/server.js && node --check public/app.js"
+    "start": "tsx apps/server/src/cli.ts",
+    "demo": "pnpm build && pnpm start",
+    "demo:reset": "tsx apps/server/src/cli.ts reset",
+    "dev": "tsx apps/server/src/cli.ts --dev",
+    "test": "vitest run --configLoader runner",
+    "test:watch": "vitest --configLoader runner",
+    "typecheck": "tsc --noEmit",
+    "check": "pnpm typecheck && pnpm format:check",
+    "format": "prettier --write packages apps integrations demo tests *.json *.yaml *.ts README.md docs/IMPLEMENTATION_STATUS.md",
+    "format:check": "prettier --check packages apps integrations demo tests *.json *.yaml *.ts README.md docs/IMPLEMENTATION_STATUS.md",
+    "build": "pnpm typecheck && vite build --config apps/web/vite.config.ts --configLoader runner"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^22.18.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^4.7.0",
+    "prettier": "^3.6.2",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "vite": "^6.4.0",
+    "vitest": "^3.2.4"
   }
 }
