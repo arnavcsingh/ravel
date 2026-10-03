@@ -204,7 +204,7 @@ func (s *Service) routes(staticRoot string) {
 		mux.HandleFunc(method+" "+path, h)
 	}
 	route("GET", "/health", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, 200, Object{"status": "ok", "version": "0.3.0", "runtime": "go", "integrations": []Object{{"name": "Gemini", "enabled": false, "configured": false, "reason": "Python transport placeholder; scripted demo remains available."}, {"name": "SpacetimeDB", "enabled": false, "configured": false, "reason": "Not implemented; local SSE provides live updates."}, {"name": "Fetch", "enabled": false, "configured": false, "reason": "Python inspector transport placeholder."}}})
+		writeJSON(w, 200, Object{"status": "ok", "version": "0.3.0", "runtime": "go", "integrations": []Object{{"name": "Gemini", "enabled": false, "configured": strings.TrimSpace(os.Getenv("GEMINI_API_KEY")) != "", "reason": "Available through pnpm gemini in Python; the Go runtime does not invoke providers."}, {"name": "SpacetimeDB", "enabled": false, "configured": false, "reason": "Not implemented; local SSE provides live updates."}, {"name": "Fetch", "enabled": false, "configured": false, "reason": "Python inspector transport placeholder."}}})
 	})
 	route("GET", "/runs", func(w http.ResponseWriter, r *http.Request) { v, err := s.Store.Runs(); respond(w, v, err) })
 	route("GET", "/runs/{runId}/debugger", func(w http.ResponseWriter, r *http.Request) {
@@ -308,6 +308,34 @@ func (s *Service) routes(staticRoot string) {
 			err = c.Reconstruct()
 		}
 		respond(w, Object{"reconstructed": true}, err)
+	})
+	route("POST", "/hazards/{hazardId}/assessments", func(w http.ResponseWriter, r *http.Request) {
+		var input struct {
+			Analyzer         string   `json:"analyzer"`
+			Relevance        string   `json:"relevance"`
+			Reason           string   `json:"reason"`
+			AffectedElements []string `json:"affectedElements"`
+		}
+		if err := decode(w, r, &input); err != nil {
+			respond(w, nil, err)
+			return
+		}
+		id := r.PathValue("hazardId")
+		runID, err := s.Store.RunForEntity("hazards", id)
+		if err != nil {
+			respond(w, nil, err)
+			return
+		}
+		c, err := s.coordinator(runID)
+		if err == nil {
+			err = c.Assess(id, Assessment{Analyzer: input.Analyzer, Relevance: input.Relevance, Reason: input.Reason, AffectedElements: input.AffectedElements})
+		}
+		if err != nil {
+			respond(w, nil, err)
+			return
+		}
+		value, err := s.Projector.Hazard(id, 0)
+		respond(w, value, err)
 	})
 	route("POST", "/hazards/{hazardId}/analyze", func(w http.ResponseWriter, r *http.Request) {
 		id := r.PathValue("hazardId")

@@ -212,7 +212,8 @@ export default function App() {
           WORKSPACE <span>LOCAL</span>
         </div>
         <div className="workspace-name">
-          <span className="repo-icon">⌘</span>identifier-migration
+          <span className="repo-icon">⌘</span>
+          {snapshot?.run.scenario ?? snapshot?.run.name ?? 'Select a run'}
         </div>
         <div className="nav-label">OBSERVABILITY</div>
         <nav aria-label="Main navigation">
@@ -325,7 +326,7 @@ export default function App() {
             />
             Pause before the stale write commits
           </label>
-          <span>Scripted agents · no API keys</span>
+          <span>Scripted demo · no API keys</span>
         </div>
         {error && (
           <div className="error" role="alert">

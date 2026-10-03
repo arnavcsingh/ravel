@@ -158,7 +158,11 @@ export function Inspector({
                   : 'Awaiting semantic analysis'}
               </strong>
               <span>
-                {detail.assessment?.analyzer.startsWith('heuristic') ? 'HEURISTIC' : 'ANALYSIS'}
+                {detail.assessment?.analyzer.startsWith('heuristic')
+                  ? 'HEURISTIC'
+                  : detail.assessment?.analyzer.startsWith('gemini/')
+                    ? 'GEMINI'
+                    : 'ANALYSIS'}
               </span>
             </div>
             <p className="semantic-copy">

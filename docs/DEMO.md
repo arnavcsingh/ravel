@@ -28,7 +28,7 @@ Choose **Guard and retry** for the next run. Guard rejects the held stale write 
 - Semantic explanation uses a labeled fixture heuristic.
 - Downstream reachability does not prove incorrectness.
 - Guard is per write; general staging/rollback is not implemented.
-- Gemini and Fetch Python interfaces have no installed transports. SpacetimeDB and further integrations are deferred. No keys are required.
+- Gemini is an optional Python integration invoked separately with `pnpm gemini`; Fetch and SpacetimeDB remain deferred. The scripted demo requires no keys.
 
 ## Reset
 

@@ -19,10 +19,11 @@
     "test:watch": "vitest --configLoader runner",
     "benchmark": "node scripts/python.mjs benchmark",
     "benchmark:upstream": "node scripts/python.mjs upstream",
+    "gemini": "node scripts/python.mjs gemini",
     "typecheck": "tsc --noEmit",
     "check": "pnpm typecheck && pnpm format:check",
-    "format": "prettier --write packages apps tests scripts *.json *.yaml *.ts README.md docs/IMPLEMENTATION_STATUS.md docs/DEMO.md docs/BENCHMARK.md docs/MIGRATION.md docs/API.md",
-    "format:check": "prettier --check packages apps tests scripts *.json *.yaml *.ts README.md docs/IMPLEMENTATION_STATUS.md docs/DEMO.md docs/BENCHMARK.md docs/MIGRATION.md docs/API.md",
+    "format": "prettier --write packages apps tests scripts examples *.json *.yaml *.ts README.md docs/IMPLEMENTATION_STATUS.md docs/DEMO.md docs/BENCHMARK.md docs/MIGRATION.md docs/API.md docs/GEMINI.md",
+    "format:check": "prettier --check packages apps tests scripts examples *.json *.yaml *.ts README.md docs/IMPLEMENTATION_STATUS.md docs/DEMO.md docs/BENCHMARK.md docs/MIGRATION.md docs/API.md docs/GEMINI.md",
     "build:runtime": "node scripts/python.mjs build",
     "build": "pnpm typecheck && vite build --config apps/web/vite.config.ts --configLoader runner && pnpm build:runtime"
   },

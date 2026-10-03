@@ -56,6 +56,12 @@ class Client:
     def end(self, run_id):
         return self.request(f"/runs/{quote(run_id)}/end", {})
 
+    def hazard(self, hazard_id):
+        return self.request(f"/hazards/{quote(hazard_id, safe='')}")
+
+    def assess(self, hazard_id, result):
+        return self.request(f"/hazards/{quote(hazard_id, safe='')}/assessments", result)
+
 
 class Session:
     def __init__(self, client, run_id, identity):
