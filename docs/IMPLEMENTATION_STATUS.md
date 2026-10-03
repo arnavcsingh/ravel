@@ -42,8 +42,20 @@ The current specification is `docs/updated_design.md`. The original prototype is
 - Provider credentials are intentionally unnecessary. Gemini, SpacetimeDB and Fetch transports are disabled placeholders; live provider execution is not implemented.
 - Guard validates individual writes; it does not promise whole-attempt rollback. The semantic annotation is a labeled fixture heuristic, and downstream reachability means potential influence.
 - SQLite and blobs are authoritative. Crashed, uncommitted intents are retained as history but are not automatically resumed or published. Reconstruction restores committed heads.
-- Distributed execution, generic rollback, production authentication, and AsynCodeBench remain outside the completed core/demo scope.
+- Distributed execution, generic rollback, and production authentication remain outside the completed core/demo scope. Benchmark follow-up is tracked below.
 
 ### Completion
 
 The offline core/demo acceptance criteria in section 82 of the updated design are satisfied. Work is saved locally on `codex/ravel-v0.2`; pushing is left to the user. No API keys or further user decisions are required to run the completed demo.
+
+## Benchmark follow-up — codex/ravel-benchmark
+
+- Reran the original 28 tests successfully, then added seven benchmark tests; all 35 pass.
+- Added `pnpm benchmark`: six controlled scenarios, real uninstrumented OFF mode, Observe, and Guard with retry. Executable output checks are independent of hazard detection.
+- Ran 90 measured trials (five repetitions): OFF/Observe 50% success and dependency pass; Guard 100%, with 15 rejections and retries. Three controls confirm no false rejection for serial, identical, or reverted inputs. These are explicitly synthetic results, not official AsynCodeBench scores.
+- Reports retain per-trial results, trace databases, generated files, timing, recomputation, bytes, and source metadata. Tokens are unmeasured; no model is involved.
+- Downloaded pinned AsynCodeBench and OpenHands source into ignored storage, installed an isolated Linux Python 3.12/uv runner, and passed 14 upstream release/admission contract tests. SDK source/version consistency checks pass.
+- Added reproducible upstream setup/check/dry-run/smoke commands with saved logs. The real container smoke is blocked by unavailable Docker integration in Ubuntu-22.04. Official scored OFF/Guard evaluation still needs a model-backed Ravel mediation adapter that honors upstream private-worktree protocols.
+- All five official cachetools protocol dry runs and 15 upstream adapter/CLI tests pass. SDK HTTP event-roundtrip still fails its child-server startup deadline on this Windows-mounted WSL checkout; it is not counted as passing.
+- Final local results were reproduced from clean commit `ac20481`, retaining source revision and working-tree status. Formatting, strict checking, and the production build pass.
+- See `docs/BENCHMARK.md` for commands, measured results, boundaries, and the exact upstream revision.
