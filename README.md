@@ -26,8 +26,6 @@ Set `RAVEL_GO` or `RAVEL_PYTHON` if the executables are not on PATH. The launche
 5. Click **Repair demo**. Current heads become clean; historical stale branches remain visible.
 6. Choose **Guard and retry** for a fresh run. The runtime rejects stale publication and the scripted agent retries with a fresh attempt.
 
-See [the demo guide](docs/DEMO.md).
-
 ## Commands
 
 | Command                          | Purpose                                                      |
@@ -59,7 +57,7 @@ Stop the server before reset. A sibling process lease prevents simultaneous CLI 
 
 Go owns concurrency and durable state because these concerns need one explicit synchronization and transaction boundary. Python fits coding-agent and benchmark ecosystems; it makes HTTP calls and never duplicates validation decisions. React remains the debugger's presentation layer. Every client uses the same model-independent API.
 
-The Go demo scheduler and fixture heuristic remain deterministic conformance fixtures. The optional Python Gemini driver uses mediated HTTP tools; its semantic analyzer appends labeled annotations through Go. Invoke it explicitly with `pnpm gemini`; normal startup stays offline. See [Gemini setup and commands](docs/GEMINI.md). Fetch, SpacetimeDB and further AsynCodeBench work remain deferred. Persistence remains SQLite plus SHA-256 blobs.
+The Go demo scheduler and fixture heuristic remain deterministic conformance fixtures. The optional Python Gemini driver uses mediated HTTP tools; its semantic analyzer appends labeled annotations through Go. Invoke it explicitly with `pnpm gemini`; normal startup stays offline. The SpacetimeDB projection module is scaffolded under `integrations/spacetime`; runtime publishing and live subscriptions are not enabled yet. Fetch remains optional future work. Persistence remains SQLite plus SHA-256 blobs.
 
 ## Agent API
 
@@ -82,7 +80,7 @@ else:
     client.end(run)
 ```
 
-Sessions also expose exact-base `apply_patch`, `list_resources`, `search_repository`, and explicit `write_intent`/`commit_write`. See [HTTP and SSE contracts](docs/API.md) for request/response details and debugger routes.
+Sessions also expose exact-base `apply_patch`, `list_resources`, `search_repository`, and explicit `write_intent`/`commit_write`.
 
 ## Runtime guarantees
 
@@ -99,6 +97,6 @@ The API binds loopback for trusted local clients and has no remote authenticatio
 
 ## Verification and benchmark
 
-[Migration evidence](docs/MIGRATION.md) maps the original 35 tests to Go/Python coverage and frozen replay fixtures. The old implementation is preserved on branch `ravel` at `077f277`; migration branch: `codex/ravel-polyglot`.
+Go/Python tests and frozen replay fixtures preserve the original concurrency behavior.
 
-`pnpm benchmark` runs six deterministic scenarios in OFF, Observe and Guard. It independently executes generated artifacts and records correctness, hazards, retries, generation work and elapsed time. It is **not an official AsynCodeBench score**. See [benchmark status](docs/BENCHMARK.md) and [implementation status](docs/IMPLEMENTATION_STATUS.md).
+`pnpm benchmark` runs six deterministic scenarios in OFF, Observe and Guard. It independently executes generated artifacts and records correctness, hazards, retries, generation work and elapsed time. It is **not an official AsynCodeBench score**.
