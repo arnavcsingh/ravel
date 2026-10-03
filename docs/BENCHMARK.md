@@ -44,11 +44,21 @@ Five repetitions of six scenarios in each of three modes produced 90 measured tr
 
 | Mode    | Success | Dependency pass | Detected hazards | Rejections / retries | Median runtime |
 | ------- | ------: | --------------: | ---------------: | -------------------: | -------------: |
-| OFF     |     50% |             50% |       Unmeasured |                0 / 0 |        1.63 ms |
-| Observe |     50% |             50% |               15 |                0 / 0 |       66.16 ms |
-| Guard   |    100% |            100% |      0 committed |              15 / 15 |       72.69 ms |
+| OFF     |     50% |             50% |       Unmeasured |                0 / 0 |        1.53 ms |
+| Observe |     50% |             50% |               15 |                0 / 0 |       59.14 ms |
+| Guard   |    100% |            100% |      0 committed |              15 / 15 |       63.45 ms |
 
-This demonstrates the expected effect on deliberately constructed races, not general coding capability. The report is saved at `.ravel/benchmarks/2026-10-03T19-40-14.594Z-53372/report.json`. Timing is machine-specific and includes durable recording costs.
+This demonstrates the expected effect on deliberately constructed races, not general coding capability. The report is saved at `.ravel/benchmarks/2026-10-03T19-53-11.361Z-48152/report.json`, from clean commit `ac20481`. Timing is machine-specific and includes durable recording costs. Guard recomputed 15 generations; its mean extra time per trial was 64.82 ms. The large ratio against a roughly 1.5 ms plain-file baseline must not be extrapolated to model-heavy workloads.
+
+## Upstream verification results
+
+- Release status and task listing pass; 14 selected release/admission tests pass.
+- All five cachetools protocol dry runs pass using `--release v0.4`. Upstream intentionally reports v0.3 for the unchanged source manifests of its Commit0-derived tasks.
+- The pinned SDK revision and all four installed SDK package versions match; 15 adapter/CLI tests pass.
+- The SDK HTTP event-roundtrip check did not pass: its child event server exceeded the startup deadline. Imports from this Windows-mounted WSL checkout are slow; the storage location is a suspected cause, not a confirmed fix. Use a native Linux filesystem for the runner before retrying this check.
+- Container execution does not pass the Docker prerequisite, as detailed below. No official task score or run bundle was produced.
+
+Logs for the completed checks are in `.ravel/benchmark-source/reports/`, including `2026-10-03T19-50-30.441Z-dry-run.log`, `2026-10-03T19-50-42.775Z-runner-check.log`, and `2026-10-03T19-53-20.007Z-check.log`.
 
 The official container smoke is currently blocked because Docker's CLI reports that Docker Desktop WSL integration is unavailable for Ubuntu-22.04. Enable that integration before retrying `smoke`. A scored coding run additionally requires a model endpoint and the Ravel-specific mediation adapter described above; no scored official run has been performed.
 

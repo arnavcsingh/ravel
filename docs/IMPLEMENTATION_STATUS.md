@@ -56,4 +56,6 @@ The offline core/demo acceptance criteria in section 82 of the updated design ar
 - Reports retain per-trial results, trace databases, generated files, timing, recomputation, bytes, and source metadata. Tokens are unmeasured; no model is involved.
 - Downloaded pinned AsynCodeBench and OpenHands source into ignored storage, installed an isolated Linux Python 3.12/uv runner, and passed 14 upstream release/admission contract tests. SDK source/version consistency checks pass.
 - Added reproducible upstream setup/check/dry-run/smoke commands with saved logs. The real container smoke is blocked by unavailable Docker integration in Ubuntu-22.04. Official scored OFF/Guard evaluation still needs a model-backed Ravel mediation adapter that honors upstream private-worktree protocols.
+- All five official cachetools protocol dry runs and 15 upstream adapter/CLI tests pass. SDK HTTP event-roundtrip still fails its child-server startup deadline on this Windows-mounted WSL checkout; it is not counted as passing.
+- Final local results were reproduced from clean commit `ac20481`, retaining source revision and working-tree status. Formatting, strict checking, and the production build pass.
 - See `docs/BENCHMARK.md` for commands, measured results, boundaries, and the exact upstream revision.
