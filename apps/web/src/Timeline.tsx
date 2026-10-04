@@ -1,10 +1,10 @@
 import type { DebuggerSnapshot, ReplayStep } from '@ravel/shared';
 
 const colors = {
-  CLEAN: '#78917b',
-  STALE_INPUT: '#c8533d',
-  DOWNSTREAM: '#b28d49',
-  SEMANTIC_CONFLICT: '#c8533d',
+  CLEAN: 'var(--ink)',
+  STALE_INPUT: 'var(--red)',
+  DOWNSTREAM: 'var(--amber)',
+  SEMANTIC_CONFLICT: 'var(--red)',
 };
 export function Timeline({
   snapshot,
@@ -27,7 +27,7 @@ export function Timeline({
       <div className="panel-heading">
         <div>
           <h2>Execution timeline</h2>
-          <span className="panel-subtitle">The order that made the difference</span>
+          <span className="panel-subtitle">Agent lanes · ordered by runtime sequence</span>
         </div>
         <div className="legend">
           <span>
@@ -44,10 +44,24 @@ export function Timeline({
           </span>
         </div>
       </div>
+      <div className="agent-roster" aria-label="Agents in this execution">
+        {snapshot.agents.map((agent) => {
+          const entries = snapshot.timeline.filter((event) => event.agentId === agent.id);
+          const affected = entries.some((event) => event.state !== 'CLEAN');
+          return (
+            <div className="agent-summary" key={agent.id}>
+              <strong>{agent.name}</strong>
+              <span className={affected ? 'agent-issue' : ''}>
+                {agent.status} · {entries.length} trace events
+              </span>
+            </div>
+          );
+        })}
+      </div>
       <div className="diagram-scroll">
         <svg
           viewBox={`0 0 ${width} ${height}`}
-          role="img"
+          role="group"
           aria-label="Agent observations, writes, and continuous stale intervals"
         >
           {Array.from({ length: 7 }, (_, i) => {
@@ -59,15 +73,15 @@ export function Timeline({
                   x2={cx}
                   y1={16}
                   y2={height - 31}
-                  stroke="#e8ecdf"
+                  stroke="var(--line)"
                   strokeDasharray="3 5"
                 />
                 <text
                   x={cx}
                   y={height - 12}
                   textAnchor="middle"
-                  fill="#919d81"
-                  fontSize={9}
+                  fill="var(--muted)"
+                  fontSize={11}
                   fontFamily="monospace"
                 >
                   {Math.round(min + (i * (max - min)) / 6)}
@@ -79,21 +93,14 @@ export function Timeline({
             const y = 40 + i * 66;
             return (
               <g key={agent.id}>
-                <rect
-                  x={19}
-                  y={y - 13}
-                  width={26}
-                  height={26}
-                  rx={7}
-                  fill={['#e5eadd', '#efe9dc', '#e7e9e1'][i % 3]}
-                />
-                <text x={32} y={y + 4} textAnchor="middle" fontSize={10} fill="#737f62">
+                <rect x={19} y={y - 13} width={26} height={26} rx={3} fill="var(--raised)" />
+                <text x={32} y={y + 4} textAnchor="middle" fontSize={11} fill="var(--muted)">
                   {agent.name[0]}
                 </text>
-                <text x={56} y={y + 4} fontSize={12} fill="#59674b">
+                <text x={56} y={y + 4} fontSize={12} fill="var(--ink)">
                   {agent.name}
                 </text>
-                <line x1={left - 10} x2={right + 16} y1={y} y2={y} stroke="#e3e8d8" />
+                <line x1={left - 10} x2={right + 16} y1={y} y2={y} stroke="var(--line)" />
               </g>
             );
           })}
@@ -109,8 +116,8 @@ export function Timeline({
                   y={y - 18}
                   width={Math.max(end - start, 4)}
                   height={36}
-                  rx={5}
-                  fill="#c8533d"
+                  rx={0}
+                  fill="var(--red)"
                   opacity={0.1}
                 />
                 <line
@@ -118,25 +125,43 @@ export function Timeline({
                   x2={start}
                   y1={y - 25}
                   y2={y + 26}
-                  stroke="#c98267"
+                  stroke="var(--red)"
                   strokeDasharray="3 3"
                 />
-                <text x={start + 7} y={y - 25} fill="#b86b50" fontSize={8} fontFamily="monospace">
+                <text
+                  x={start + 7}
+                  y={y - 25}
+                  fill="var(--red)"
+                  fontSize={10}
+                  fontFamily="monospace"
+                >
                   STALE WINDOW
                 </text>
               </g>
             );
           })}
-          {snapshot.timeline.map((event, i) => {
+          {snapshot.timeline.map((event) => {
             const y = 40 + snapshot.agents.findIndex((a) => a.id === event.agentId) * 66,
               cx = x(event.runtimeSeq);
             const read = event.action === 'OBSERVE';
-            const color = read ? '#799985' : colors[event.state];
+            const color = read ? 'var(--accent)' : colors[event.state];
             const label = snapshot.graph.nodes.find((n) => n.id === event.versionId)?.label;
             const highlighted = step?.runtimeSeq === event.runtimeSeq;
             return (
               <g
                 key={event.id}
+                className="timeline-event"
+                role={event.hazardIds.length > 0 ? 'button' : undefined}
+                tabIndex={event.hazardIds.length > 0 ? 0 : undefined}
+                aria-label={
+                  event.hazardIds.length > 0 ? `Inspect incident: ${event.description}` : undefined
+                }
+                onKeyDown={(key) => {
+                  if (event.hazardIds[0] && (key.key === 'Enter' || key.key === ' ')) {
+                    key.preventDefault();
+                    selectHazard(event.hazardIds[0]);
+                  }
+                }}
                 onClick={() => event.hazardIds[0] && selectHazard(event.hazardIds[0])}
               >
                 <title>{event.description}</title>
@@ -145,7 +170,7 @@ export function Timeline({
                   cx={cx}
                   cy={y}
                   r={highlighted ? 6 : 5}
-                  fill={read ? '#fdfdf9' : color}
+                  fill={read ? 'var(--surface)' : color}
                   stroke={color}
                   strokeWidth={2}
                 />
@@ -153,7 +178,7 @@ export function Timeline({
                   x={cx}
                   y={y + (read ? -12 : 22)}
                   textAnchor={cx > 785 ? 'end' : cx < 170 ? 'start' : 'middle'}
-                  fontSize={9}
+                  fontSize={11}
                   fill={color}
                   fontFamily="monospace"
                 >

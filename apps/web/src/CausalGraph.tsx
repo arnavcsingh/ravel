@@ -62,11 +62,11 @@ export function CausalGraph({
         type: edge.kind === 'VERSION_SUCCESSOR' ? 'smoothstep' : 'default',
         animated: step?.highlightEdges.includes(edge.id),
         style: {
-          stroke: edge.kind === 'VERSION_SUCCESSOR' ? '#c1c9b3' : '#bc9979',
+          stroke: edge.kind === 'VERSION_SUCCESSOR' ? 'var(--muted)' : 'var(--amber)',
           strokeWidth: 1.5,
           strokeDasharray: edge.kind === 'VERSION_SUCCESSOR' ? '4 5' : undefined,
         },
-        markerEnd: { type: MarkerType.ArrowClosed, color: '#a8b295' },
+        markerEnd: { type: MarkerType.ArrowClosed, color: '#a4adb5' },
         ariaLabel: edge.label,
       })),
     [snapshot.graph.edges, step],
@@ -91,11 +91,12 @@ export function CausalGraph({
           nodesDraggable={false}
           nodesConnectable={false}
           deleteKeyCode={null}
+          colorMode="dark"
           onNodeClick={(_event, node) => inspect(node.data)}
           minZoom={0.25}
           maxZoom={1.8}
         >
-          <Background gap={22} color="#e6ebdc" />
+          <Background gap={22} color="var(--line)" />
           <Controls showInteractive={false} />
         </ReactFlow>
       </div>

@@ -42,7 +42,7 @@ export function Inspector({
     <aside className="panel inspector">
       <div className="panel-heading">
         <h2>{version ? 'Version inspector' : 'Incident inspector'}</h2>
-        <span className="incident-index">{detail ? '↳' : '—'}</span>
+        <span className="small-tag">{version ? 'CONTENT' : 'EVIDENCE'}</span>
       </div>
       {version ? (
         <>
@@ -62,7 +62,6 @@ export function Inspector({
         </>
       ) : !detail ? (
         <div className="empty-state">
-          <div className="empty-icon">⌁</div>
           <h3>No incident at this point.</h3>
           <p>
             Advance the trace or release the held write to see where an observation becomes stale.
@@ -72,17 +71,21 @@ export function Inspector({
         <>
           <div className="incident-intro">
             <span className={`hazard-badge ${!detail.active ? 'resolved' : ''}`}>
-              {detail.active ? '△ STALE INPUT' : '✓ REPAIRED HEADS'}
+              {detail.active ? 'STALE INPUT' : 'CURRENT HEADS REPAIRED'}
             </span>
-            <h3>
-              An input changed.
-              <br />
-              The work used its old state.
-            </h3>
+            <h3>{detail.active ? 'Stale derivation detected' : 'Recovery recorded'}</h3>
             <p>
               {detail.observerName} produced <code>{detail.consumer.resourceId}</code> from an
               earlier version of <code>{detail.observed.resourceId}</code>.
             </p>
+            <div className="incident-outcome">
+              <strong>{detail.active ? detail.activeBlastRadius.length : 0}</strong>
+              <span>
+                {detail.active
+                  ? 'current versions potentially affected'
+                  : 'affected current versions · history preserved'}
+              </span>
+            </div>
           </div>
           <div className="incident-block">
             <div className="section-label">THE CAUSAL CHAIN</div>
@@ -117,12 +120,14 @@ export function Inspector({
           <div className="tabs">
             <button
               className={`tab ${tab === 'change' ? 'active' : ''}`}
+              aria-pressed={tab === 'change'}
               onClick={() => setTab('change')}
             >
               Input change
             </button>
             <button
               className={`tab ${tab === 'output' ? 'active' : ''}`}
+              aria-pressed={tab === 'output'}
               onClick={() => setTab('output')}
             >
               Produced output
@@ -191,7 +196,7 @@ export function Inspector({
             ))}
           </div>
           <div className="inspector-actions">
-            <button className="button race-button" onClick={replay}>
+            <button className="button race-button" disabled={busy} onClick={replay}>
               ↶ Replay race
             </button>
             <button className="button" disabled={busy || !canRepair} onClick={repair}>
