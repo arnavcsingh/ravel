@@ -123,8 +123,6 @@ def main(args=None):
         configure(logging.INFO)
         agentverse_init(uri, mailbox=True)
         configure(logging.INFO)
-        from .agentverse_compat import enable_first_registration
-        enable_first_registration()
     import uvicorn
     uvicorn.run(create_app(os.environ.get("RAVEL_API_BASE", "http://localhost:4317"), options.port, initialized=not options.local), host="127.0.0.1", port=options.port)
     return 0

@@ -50,28 +50,33 @@ class InspectorTransportTests(unittest.TestCase):
             self.assertEqual(final["activeAffectedCount"], 0)
             self.assertEqual(len(final["hazards"]), 1)
 
-    def test_registration_compat_preserves_errors_and_validates_post(self):
+    def test_sdk_registration_lookup_and_error_behavior(self):
         from agentverse_sdk._common import av
         from requests import HTTPError, Response
-        from ravel.agentverse_compat import enable_first_registration
-        def error(code, detail):
+        from uagents_core.config import AgentverseConfig
+        def response(code, detail):
             response = Response()
             response.status_code = code
-            response._content = json.dumps({"detail": detail}).encode()
-            return HTTPError(response=response)
-        get = Mock(side_effect=error(404, "Agent not found"))
-        post = Mock(side_effect=error(404, "Agent not found"))
-        with patch.object(av, "_get_stored_listing_sync", get), patch.object(av, "_post_data_sync", post):
-            enable_first_registration()
-            self.assertIsNone(av._get_stored_listing_sync().name)
-            with self.assertRaisesRegex(RuntimeError, "HTTP 404: Agent not found"):
-                av._post_data_sync()
-            get.side_effect = error(401, "Not authenticated")
+            response._content = json.dumps(detail).encode()
+            return response
+        config = AgentverseConfig(base_url="agentverse.ai", http_prefix="https")
+        request = Mock(address="public-test-address")
+        request.model_dump_json.return_value = "{}"
+        with patch.object(av.requests, "get", return_value=response(200, {"name": "Existing name", "handle": "existing-handle", "profile": {}})) as get, patch.object(av.requests, "post", return_value=response(200, {})) as post:
+            av.register_to_agentverse_sync(request, {}, config)
+            self.assertEqual(get.call_args.kwargs["url"], "https://agentverse.ai/v2/agents/public-test-address")
+            self.assertEqual(post.call_args.kwargs["url"], "https://agentverse.ai/v2/agents")
+            request.model_dump_json.assert_called_with(exclude={"name": True, "handle": True})
+            for status in (404, 401, 403, 500):
+                get.return_value = response(status, {"detail": "Rejected"})
+                post.reset_mock()
+                with self.assertRaises(HTTPError):
+                    av.register_to_agentverse_sync(request, {}, config)
+                post.assert_not_called()
+            get.return_value = response(200, {})
+            post.return_value = response(500, {"detail": "Rejected"})
             with self.assertRaises(HTTPError):
-                av._get_stored_listing_sync()
-            post.side_effect = error(500, "SECRET NOT SAFE TO PRINT")
-            with self.assertRaisesRegex(RuntimeError, "HTTP 500: Registration rejected"):
-                av._post_data_sync()
+                av.register_to_agentverse_sync(request, {}, config)
 
 
 if __name__ == "__main__":
