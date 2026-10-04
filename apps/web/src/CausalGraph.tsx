@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import {
   Background,
   Controls,
@@ -12,12 +12,26 @@ import {
 } from '@xyflow/react';
 import type { DebuggerSnapshot, GraphNode, ReplayStep } from '@ravel/shared';
 import '@xyflow/react/dist/style.css';
+import { visibleVersionIds } from './graphFocus';
 
-type ResourceNode = Node<GraphNode & { highlighted: boolean }, 'resource'>;
+type ResourceNode = Node<
+  GraphNode & { highlighted: boolean; inspect: (node: GraphNode) => void },
+  'resource'
+>;
 function VersionNode({ data }: NodeProps<ResourceNode>) {
   return (
     <div
       className={`version-node ${data.state.toLowerCase()} ${data.highlighted ? 'highlighted' : ''}`}
+      role="button"
+      tabIndex={0}
+      aria-label={`Inspect ${data.label}, ${data.state.replaceAll('_', ' ').toLowerCase()}${data.currentHead ? ', current head' : ''}`}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          event.stopPropagation();
+          data.inspect(data);
+        }
+      }}
     >
       <Handle type="target" position={Position.Left} />
       <span className="node-resource">{data.resourceId}</span>
@@ -38,38 +52,88 @@ export function CausalGraph({
   snapshot,
   step,
   inspect,
+  selectedVersionId,
+  hazardId,
+  showHistory = false,
 }: {
   snapshot: DebuggerSnapshot;
   step: ReplayStep | null;
   inspect: (node: GraphNode) => void;
+  selectedVersionId?: string | null;
+  hazardId?: string | null;
+  showHistory?: boolean;
 }) {
+  const [dimensions, setDimensions] = useState<Record<string, { width: number; height: number }>>(
+    {},
+  );
+  const hazard = snapshot.hazards.find((h) => h.id === hazardId);
+  const focus = hazard
+    ? new Set([
+        hazard.observedVersionId,
+        hazard.staleSinceVersionId,
+        hazard.consumerVersionId,
+        ...hazard.activeBlastRadius,
+      ])
+    : null;
+  const visible = visibleVersionIds(snapshot, {
+    hazardId,
+    selectedVersionId,
+    highlightNodes: step?.highlightNodes,
+    showHistory,
+  });
+  const resources = [
+    ...new Set(
+      snapshot.graph.nodes.filter((node) => visible.has(node.id)).map((node) => node.resourceId),
+    ),
+  ];
   const nodes: ResourceNode[] = useMemo(
     () =>
-      snapshot.graph.nodes.map((node) => ({
-        id: node.id,
-        type: 'resource',
-        position: { x: node.x, y: node.y },
-        data: { ...node, highlighted: step?.highlightNodes.includes(node.id) ?? false },
-      })),
-    [snapshot.graph.nodes, step],
+      snapshot.graph.nodes
+        .filter((node) => visible.has(node.id))
+        .map((node) => ({
+          id: node.id,
+          type: 'resource',
+          measured: dimensions[node.id],
+          position: {
+            x: resources.indexOf(node.resourceId) * 270,
+            y:
+              snapshot.graph.nodes.filter(
+                (other) =>
+                  visible.has(other.id) &&
+                  other.resourceId === node.resourceId &&
+                  other.generation < node.generation,
+              ).length * 120,
+          },
+          data: {
+            ...node,
+            highlighted:
+              node.id === selectedVersionId ||
+              (step?.highlightNodes.includes(node.id) ?? false) ||
+              !!focus?.has(node.id),
+            inspect,
+          },
+        })),
+    [snapshot.graph.nodes, step, inspect, selectedVersionId, hazardId, showHistory, dimensions],
   );
   const edges: Edge[] = useMemo(
     () =>
-      snapshot.graph.edges.map((edge) => ({
-        id: edge.id,
-        source: edge.source,
-        target: edge.target,
-        type: edge.kind === 'VERSION_SUCCESSOR' ? 'smoothstep' : 'default',
-        animated: step?.highlightEdges.includes(edge.id),
-        style: {
-          stroke: edge.kind === 'VERSION_SUCCESSOR' ? '#c1c9b3' : '#bc9979',
-          strokeWidth: 1.5,
-          strokeDasharray: edge.kind === 'VERSION_SUCCESSOR' ? '4 5' : undefined,
-        },
-        markerEnd: { type: MarkerType.ArrowClosed, color: '#a8b295' },
-        ariaLabel: edge.label,
-      })),
-    [snapshot.graph.edges, step],
+      snapshot.graph.edges
+        .filter((edge) => visible.has(edge.source) && visible.has(edge.target))
+        .map((edge) => ({
+          id: edge.id,
+          source: edge.source,
+          target: edge.target,
+          type: edge.kind === 'VERSION_SUCCESSOR' ? 'smoothstep' : 'default',
+          animated: step?.highlightEdges.includes(edge.id),
+          style: {
+            stroke: edge.kind === 'VERSION_SUCCESSOR' ? 'var(--muted)' : 'var(--amber)',
+            strokeWidth: 1.5,
+            strokeDasharray: edge.kind === 'VERSION_SUCCESSOR' ? '4 5' : undefined,
+          },
+          markerEnd: { type: MarkerType.ArrowClosed, color: '#a4adb5' },
+          ariaLabel: edge.label,
+        })),
+    [snapshot.graph.edges, step, snapshot.graph.nodes, selectedVersionId, hazardId, showHistory],
   );
   return (
     <section className="panel graph-panel">
@@ -82,27 +146,46 @@ export function CausalGraph({
       </div>
       <div className="flow-container">
         <ReactFlow
-          key={`${snapshot.run.id}:${snapshot.graph.nodes.length}`}
+          key={`${snapshot.run.id}:${nodes.map((node) => node.id).join(',')}`}
           nodes={nodes}
+          onNodesChange={(changes) =>
+            setDimensions((old) => {
+              let next = old;
+              for (const change of changes) {
+                if (change.type !== 'dimensions' || !change.dimensions) continue;
+                const prior = old[change.id];
+                if (
+                  prior?.width === change.dimensions.width &&
+                  prior?.height === change.dimensions.height
+                )
+                  continue;
+                if (next === old) next = { ...old };
+                next[change.id] = change.dimensions;
+              }
+              return next;
+            })
+          }
           edges={edges}
           nodeTypes={nodeTypes}
           fitView
           fitViewOptions={{ padding: 0.22, maxZoom: 1.1 }}
           nodesDraggable={false}
+          nodesFocusable={false}
           nodesConnectable={false}
           deleteKeyCode={null}
+          colorMode="dark"
           onNodeClick={(_event, node) => inspect(node.data)}
-          minZoom={0.25}
+          minZoom={0.1}
           maxZoom={1.8}
         >
-          <Background gap={22} color="#e6ebdc" />
+          <Background gap={22} color="var(--line)" />
           <Controls showInteractive={false} />
         </ReactFlow>
       </div>
       <div className="graph-foot">
         <span>
           <i className="line-key" />
-          Candidate derivation
+          Derived from observed version
         </span>
         <span>
           <i className="line-key dashed" />

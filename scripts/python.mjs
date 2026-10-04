@@ -13,7 +13,14 @@ const bundled = join(
 );
 const candidates = process.env.RAVEL_PYTHON
   ? [process.env.RAVEL_PYTHON]
-  : ['python3', 'python', ...(existsSync(bundled) ? [bundled] : [])];
+  : [
+      ...(existsSync(resolve(root, '.ravel/sponsors-venv/Scripts/python.exe'))
+        ? [resolve(root, '.ravel/sponsors-venv/Scripts/python.exe')]
+        : []),
+      'python3',
+      'python',
+      ...(existsSync(bundled) ? [bundled] : []),
+    ];
 const python = candidates.find((command) => {
   const probe = spawnSync(command, ['-c', 'import sys; sys.exit(sys.version_info < (3, 11))'], {
     stdio: 'ignore',

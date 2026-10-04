@@ -1,0 +1,791 @@
+{
+  "schema_version": 1,
+  "benchmark": "AsynCodeBench",
+  "scope": "local task subset; not a full benchmark score",
+  "notes": [
+    "Comparison rows require upstream valid instrumentation, official aggregate eligibility, and matching artifact checksums.",
+    "Invalid attempts are retained only as diagnostics.",
+    "Null metrics are unavailable; reported cost zero does not establish free API usage.",
+    "Ravel adapter and comparison are pending; native and Ravel metrics remain separate."
+  ],
+  "comparison": [
+    {
+      "artifact_directory": "native-20261004T052326",
+      "task": "asyncodebench:cachetools",
+      "protocol": "single",
+      "release": "v0.3",
+      "status": "valid",
+      "admitted": true,
+      "local_artifact_issues": [],
+      "hard_failures": [],
+      "provenance": {
+        "benchmark_revision": "566c32b6f4ad209ecfe95f10970b02d4b79289c1",
+        "sdk_revision": "944284310d9a5f1ccad0ef8c2d7c4c38342b9952",
+        "model": "gemini/gemini-3.5-flash-lite",
+        "subagent_model": "gemini/gemini-3.5-flash-lite"
+      },
+      "budgets": {
+        "final_evaluator_source": "asyncodebench_manifest",
+        "final_pytest_timeout_seconds": 900,
+        "manager_max_iterations": 100,
+        "max_rounds_chat": 2,
+        "max_subagents": 1,
+        "probe_timeout_seconds": 60,
+        "scenario_declared_agents": 1,
+        "subagent_max_iterations": 100
+      },
+      "execution_profile": {
+        "profile_id": "asyncodebench-v0.3-standard-100",
+        "path": "configs/evaluation/official_execution_profile.v2.json",
+        "sha256": "4d63f8d7176c0391528b39e283cd2f7ba53c15c99bc958f9674ebbe65cbef609"
+      },
+      "manager_budget": null,
+      "native": {
+        "assignment_attempts": 1,
+        "model_calls": 22,
+        "final_test": {
+          "collected": 215,
+          "errors": 0,
+          "evaluation_failure_kind": null,
+          "exit_code": 0,
+          "failed": 0,
+          "outcome": "passed",
+          "passed": 215,
+          "success": true,
+          "synthetic_summary": false,
+          "timed_out": false
+        },
+        "adpr": {
+          "resolved": 5,
+          "total": 5,
+          "value": 1.0
+        },
+        "strict_drs": {
+          "max": 1,
+          "min": 1,
+          "observed_count": 5,
+          "unresolved_count": 0
+        },
+        "normalized_drs": null,
+        "dependencies": [
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.keys_to_func.untyped_key_contract",
+            "downstream_resolution_step": 1,
+            "final_integrated_pass": true,
+            "producer_agent": "key_agent",
+            "status": "resolved",
+            "strict_CAIL": 0,
+            "strict_DRS": 1,
+            "upstream_resolution_step": 1
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.keys_to_func.typed_key_contract",
+            "downstream_resolution_step": 1,
+            "final_integrated_pass": true,
+            "producer_agent": "key_agent",
+            "status": "resolved",
+            "strict_CAIL": 0,
+            "strict_DRS": 1,
+            "upstream_resolution_step": 1
+          },
+          {
+            "consumer_agent": "integrator",
+            "dependency_id": "cachetools.keys_to_cachedmethod.typed_method_key_contract",
+            "downstream_resolution_step": 1,
+            "final_integrated_pass": true,
+            "producer_agent": "key_agent",
+            "status": "resolved",
+            "strict_CAIL": 0,
+            "strict_DRS": 1,
+            "upstream_resolution_step": 1
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.core_to_func.wrapper_metadata_contract",
+            "downstream_resolution_step": 1,
+            "final_integrated_pass": true,
+            "producer_agent": "integrator",
+            "status": "resolved",
+            "strict_CAIL": 0,
+            "strict_DRS": 1,
+            "upstream_resolution_step": 1
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.core_to_func.maxsize_and_lock_contract",
+            "downstream_resolution_step": 1,
+            "final_integrated_pass": true,
+            "producer_agent": "integrator",
+            "status": "resolved",
+            "strict_CAIL": 0,
+            "strict_DRS": 1,
+            "upstream_resolution_step": 1
+          }
+        ],
+        "checkpoint_count": 1,
+        "wall_seconds": 314.161325,
+        "infrastructure_timing": null,
+        "agent_seconds": 257.046405,
+        "input_tokens": 789112,
+        "output_tokens": 4194,
+        "total_tokens": 793306,
+        "reported_cost_usd": 0.06445263000000001
+      },
+      "ravel": null
+    },
+    {
+      "artifact_directory": "native-20261004T054035",
+      "task": "asyncodebench:cachetools",
+      "protocol": "async_private",
+      "release": "v0.3",
+      "status": "valid",
+      "admitted": true,
+      "local_artifact_issues": [],
+      "hard_failures": [],
+      "provenance": {
+        "benchmark_revision": "566c32b6f4ad209ecfe95f10970b02d4b79289c1",
+        "sdk_revision": "944284310d9a5f1ccad0ef8c2d7c4c38342b9952",
+        "model": "gemini/gemini-3.5-flash-lite",
+        "subagent_model": "gemini/gemini-3.5-flash-lite"
+      },
+      "budgets": {
+        "final_evaluator_source": "asyncodebench_manifest",
+        "final_pytest_timeout_seconds": 900,
+        "manager_max_iterations": 100,
+        "max_rounds_chat": 2,
+        "max_subagents": 2,
+        "probe_timeout_seconds": 60,
+        "scenario_declared_agents": 2,
+        "subagent_max_iterations": 100
+      },
+      "execution_profile": {
+        "profile_id": "asyncodebench-v0.3-standard-100",
+        "path": "configs/evaluation/official_execution_profile.v2.json",
+        "sha256": "4d63f8d7176c0391528b39e283cd2f7ba53c15c99bc958f9674ebbe65cbef609"
+      },
+      "manager_budget": null,
+      "native": {
+        "assignment_attempts": 2,
+        "model_calls": 57,
+        "final_test": {
+          "collected": 215,
+          "errors": 0,
+          "evaluation_failure_kind": null,
+          "exit_code": 0,
+          "failed": 0,
+          "outcome": "passed",
+          "passed": 215,
+          "success": true,
+          "synthetic_summary": false,
+          "timed_out": false
+        },
+        "adpr": {
+          "resolved": 5,
+          "total": 5,
+          "value": 1.0
+        },
+        "strict_drs": {
+          "max": 4,
+          "min": 2,
+          "observed_count": 5,
+          "unresolved_count": 0
+        },
+        "normalized_drs": null,
+        "dependencies": [
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.keys_to_func.untyped_key_contract",
+            "downstream_resolution_step": 2,
+            "final_integrated_pass": true,
+            "producer_agent": "key_agent",
+            "status": "resolved",
+            "strict_CAIL": 1,
+            "strict_DRS": 4,
+            "upstream_resolution_step": 1
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.keys_to_func.typed_key_contract",
+            "downstream_resolution_step": 4,
+            "final_integrated_pass": true,
+            "producer_agent": "key_agent",
+            "status": "resolved",
+            "strict_CAIL": 3,
+            "strict_DRS": 4,
+            "upstream_resolution_step": 1
+          },
+          {
+            "consumer_agent": "integrator",
+            "dependency_id": "cachetools.keys_to_cachedmethod.typed_method_key_contract",
+            "downstream_resolution_step": 1,
+            "final_integrated_pass": true,
+            "producer_agent": "key_agent",
+            "status": "resolved",
+            "strict_CAIL": 0,
+            "strict_DRS": 2,
+            "upstream_resolution_step": 1
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.core_to_func.wrapper_metadata_contract",
+            "downstream_resolution_step": 2,
+            "final_integrated_pass": true,
+            "producer_agent": "integrator",
+            "status": "resolved",
+            "strict_CAIL": 1,
+            "strict_DRS": 4,
+            "upstream_resolution_step": 1
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.core_to_func.maxsize_and_lock_contract",
+            "downstream_resolution_step": 4,
+            "final_integrated_pass": true,
+            "producer_agent": "integrator",
+            "status": "resolved",
+            "strict_CAIL": 3,
+            "strict_DRS": 4,
+            "upstream_resolution_step": 1
+          }
+        ],
+        "checkpoint_count": 7,
+        "wall_seconds": 658.587726,
+        "infrastructure_timing": {
+          "raw_protocol_seconds": 658.587726,
+          "worktree_preparation_seconds": 0.0,
+          "reported_protocol_seconds": 658.587726
+        },
+        "agent_seconds": 969.364941,
+        "input_tokens": 1952398,
+        "output_tokens": 22374,
+        "total_tokens": 1974772,
+        "reported_cost_usd": 0.20837055
+      },
+      "ravel": null
+    },
+    {
+      "artifact_directory": "native-20261004T061843",
+      "task": "asyncodebench:cachetools",
+      "protocol": "caid_manager",
+      "release": "v0.3",
+      "status": "valid",
+      "admitted": true,
+      "local_artifact_issues": [],
+      "hard_failures": [],
+      "provenance": {
+        "benchmark_revision": "566c32b6f4ad209ecfe95f10970b02d4b79289c1",
+        "sdk_revision": "944284310d9a5f1ccad0ef8c2d7c4c38342b9952",
+        "model": "gemini/gemini-3.5-flash-lite",
+        "subagent_model": "gemini/gemini-3.5-flash-lite"
+      },
+      "budgets": {
+        "final_evaluator_source": "asyncodebench_manifest",
+        "final_pytest_timeout_seconds": 900,
+        "manager_max_iterations": 100,
+        "max_rounds_chat": 2,
+        "max_subagents": 2,
+        "probe_timeout_seconds": 60,
+        "scenario_declared_agents": 2,
+        "subagent_max_iterations": 100
+      },
+      "execution_profile": {
+        "profile_id": "asyncodebench-v0.3-standard-100",
+        "path": "configs/evaluation/official_execution_profile.v2.json",
+        "sha256": "4d63f8d7176c0391528b39e283cd2f7ba53c15c99bc958f9674ebbe65cbef609"
+      },
+      "manager_budget": null,
+      "native": {
+        "assignment_attempts": 2,
+        "model_calls": 80,
+        "final_test": {
+          "collected": 215,
+          "errors": 0,
+          "evaluation_failure_kind": null,
+          "exit_code": 0,
+          "failed": 0,
+          "outcome": "passed",
+          "passed": 215,
+          "success": true,
+          "synthetic_summary": false,
+          "timed_out": false
+        },
+        "adpr": {
+          "resolved": 5,
+          "total": 5,
+          "value": 1.0
+        },
+        "strict_drs": {
+          "max": 4,
+          "min": 2,
+          "observed_count": 5,
+          "unresolved_count": 0
+        },
+        "normalized_drs": null,
+        "dependencies": [
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.keys_to_func.untyped_key_contract",
+            "downstream_resolution_step": 3,
+            "final_integrated_pass": true,
+            "producer_agent": "key_agent",
+            "status": "resolved",
+            "strict_CAIL": 2,
+            "strict_DRS": 4,
+            "upstream_resolution_step": 1
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.keys_to_func.typed_key_contract",
+            "downstream_resolution_step": 4,
+            "final_integrated_pass": true,
+            "producer_agent": "key_agent",
+            "status": "resolved",
+            "strict_CAIL": 3,
+            "strict_DRS": 4,
+            "upstream_resolution_step": 1
+          },
+          {
+            "consumer_agent": "integrator",
+            "dependency_id": "cachetools.keys_to_cachedmethod.typed_method_key_contract",
+            "downstream_resolution_step": 1,
+            "final_integrated_pass": true,
+            "producer_agent": "key_agent",
+            "status": "resolved",
+            "strict_CAIL": 0,
+            "strict_DRS": 2,
+            "upstream_resolution_step": 1
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.core_to_func.wrapper_metadata_contract",
+            "downstream_resolution_step": 3,
+            "final_integrated_pass": true,
+            "producer_agent": "integrator",
+            "status": "resolved",
+            "strict_CAIL": 2,
+            "strict_DRS": 4,
+            "upstream_resolution_step": 1
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.core_to_func.maxsize_and_lock_contract",
+            "downstream_resolution_step": 4,
+            "final_integrated_pass": true,
+            "producer_agent": "integrator",
+            "status": "resolved",
+            "strict_CAIL": 3,
+            "strict_DRS": 4,
+            "upstream_resolution_step": 1
+          }
+        ],
+        "checkpoint_count": 5,
+        "wall_seconds": 957.10277,
+        "infrastructure_timing": null,
+        "agent_seconds": 1348.0234480000001,
+        "input_tokens": 2868701,
+        "output_tokens": 32497,
+        "total_tokens": 2901198,
+        "reported_cost_usd": 0.31705120000000003
+      },
+      "ravel": null
+    },
+    {
+      "artifact_directory": "native-20261004T065051",
+      "task": "asyncodebench:cachetools",
+      "protocol": "async_manager",
+      "release": "v0.3",
+      "status": "valid",
+      "admitted": true,
+      "local_artifact_issues": [],
+      "hard_failures": [],
+      "provenance": {
+        "benchmark_revision": "566c32b6f4ad209ecfe95f10970b02d4b79289c1",
+        "sdk_revision": "944284310d9a5f1ccad0ef8c2d7c4c38342b9952",
+        "model": "gemini/gemini-3.5-flash-lite",
+        "subagent_model": "gemini/gemini-3.5-flash-lite"
+      },
+      "budgets": {
+        "final_evaluator_source": "asyncodebench_manifest",
+        "final_pytest_timeout_seconds": 900,
+        "manager_max_iterations": 30,
+        "max_rounds_chat": 2,
+        "max_subagents": 2,
+        "probe_timeout_seconds": 60,
+        "scenario_declared_agents": 2,
+        "subagent_max_iterations": 100
+      },
+      "execution_profile": {
+        "profile_id": "asyncodebench-five-protocol-budgeted-manager-100",
+        "path": "configs/evaluation/official_execution_profile.v4.json",
+        "sha256": "da2bebf1a3b7f9684695615d77aa1e6aedb8fe23c743f31e0d46ce9143e946cd"
+      },
+      "manager_budget": {
+        "manager_max_iterations_per_event": 30,
+        "manager_max_iterations_total": 100,
+        "manager_max_tokens_total": 8000000,
+        "manager_max_active_seconds_total": 21600,
+        "manager_max_interventions": 6
+      },
+      "native": {
+        "assignment_attempts": 2,
+        "model_calls": 78,
+        "final_test": {
+          "collected": 215,
+          "errors": 0,
+          "evaluation_failure_kind": null,
+          "exit_code": 0,
+          "failed": 0,
+          "outcome": "passed",
+          "passed": 215,
+          "success": true,
+          "synthetic_summary": false,
+          "timed_out": false
+        },
+        "adpr": {
+          "resolved": 5,
+          "total": 5,
+          "value": 1.0
+        },
+        "strict_drs": {
+          "max": 4,
+          "min": 2,
+          "observed_count": 5,
+          "unresolved_count": 0
+        },
+        "normalized_drs": null,
+        "dependencies": [
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.keys_to_func.untyped_key_contract",
+            "downstream_resolution_step": 3,
+            "final_integrated_pass": true,
+            "producer_agent": "key_agent",
+            "status": "resolved",
+            "strict_CAIL": 2,
+            "strict_DRS": 4,
+            "upstream_resolution_step": 1
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.keys_to_func.typed_key_contract",
+            "downstream_resolution_step": 4,
+            "final_integrated_pass": true,
+            "producer_agent": "key_agent",
+            "status": "resolved",
+            "strict_CAIL": 3,
+            "strict_DRS": 4,
+            "upstream_resolution_step": 1
+          },
+          {
+            "consumer_agent": "integrator",
+            "dependency_id": "cachetools.keys_to_cachedmethod.typed_method_key_contract",
+            "downstream_resolution_step": 1,
+            "final_integrated_pass": true,
+            "producer_agent": "key_agent",
+            "status": "resolved",
+            "strict_CAIL": 0,
+            "strict_DRS": 2,
+            "upstream_resolution_step": 1
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.core_to_func.wrapper_metadata_contract",
+            "downstream_resolution_step": 3,
+            "final_integrated_pass": true,
+            "producer_agent": "integrator",
+            "status": "resolved",
+            "strict_CAIL": 2,
+            "strict_DRS": 4,
+            "upstream_resolution_step": 1
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.core_to_func.maxsize_and_lock_contract",
+            "downstream_resolution_step": 4,
+            "final_integrated_pass": true,
+            "producer_agent": "integrator",
+            "status": "resolved",
+            "strict_CAIL": 3,
+            "strict_DRS": 4,
+            "upstream_resolution_step": 1
+          }
+        ],
+        "checkpoint_count": 5,
+        "wall_seconds": 858.1847829180008,
+        "infrastructure_timing": {
+          "raw_protocol_seconds": 858.184802,
+          "worktree_preparation_seconds": 1.9081999198533595e-05,
+          "reported_protocol_seconds": 858.1847829180008
+        },
+        "agent_seconds": 1197.4638176240012,
+        "input_tokens": 2365840,
+        "output_tokens": 30448,
+        "total_tokens": 2396288,
+        "reported_cost_usd": 0.27273780999999997
+      },
+      "ravel": null
+    }
+  ],
+  "excluded_attempts": [
+    {
+      "artifact_directory": "native-20261004T030310",
+      "task": "asyncodebench:cachetools",
+      "protocol": "single",
+      "release": "v0.3",
+      "status": "invalid",
+      "admitted": false,
+      "local_artifact_issues": [],
+      "hard_failures": [
+        "execution_error"
+      ],
+      "provenance": {
+        "benchmark_revision": "566c32b6f4ad209ecfe95f10970b02d4b79289c1",
+        "sdk_revision": "944284310d9a5f1ccad0ef8c2d7c4c38342b9952",
+        "model": "openai/gemini-3.5-flash-lite",
+        "subagent_model": "openai/gemini-3.5-flash-lite"
+      },
+      "budgets": {
+        "final_evaluator_source": "asyncodebench_manifest",
+        "final_pytest_timeout_seconds": 900,
+        "manager_max_iterations": 100,
+        "max_rounds_chat": 2,
+        "max_subagents": 1,
+        "probe_timeout_seconds": 60,
+        "scenario_declared_agents": 1,
+        "subagent_max_iterations": 100
+      },
+      "execution_profile": {
+        "profile_id": "asyncodebench-v0.3-standard-100",
+        "path": "configs/evaluation/official_execution_profile.v2.json",
+        "sha256": "4d63f8d7176c0391528b39e283cd2f7ba53c15c99bc958f9674ebbe65cbef609"
+      },
+      "manager_budget": null,
+      "native": {
+        "assignment_attempts": 1,
+        "model_calls": 1,
+        "final_test": {
+          "collected": 215,
+          "errors": 0,
+          "evaluation_failure_kind": null,
+          "exit_code": 1,
+          "failed": 62,
+          "outcome": "failed",
+          "passed": 153,
+          "success": false,
+          "synthetic_summary": false,
+          "timed_out": false
+        },
+        "adpr": {
+          "resolved": 0,
+          "total": 5,
+          "value": 0.0
+        },
+        "strict_drs": {
+          "max": null,
+          "min": null,
+          "observed_count": 0,
+          "unresolved_count": 5
+        },
+        "normalized_drs": null,
+        "dependencies": [
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.keys_to_func.untyped_key_contract",
+            "downstream_resolution_step": null,
+            "final_integrated_pass": false,
+            "producer_agent": "key_agent",
+            "status": "unresolved_final_integrated",
+            "strict_CAIL": null,
+            "strict_DRS": null,
+            "upstream_resolution_step": null
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.keys_to_func.typed_key_contract",
+            "downstream_resolution_step": null,
+            "final_integrated_pass": false,
+            "producer_agent": "key_agent",
+            "status": "unresolved_final_integrated",
+            "strict_CAIL": null,
+            "strict_DRS": null,
+            "upstream_resolution_step": null
+          },
+          {
+            "consumer_agent": "integrator",
+            "dependency_id": "cachetools.keys_to_cachedmethod.typed_method_key_contract",
+            "downstream_resolution_step": null,
+            "final_integrated_pass": false,
+            "producer_agent": "key_agent",
+            "status": "unresolved_final_integrated",
+            "strict_CAIL": null,
+            "strict_DRS": null,
+            "upstream_resolution_step": null
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.core_to_func.wrapper_metadata_contract",
+            "downstream_resolution_step": null,
+            "final_integrated_pass": false,
+            "producer_agent": "integrator",
+            "status": "unresolved_final_integrated",
+            "strict_CAIL": null,
+            "strict_DRS": null,
+            "upstream_resolution_step": 1
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.core_to_func.maxsize_and_lock_contract",
+            "downstream_resolution_step": null,
+            "final_integrated_pass": false,
+            "producer_agent": "integrator",
+            "status": "unresolved_final_integrated",
+            "strict_CAIL": null,
+            "strict_DRS": null,
+            "upstream_resolution_step": 1
+          }
+        ],
+        "checkpoint_count": 1,
+        "wall_seconds": 426.231723,
+        "infrastructure_timing": null,
+        "agent_seconds": 6.246085,
+        "input_tokens": 7991,
+        "output_tokens": 61,
+        "total_tokens": 8052,
+        "reported_cost_usd": 0.0
+      },
+      "ravel": null
+    },
+    {
+      "artifact_directory": "native-20261004T051418",
+      "task": "asyncodebench:cachetools",
+      "protocol": "single",
+      "release": "v0.3",
+      "status": "invalid",
+      "admitted": false,
+      "local_artifact_issues": [],
+      "hard_failures": [
+        "zero_model_iterations",
+        "no_model_execution_evidence",
+        "execution_error"
+      ],
+      "provenance": {
+        "benchmark_revision": "566c32b6f4ad209ecfe95f10970b02d4b79289c1",
+        "sdk_revision": "944284310d9a5f1ccad0ef8c2d7c4c38342b9952",
+        "model": "gemini/gemini-3.5-flash-lite",
+        "subagent_model": "gemini/gemini-3.5-flash-lite"
+      },
+      "budgets": {
+        "final_evaluator_source": "asyncodebench_manifest",
+        "final_pytest_timeout_seconds": 900,
+        "manager_max_iterations": 100,
+        "max_rounds_chat": 2,
+        "max_subagents": 1,
+        "probe_timeout_seconds": 60,
+        "scenario_declared_agents": 1,
+        "subagent_max_iterations": 100
+      },
+      "execution_profile": {
+        "profile_id": "asyncodebench-v0.3-standard-100",
+        "path": "configs/evaluation/official_execution_profile.v2.json",
+        "sha256": "4d63f8d7176c0391528b39e283cd2f7ba53c15c99bc958f9674ebbe65cbef609"
+      },
+      "manager_budget": null,
+      "native": {
+        "assignment_attempts": 1,
+        "model_calls": 0,
+        "final_test": {
+          "collected": 215,
+          "errors": 0,
+          "evaluation_failure_kind": null,
+          "exit_code": 1,
+          "failed": 62,
+          "outcome": "failed",
+          "passed": 153,
+          "success": false,
+          "synthetic_summary": false,
+          "timed_out": false
+        },
+        "adpr": {
+          "resolved": 0,
+          "total": 5,
+          "value": 0.0
+        },
+        "strict_drs": {
+          "max": null,
+          "min": null,
+          "observed_count": 0,
+          "unresolved_count": 5
+        },
+        "normalized_drs": null,
+        "dependencies": [
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.keys_to_func.untyped_key_contract",
+            "downstream_resolution_step": null,
+            "final_integrated_pass": false,
+            "producer_agent": "key_agent",
+            "status": "unresolved_final_integrated",
+            "strict_CAIL": null,
+            "strict_DRS": null,
+            "upstream_resolution_step": null
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.keys_to_func.typed_key_contract",
+            "downstream_resolution_step": null,
+            "final_integrated_pass": false,
+            "producer_agent": "key_agent",
+            "status": "unresolved_final_integrated",
+            "strict_CAIL": null,
+            "strict_DRS": null,
+            "upstream_resolution_step": null
+          },
+          {
+            "consumer_agent": "integrator",
+            "dependency_id": "cachetools.keys_to_cachedmethod.typed_method_key_contract",
+            "downstream_resolution_step": null,
+            "final_integrated_pass": false,
+            "producer_agent": "key_agent",
+            "status": "unresolved_final_integrated",
+            "strict_CAIL": null,
+            "strict_DRS": null,
+            "upstream_resolution_step": null
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.core_to_func.wrapper_metadata_contract",
+            "downstream_resolution_step": null,
+            "final_integrated_pass": false,
+            "producer_agent": "integrator",
+            "status": "unresolved_final_integrated",
+            "strict_CAIL": null,
+            "strict_DRS": null,
+            "upstream_resolution_step": 1
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.core_to_func.maxsize_and_lock_contract",
+            "downstream_resolution_step": null,
+            "final_integrated_pass": false,
+            "producer_agent": "integrator",
+            "status": "unresolved_final_integrated",
+            "strict_CAIL": null,
+            "strict_DRS": null,
+            "upstream_resolution_step": 1
+          }
+        ],
+        "checkpoint_count": 1,
+        "wall_seconds": 73.078495,
+        "infrastructure_timing": null,
+        "agent_seconds": 5.446085,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "reported_cost_usd": 0.0
+      },
+      "ravel": null
+    }
+  ]
+}

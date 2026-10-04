@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"ravel/runtime/projection"
 	"strconv"
 	"strings"
 	"sync"
@@ -29,6 +30,8 @@ type Service struct {
 	cancel       context.CancelFunc
 	jobs         sync.WaitGroup
 	handler      http.Handler
+	liveConfig   Object
+	liveStatus   *ProjectionStatus
 }
 
 func NewService(directory, staticRoot string, seed bool) (*Service, error) {
@@ -199,13 +202,16 @@ func sequence(r *http.Request) (int, error) {
 func (s *Service) routes(staticRoot string) {
 	mux := http.NewServeMux()
 	s.handler = mux
+	mux.Handle("GET /api/live-demo/", liveDemoProxy())
+	mux.Handle("POST /api/live-demo/", liveDemoProxy())
 	route := func(method, path string, h http.HandlerFunc) {
 		mux.HandleFunc(method+" /api"+path, h)
 		mux.HandleFunc(method+" "+path, h)
 	}
 	route("GET", "/health", func(w http.ResponseWriter, r *http.Request) {
-		writeJSON(w, 200, Object{"status": "ok", "version": "0.3.0", "runtime": "go", "integrations": []Object{{"name": "Gemini", "enabled": false, "configured": strings.TrimSpace(os.Getenv("GEMINI_API_KEY")) != "", "reason": "Available through pnpm gemini in Python; the Go runtime does not invoke providers."}, {"name": "SpacetimeDB", "enabled": false, "configured": false, "reason": "Not implemented; local SSE provides live updates."}, {"name": "Fetch", "enabled": false, "configured": false, "reason": "Python inspector transport placeholder."}}})
+		writeJSON(w, 200, Object{"status": "ok", "version": "0.3.0", "runtime": "go", "integrations": []Object{{"name": "Gemini", "enabled": false, "configured": strings.TrimSpace(os.Getenv("GEMINI_API_KEY")) != "", "reason": "Available through pnpm gemini in Python; the Go runtime does not invoke providers."}, s.projectionInfo(), {"name": "Fetch", "enabled": false, "configured": strings.TrimSpace(os.Getenv("AGENTVERSE_AGENT_URI")) != "", "reason": "Optional Python Inspector; started separately."}}})
 	})
+	route("GET", "/live", func(w http.ResponseWriter, r *http.Request) { writeJSON(w, 200, s.projectionInfo()) })
 	route("GET", "/runs", func(w http.ResponseWriter, r *http.Request) { v, err := s.Store.Runs(); respond(w, v, err) })
 	route("GET", "/runs/{runId}/debugger", func(w http.ResponseWriter, r *http.Request) {
 		seq, err := sequence(r)
@@ -412,10 +418,11 @@ func (s *Service) routes(staticRoot string) {
 	})
 	route("POST", "/runs/{runId}/attempts", func(w http.ResponseWriter, r *http.Request) {
 		var input struct {
-			AgentID string `json:"agentId"`
-			Name    string `json:"name"`
-			Prompt  string `json:"prompt"`
-			TaskID  string `json:"taskId"`
+			AgentID  string `json:"agentId"`
+			Name     string `json:"name"`
+			Prompt   string `json:"prompt"`
+			TaskID   string `json:"taskId"`
+			RepairOf string `json:"repairOf"`
 		}
 		if err := decode(w, r, &input); err != nil {
 			respond(w, nil, err)
@@ -426,7 +433,12 @@ func (s *Service) routes(staticRoot string) {
 			respond(w, nil, err)
 			return
 		}
-		a, err := c.CreateAttempt(input.AgentID, input.Name, input.Prompt, input.TaskID)
+		var a *Attempt
+		if input.RepairOf != "" {
+			a, err = c.CreateRepairAttempt(input.AgentID, input.TaskID, input.RepairOf)
+		} else {
+			a, err = c.CreateAttempt(input.AgentID, input.Name, input.Prompt, input.TaskID)
+		}
 		respond(w, a, err)
 	})
 	route("POST", "/runs/{runId}/attempts/{attemptId}/{operation}", s.agentOperation)
@@ -593,10 +605,7 @@ func (s *Service) stream(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Connection", "keep-alive")
 	w.Header().Set("X-Accel-Buffering", "no")
 	send := func(seq int, kind string) error {
-		_ = http.NewResponseController(w).SetWriteDeadline(time.Now().Add(10 * time.Second))
-		_, err := fmt.Fprintf(w, "id: %d\nevent: update\ndata: %s\n\n", seq, body(Object{"runId": c.RunID, "runtimeSeq": seq, "kind": kind}))
-		flusher.Flush()
-		return err
+		return (projection.SSE{Writer: w, Flusher: flusher}).Publish(r.Context(), projection.Update{RunID: c.RunID, RuntimeSeq: seq, Kind: kind})
 	}
 	for _, e := range state.Events {
 		if e.RuntimeSeq > last {

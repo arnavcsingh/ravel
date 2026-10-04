@@ -181,6 +181,21 @@ func (c *Coordinator) CreateAgent(name, adapter string) (string, error) {
 func (c *Coordinator) CreateAttempt(agentID, name, prompt, taskID string) (*Attempt, error) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
+	return c.createAttempt(agentID, name, prompt, taskID, nil)
+}
+
+// Repair is a fresh execution of an existing task, never a relabeling of its output.
+func (c *Coordinator) CreateRepairAttempt(agentID, taskID, repairOf string) (*Attempt, error) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	prior := c.current.Attempts[repairOf]
+	if prior == nil || prior.Status == "running" || prior.AgentID != agentID || prior.TaskID != taskID {
+		return nil, fmt.Errorf("repair must reference an ended attempt of the same agent and task")
+	}
+	return c.createAttempt(agentID, "", "", taskID, ptr(repairOf))
+}
+
+func (c *Coordinator) createAttempt(agentID, name, prompt, taskID string, repairOf *string) (*Attempt, error) {
 	if err := c.requireRun(); err != nil {
 		return nil, err
 	}
@@ -202,7 +217,7 @@ func (c *Coordinator) CreateAttempt(agentID, name, prompt, taskID string) (*Atte
 	}
 	id := ID()
 	err := c.record("TASK_ATTEMPT_START", func(eid string, _ int) any {
-		return map[string]any{"task": task, "attempt": Attempt{id, task.ID, agentID, number, "running", eid, nil, map[string]string{}, []string{}, []string{}}}
+		return map[string]any{"task": task, "attempt": Attempt{id, task.ID, agentID, number, "running", eid, nil, map[string]string{}, []string{}, []string{}, repairOf}}
 	}, "", agentID, "")
 	if err != nil {
 		return nil, err
@@ -270,6 +285,16 @@ type Observed struct {
 func observation(eid, attemptID, versionID, kind string) Observation {
 	return Observation{ID(), attemptID, versionID, eid, kind}
 }
+
+func (c *Coordinator) affectedVersion(id string) bool {
+	for _, h := range c.current.Hazards {
+		if contains(BlastRadius(h.ConsumerVersionID, c.current.Edges, c.current.Heads).Historical, id) {
+			return true
+		}
+	}
+	return false
+}
+
 func (c *Coordinator) Observe(attemptID, path string) (Observed, error) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
@@ -279,6 +304,9 @@ func (c *Coordinator) Observe(attemptID, path string) (Observed, error) {
 	v, err := c.snapshot(path, 1)
 	if err != nil {
 		return Observed{}, err
+	}
+	if c.current.Attempts[attemptID].RepairOf != nil && c.affectedVersion(v.ID) {
+		return Observed{}, fmt.Errorf("repair cannot use affected output %s as input; regenerate from fresh source dependencies", v.ResourceID)
 	}
 	content, err := c.Store.Content(v)
 	if err != nil {
@@ -339,6 +367,9 @@ func (c *Coordinator) Search(attemptID, query string) ([]Match, error) {
 		}
 		for i, line := range strings.Split(*content, "\n") {
 			if strings.Contains(line, query) {
+				if c.current.Attempts[attemptID].RepairOf != nil && c.affectedVersion(v.ID) {
+					return nil, fmt.Errorf("repair search matches affected output %s; observe fresh source dependencies directly", v.ResourceID)
+				}
 				matches = append(matches, Match{path, v.ID, i + 1, line})
 				if !contains(versions, v.ID) {
 					versions = append(versions, v.ID)
@@ -450,7 +481,8 @@ func (c *Coordinator) CommitWrite(ctx context.Context, intentID string) (WriteRe
 	if !exists {
 		return WriteResult{}, fmt.Errorf("pending mutation already settled")
 	}
-	if _, err := c.requireAttempt(intent.AttemptID); err != nil {
+	a, err := c.requireAttempt(intent.AttemptID)
+	if err != nil {
 		return WriteResult{}, err
 	}
 	head := c.current.Versions[c.current.Heads[intent.ResourceID]]
@@ -458,7 +490,17 @@ func (c *Coordinator) CommitWrite(ctx context.Context, intentID string) (WriteRe
 	if err != nil {
 		return WriteResult{}, err
 	}
-	if c.current.Run.Mode == "guard" && len(stale) > 0 {
+	if a.RepairOf != nil {
+		if len(intent.ObservationIDs) == 0 {
+			return WriteResult{}, fmt.Errorf("repair requires fresh source observations before publication")
+		}
+		for _, oid := range intent.ObservationIDs {
+			if c.affectedVersion(c.current.Observations[oid].VersionID) {
+				return WriteResult{}, fmt.Errorf("repair input carries affected provenance; regenerate from fresh source dependencies")
+			}
+		}
+	}
+	if (c.current.Run.Mode == "guard" || a.RepairOf != nil) && len(stale) > 0 {
 		ids := []string{}
 		for _, input := range stale {
 			ids = append(ids, input.Observation.ID)
@@ -470,7 +512,10 @@ func (c *Coordinator) CommitWrite(ctx context.Context, intentID string) (WriteRe
 		err = c.record("TASK_ATTEMPT_END", fixed(map[string]any{"status": "invalidated"}), intent.AttemptID, "", "")
 		return WriteResult{Rejected: true, Materialized: true}, err
 	}
-	if same(intent.CandidateHash, head.ContentHash) {
+	// An affected head must be replaced by the actual repair execution's provenance,
+	// even when its newly generated content shares the existing immutable blob.
+	regenerated := a.RepairOf != nil && c.affectedVersion(head.ID) && head.ProducerAttemptID != nil && c.current.Attempts[*head.ProducerAttemptID].TaskID == a.TaskID
+	if same(intent.CandidateHash, head.ContentHash) && !regenerated {
 		if err = c.record("NOOP_WRITE", func(eid string, _ int) any {
 			return map[string]any{"observation": observation(eid, intent.AttemptID, head.ID, "OWN_WRITE"), "intentId": intentID}
 		}, intent.AttemptID, "", ""); err != nil {
