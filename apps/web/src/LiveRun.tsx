@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { api } from './api';
+import { LiveRunDetails } from './LiveRunDetails';
+import { AgentCard as TraceAgentCard } from './AgentCard';
 import type { TimelineEvent } from '@ravel/shared';
 
 export type LiveRunStatus = {
@@ -12,12 +14,25 @@ export type LiveRunStatus = {
   canRepair: boolean;
   error?: string;
   warnings?: string[];
+  operationErrors?: { attemptId: string; operation: string; status: number; error: string }[];
   activeAffectedCount?: number;
   hazardCount?: number;
+  resultHistory?: Record<string, { attemptId: string; summary: string; committedWrites: number }>;
   results?: Record<string, { attemptId: string; summary: string; committedWrites: number }>;
-  attempts?: { id: string; role: string; number: number; status: string }[];
+  attempts?: {
+    id: string;
+    role: string;
+    number: number;
+    status: string;
+    agentId?: string;
+    taskId?: string;
+    repairOf?: string | null;
+  }[];
   repairs?: {
     status: string;
+    error?: string;
+    activeAffectedCount?: number;
+    attempts?: string[];
     replacements: { resourceId: string; before: string; after: string }[];
   }[];
 };
@@ -26,8 +41,11 @@ type LiveAgent = AgentConfig & {
   agentId: string;
   state: string;
   attempt: number;
+  attemptId?: string;
+  taskId?: string;
   error?: string;
   observed: { path: string; versionId: string; generation: number }[];
+  produced?: { path: string; versionId: string; generation: number }[];
   pending?: { path: string; intentId: string } | null;
   activeHazards?: number;
   scheduling?: { paused: boolean; pauseAfter: boolean; hold: boolean };
@@ -79,10 +97,14 @@ export function LiveRunPanel({
   status,
   onCreated,
   selectedAgentId,
+  historical = false,
+  selectAgent,
 }: {
   status: LiveRunStatus | null;
   onCreated: (id: string) => Promise<void>;
   selectedAgentId?: string | null;
+  historical?: boolean;
+  selectAgent?: (id: string) => void;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const [health, setHealth] = useState<Health | null>(null);
@@ -179,28 +201,19 @@ export function LiveRunPanel({
           Start <code>pnpm demo:live</code> to enable live runs.
         </p>
       )}
-      {status && (
-        <div className="live-run-status" role="status">
-          <strong>
-            {status.phase.toUpperCase()} ·{' '}
-            {status.scheduler === 'controlled'
-              ? 'Deterministic Race Reproduction'
-              : status.scheduler}
-          </strong>
-          {status.phase === 'held' && (
-            <p>
-              Backend’s real candidate is held while Database runs. It will be released through
-              normal validation.
-            </p>
-          )}
-          {status.phase === 'completed' && (
-            <p>
-              {status.activeAffectedCount === 0
-                ? 'No active stale lineage in the recorded state.'
-                : `${status.activeAffectedCount} active affected versions.`}{' '}
-              {status.hazardCount === 0 ? 'No hazard occurred; this is a valid outcome.' : ''}
-            </p>
-          )}
+      {historical && status && (
+        <p className="live-warning">
+          Current controller state · controls act on the live run. The debugger below shows
+          historical replay.
+        </p>
+      )}
+      {status && <LiveRunDetails status={status} />}
+      {status?.generic && (
+        <details
+          key={`${status.runId}:${['ready', 'running'].includes(status.phase)}`}
+          open={['ready', 'running'].includes(status.phase)}
+        >
+          <summary>Live agent controls and current task results</summary>
           {status.generic && (
             <div className="lab-agent-grid">
               {Object.entries(status.agents ?? {}).map(([id, agent]) => (
@@ -213,7 +226,12 @@ export function LiveRunPanel({
                   }
                   busy={busy}
                   selected={selectedAgentId === agent.agentId}
-                  result={status.results?.[id]}
+                  onSelect={() => selectAgent?.(agent.agentId)}
+                  result={
+                    status.results?.[id]?.attemptId === agent.attemptId
+                      ? status.results?.[id]
+                      : undefined
+                  }
                   command={(action, task) => void command(id, action, task)}
                 />
               ))}
@@ -240,39 +258,7 @@ export function LiveRunPanel({
                 </span>
               </div>
             )}
-          {!status.generic && (
-            <div className="live-health" aria-label="Task attempts">
-              {status.attempts?.map((attempt) => (
-                <span key={attempt.id}>
-                  {attempt.role} #{attempt.number} · {attempt.status} · {attempt.id.slice(0, 8)}
-                </span>
-              ))}
-            </div>
-          )}
-          {!status.generic &&
-            Object.entries(status.results ?? {}).map(([role, result]) => (
-              <p key={role}>
-                <b>{role}</b> · {result.committedWrites} writes ·{' '}
-                <span className="mono">{result.attemptId.slice(0, 8)}</span> · {result.summary}
-              </p>
-            ))}
-          {status.error && (
-            <p className="error" role="alert">
-              {status.error}
-            </p>
-          )}
-          {status.warnings?.map((warning, i) => (
-            <p className="live-warning" key={i}>
-              {warning}
-            </p>
-          ))}
-          {status.repairs?.map((repair, i) => (
-            <p key={i}>
-              Repair: {repair.status} · {repair.replacements.length} replacement versions.
-              Historical versions retained.
-            </p>
-          ))}
-        </div>
+        </details>
       )}
       <dialog ref={dialog} className="live-run-dialog">
         <button
@@ -567,6 +553,7 @@ function AgentCard({
   selected,
   command,
   result,
+  onSelect,
 }: {
   agent: LiveAgent;
   interactive: boolean;
@@ -574,6 +561,7 @@ function AgentCard({
   selected: boolean;
   command: (action: string, task?: string) => void;
   result?: { summary: string; committedWrites: number };
+  onSelect: () => void;
 }) {
   const [task, setTask] = useState(agent.task);
   const terminal = ['done', 'failed', 'interrupted'].includes(agent.state);
@@ -583,11 +571,31 @@ function AgentCard({
       className={`lab-agent-card ${selected ? 'selected' : ''} ${agent.state === 'held' ? 'held' : ''}`}
       aria-label={agent.name}
     >
-      <div className="live-run-heading">
-        <strong>{agent.name}</strong>
-        <span className="lab-state">{agent.state.toUpperCase()}</span>
-      </div>
-      <p>Attempt #{agent.attempt || '—'}</p>
+      <TraceAgentCard
+        agent={{
+          id: agent.agentId,
+          name: agent.name,
+          state: agent.state,
+          attempt: agent.attempt,
+          observed: [
+            ...new Map(
+              agent.observed.map((o) => [
+                o.versionId,
+                { id: o.versionId, label: `${o.path}@${o.generation}` },
+              ]),
+            ).values(),
+          ],
+          pendingMutation: agent.pending?.path,
+          output: agent.produced?.length
+            ? {
+                id: agent.produced.at(-1)!.versionId,
+                label: `${agent.produced.at(-1)!.path}@${agent.produced.at(-1)!.generation}`,
+              }
+            : undefined,
+        }}
+        selected={selected}
+        onSelect={onSelect}
+      />
       {!!agent.activeHazards && (
         <p className="live-warning">
           STALE · {agent.activeHazards} active dependency race{agent.activeHazards === 1 ? '' : 's'}

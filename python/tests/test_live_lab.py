@@ -4,6 +4,7 @@ import threading
 import time
 import unittest
 import json
+import os
 from pathlib import Path
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError
@@ -148,6 +149,70 @@ class LiveLabTests(unittest.TestCase):
         observations = [e["payload"]["observation"] for e in events if e["kind"] == "OBSERVE_RESOURCE" and e["attemptId"] == new["producerAttemptId"]]
         self.assertEqual([o["versionId"] for o in observations], [after["heads"]["types.ts"]])
 
+    def test_repair_attempt_history_survives_incomplete_failed_and_rejected_work(self):
+        manager = self.manager
+        class HistoryFixture(LabFixture):
+            repair_round = 0
+            def run_agent(provider, task, session, model):
+                source, target, transform = task["prompt"].splitlines()[0].split("|")
+                repair = session.identity.get("repairOf")
+                if repair and task["name"] == "Contract Builder":
+                    HistoryFixture.repair_round += 1
+                if repair and HistoryFixture.repair_round == 1:
+                    session.complete()
+                    return {"attemptId": session.attempt_id, "summary": "Explicit incomplete fixture: no output"}
+                if repair and HistoryFixture.repair_round == 2:
+                    raise RuntimeError("Explicit failed regeneration fixture")
+                if transform == "uuid":
+                    return super().run_agent(task, session, model)
+                if repair and task["name"] == "Contract Builder":
+                    # The HTTP failure must stay visible without contaminating observations.
+                    with self.assertRaises(RuntimeErrorResponse):
+                        session.observe_resource(target)
+                    session.observe_resource(source)
+                    intent = session.write_intent(target, "constant output")
+                    writer = manager.status(session.run_id)["agents"]["writer"]
+                    mutation = manager.client.create_attempt(session.run_id, writer["agentId"], task_id=writer["taskId"])
+                    mutation.write_resource(source, "id UUID -- newer contract")
+                    mutation.complete()
+                    rejected = session.commit_write(intent["id"])
+                    self.assertTrue(rejected["rejected"])
+                    session = session.retry()
+                    self.assertEqual(session.identity["repairOf"], repair)
+                session.observe_resource(source)
+                session.write_resource(target, "constant output")
+                session.complete()
+                return {"attemptId": session.attempt_id, "summary": "Identical immutable regeneration fixture"}
+
+        self.manager.factory = HistoryFixture
+        run = self.race()
+        before = self.manager.client.snapshot(run)
+        self.assertEqual(before["activeAffectedCount"], 2)
+        hazard = before["hazards"][0]["id"]
+        for expected in ("incomplete", "failed", "clean"):
+            self.manager.repair(run, hazard)
+            record = self.wait_for(run, lambda r: r["phase"] in ("completed", "failed"))
+            self.assertEqual(record["repairs"][-1]["status"], expected, record)
+        after = self.manager.client.snapshot(run)
+        inspected = self.manager.inspect(run)
+        events = self.manager.client.events(run)
+        self.assertEqual(after["activeAffectedCount"], 0)
+        self.assertEqual([r["status"] for r in inspected["repairs"]], ["incomplete", "failed", "clean"])
+        self.assertTrue(any(a["repairOf"] and a["status"] == "failed" for a in inspected["attempts"]))
+        self.assertTrue(any(a["repairOf"] and a["status"] == "invalidated" for a in inspected["attempts"]))
+        self.assertTrue(inspected["operationErrors"])
+        self.assertTrue(inspected["resultHistory"])
+        self.assertEqual(len(after["hazards"]), len(before["hazards"]))
+        for path in ("types.ts", "client.ts"):
+            old = self.manager.client.request("/versions/" + before["heads"][path] + "/content")
+            new = self.manager.client.request("/versions/" + after["heads"][path] + "/content")
+            self.assertNotEqual(old["id"], new["id"])
+            self.assertEqual(old["contentHash"], new["contentHash"])
+        # Optional capture for frontend contract/render regression tests, from real Go facts.
+        capture = os.getenv("RAVEL_REPAIR_TRACE_CAPTURE")
+        if capture:
+            Path(capture).write_text(json.dumps({"provider": "offline HistoryFixture", "events": events, "before": before, "snapshot": after, "controller": inspected}, indent=2), encoding="utf-8")
+
     def test_pause_after_observation_happens_before_intent(self):
         run = self.manager.start(self.config)["runId"]
         self.manager.control(run, "reader", "pause-after-observation")
@@ -166,6 +231,19 @@ class LiveLabTests(unittest.TestCase):
         self.wait_for(run, lambda r: r["phase"] == "completed")
 
     def test_queued_task_edit_and_retry_preserve_history(self):
+        manager = self.manager
+        class AttemptBoundaryFixture(LabFixture):
+            def run_agent(provider, task, session, model):
+                if session.identity["number"] > 1:
+                    current = manager.inspect(session.run_id)
+                    agent = current["agents"]["reader"]
+                    self.assertEqual(agent["attemptId"], session.attempt_id)
+                    self.assertEqual(agent["observed"], [])
+                    self.assertEqual(agent["produced"], [])
+                    self.assertNotIn("reader", current["results"])
+                    self.assertTrue(current["resultHistory"])
+                return super().run_agent(task, session, model)
+        self.manager.factory = AttemptBoundaryFixture
         run = self.manager.start(self.config)["runId"]
         self.manager.control(run, "reader", "start", {"task": "types.ts|custom/output.ts|copy"})
         self.wait_agent(run, "reader", "done")

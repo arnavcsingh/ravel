@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { HazardDetail, Version } from '@ravel/shared';
+import { StatusIndicator } from './StatusIndicator';
 
 export function Inspector({
   detail,
@@ -12,6 +13,9 @@ export function Inspector({
   analyze,
   back,
   analysisLabel = 'Reassess with local heuristic ↗',
+  currentVersion = false,
+  producerName,
+  hasIncident = false,
 }: {
   detail: HazardDetail | null;
   version: (Version & { content: string | null }) | null;
@@ -23,6 +27,9 @@ export function Inspector({
   analyze: () => void;
   back: () => void;
   analysisLabel?: string;
+  currentVersion?: boolean;
+  producerName?: string;
+  hasIncident?: boolean;
 }) {
   const [tab, setTab] = useState<'change' | 'output'>('change');
   const chain = (label: string, v: Version, name: string, seq: number, kind: string) => (
@@ -49,14 +56,33 @@ export function Inspector({
       {version ? (
         <>
           <div className="incident-intro">
-            <span className="small-tag">IMMUTABLE CONTENT</span>
+            <StatusIndicator state={currentVersion ? 'CURRENT' : 'NORMAL'}>
+              {currentVersion ? 'Current head' : 'Historical version'}
+            </StatusIndicator>
             <h3>
               {version.resourceId}@{version.generation}
             </h3>
             <p>
-              Created at sequence {version.creationSeq} · hash{' '}
-              {version.contentHash?.slice(0, 10) ?? 'absent'}
+              {producerName ?? 'Initial / recorded version'} · sequence {version.creationSeq}
             </p>
+            <dl className="version-metadata">
+              <div>
+                <dt>Content hash</dt>
+                <dd>
+                  <code title={version.contentHash ?? undefined}>
+                    {version.contentHash?.slice(0, 12) ?? 'absent'}
+                  </code>
+                </dd>
+              </div>
+              <div>
+                <dt>Attempt</dt>
+                <dd>
+                  <code title={version.producerAttemptId ?? undefined}>
+                    {version.producerAttemptId?.slice(0, 12) ?? 'initial state'}
+                  </code>
+                </dd>
+              </div>
+            </dl>
           </div>
           <pre className="version-code">{version.content ?? '(resource absent)'}</pre>
           <div className="incident-block">
@@ -67,18 +93,23 @@ export function Inspector({
         </>
       ) : !detail ? (
         <div className="empty-state">
-          <h3>No incident at this point.</h3>
+          <h3>
+            {hasIncident
+              ? 'Incident details loading or unavailable.'
+              : 'No published stale lineage.'}
+          </h3>
           <p>
-            Advance the trace or release the held write to see where an observation becomes stale.
+            Select a timeline event to inspect observations, pending candidates, or Guard rejection.
+            Select a resource version for its content.
           </p>
         </div>
       ) : (
         <>
           <div className="incident-intro">
             <span className={`hazard-badge ${!detail.active ? 'resolved' : ''}`}>
-              {detail.active ? 'STALE INPUT' : 'CURRENT HEADS REPAIRED'}
+              {detail.active ? 'STALE INPUT' : 'HISTORICAL INCIDENT'}
             </span>
-            <h3>{detail.active ? 'Stale derivation detected' : 'Recovery recorded'}</h3>
+            <h3>{detail.active ? 'Stale derivation detected' : 'No active impact'}</h3>
             <p>
               {detail.observerName} produced <code>{detail.consumer.resourceId}</code> from an
               earlier version of <code>{detail.observed.resourceId}</code>.
@@ -93,7 +124,7 @@ export function Inspector({
             </div>
           </div>
           <div className="incident-block">
-            <div className="section-label">DETERMINISTIC TRACE · THE CAUSAL CHAIN</div>
+            <h4 className="section-label">Deterministic trace</h4>
             {chain(
               'Observed input',
               detail.observed,
@@ -156,10 +187,16 @@ export function Inspector({
             )}
           </div>
           <div className="incident-block">
-            <div className="section-label">
-              SEMANTIC ANALYSIS ·{' '}
-              {detail.assessment?.analyzer.startsWith('gemini/') ? 'GEMINI' : 'INTERPRETATION'}
-            </div>
+            <h4 className="section-label">
+              Semantic analysis ·{' '}
+              {detail.assessment?.analyzer.startsWith('gemini/')
+                ? 'Gemini'
+                : detail.assessment?.analyzer.startsWith('heuristic')
+                  ? 'local heuristic'
+                  : detail.assessment
+                    ? 'interpretation'
+                    : 'pending'}
+            </h4>
             <div className="semantic-label">
               <strong>
                 {detail.assessment
@@ -209,7 +246,7 @@ export function Inspector({
               ↶ Replay race
             </button>
             <button className="button" disabled={busy || !canRepair} onClick={repair}>
-              {!detail.active ? '✓ Repaired' : 'Repair affected tasks ↗'}
+              {!detail.active ? 'No active impact' : 'Repair affected tasks ↗'}
             </button>
           </div>
         </>

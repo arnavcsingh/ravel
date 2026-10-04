@@ -6,7 +6,7 @@ import os
 from pathlib import Path
 import threading
 
-from .client import Client
+from .client import Client, RuntimeErrorResponse
 from .gemini import GeminiRESTTransport, Limits, TOOLS, DEFAULT_MODEL, semantic_input, model_name
 from .repair import repair_plan, REPAIR_INSTRUCTIONS
 
@@ -55,6 +55,33 @@ class MediatedSession:
 
     def retry(self):
         return MediatedSession(self.session.retry(), self.role)
+
+
+class EvidenceSession:
+    """Retain rejected API operations separately from the immutable Go event log."""
+    def __init__(self, manager, run, session):
+        self.manager, self.run, self.session = manager, run, session
+
+    def __getattr__(self, name):
+        value = getattr(self.session, name)
+        if not callable(value):
+            return value
+        def call(*args, **kwargs):
+            try:
+                return value(*args, **kwargs)
+            except RuntimeErrorResponse as error:
+                with self.manager.lock:
+                    record = self.manager.records[self.run]
+                    record.setdefault("operationErrors", []).append({
+                        "attemptId": self.session.attempt_id, "operation": name,
+                        "status": error.status, "error": safe_error(error),
+                    })
+                    self.manager.save(record)
+                raise
+        return call
+
+    def retry(self):
+        return EvidenceSession(self.manager, self.run, self.session.retry())
 
 
 class LiveDemo:
@@ -114,25 +141,34 @@ class LiveDemo:
         for event in events:
             if event["kind"] == "TASK_ATTEMPT_START":
                 value = event["payload"]["attempt"]
-                attempts[value["id"]] = {"id": value["id"], "role": names.get(value["agentId"], "Agent"), "number": value["number"], "status": value["status"]}
+                attempts[value["id"]] = {"id": value["id"], "role": names.get(value["agentId"], "Agent"), "number": value["number"], "status": value["status"], "agentId": value["agentId"], "taskId": value["taskId"], "repairOf": value.get("repairOf")}
             elif event["kind"] == "TASK_ATTEMPT_END" and event["attemptId"] in attempts:
                 attempts[event["attemptId"]]["status"] = event["payload"]["status"]
         record["attempts"] = list(attempts.values())
+        latest = {a["agentId"]: a["id"] for a in attempts.values()}
+        record["results"] = {role: result for role, result in record.get("results", {}).items() if result.get("attemptId") == latest.get(record["agents"].get(role, {}).get("agentId"))}
         if record.get("generic"):
             snapshot = self.client.snapshot(run)
             nodes = {node["id"]: node for node in snapshot["graph"]["nodes"]}
             from .live_lab import trace_extras
             record["timelineExtras"] = trace_extras(record, events, nodes)
             for agent in record["agents"].values():
+                identity = latest.get(agent["agentId"])
+                if identity:
+                    attempt = attempts[identity]
+                    agent.update(attemptId=identity, taskId=attempt["taskId"], attempt=attempt["number"])
                 with self.lock:
                     control = self.lab_controls.get((run, agent["id"]))
                     if control:
                         agent["scheduling"] = {key: control[key] for key in ("paused", "pauseAfter", "hold")}
-                observed = []
+                observed, produced = [], []
                 for event in events:
                     if event["attemptId"] != agent.get("attemptId"):
                         continue
                     payload = event["payload"]
+                    if event["kind"] in ("WRITE_COMMIT", "DELETE_COMMIT"):
+                        version = payload["version"]
+                        produced.append({"path": version["resourceId"], "versionId": version["id"], "generation": version["generation"]})
                     observations = payload.get("observations", [])
                     if event["kind"] == "OBSERVE_RESOURCE":
                         observations = [payload["observation"]]
@@ -141,6 +177,7 @@ class LiveDemo:
                         if node:
                             observed.append({"path": node["resourceId"], "versionId": node["id"], "generation": node["generation"], "at": event["wallTime"]})
                 agent["observed"] = observed
+                agent["produced"] = produced
                 agent["activeHazards"] = sum(h["active"] and h["observingAgentId"] == agent["agentId"] for h in snapshot["hazards"])
         return record
 
@@ -190,6 +227,7 @@ class LiveDemo:
             with self.lock:
                 self.records[run]["agents"][role] = {"agentId": identity, "taskId": session.identity["taskId"], "attemptId": session.attempt_id}
                 self.save(self.records[run])
+        session = EvidenceSession(self, run, session)
         try:
             prompt = repair["prompt"] + REPAIR_INSTRUCTIONS if repair else record["prompts"][role]
             # Regeneration uses task provenance, not deterministic role ownership.
@@ -202,6 +240,7 @@ class LiveDemo:
                 if not writes and not repair:
                     self.records[run]["warnings"].append(role + " produced no committed mutation.")
                 self.records[run]["results"][role] = result
+                self.records[run].setdefault("resultHistory", {})[result["attemptId"]] = result
                 self.save(self.records[run])
             return result
         finally:

@@ -1,66 +1,108 @@
 import { useState } from 'react';
-import type { DebuggerSnapshot, GraphNode } from '@ravel/shared';
+import type { DebuggerSnapshot, GraphNode, RavelEvent } from '@ravel/shared';
+import { StatusIndicator } from './StatusIndicator';
 
 export function ResourceHeads({
   snapshot,
+  selectedId,
   inspect,
+  events = [],
 }: {
   snapshot: DebuggerSnapshot;
+  selectedId: string | null;
   inspect: (node: GraphNode) => void;
+  events?: RavelEvent[];
 }) {
   const [resource, setResource] = useState<string | null>(null);
-  const history = snapshot.graph.nodes
-    .filter((node) => node.resourceId === resource)
-    .sort((a, b) => a.generation - b.generation);
+  const chosen =
+    resource && snapshot.graph.nodes.some((node) => node.resourceId === resource)
+      ? resource
+      : Object.keys(snapshot.heads)[0];
+  const versions = snapshot.graph.nodes
+    .filter((node) => node.resourceId === chosen)
+    .sort((a, b) => b.generation - a.generation);
   return (
-    <details className="resource-heads panel">
+    <details className="resource-panel" open>
       <summary>
-        Resource heads · {Object.keys(snapshot.heads).length} files · click to inspect version
-        history
+        Resource heads{' '}
+        <span className="mono">
+          {Object.keys(snapshot.heads).length} resources · immutable versions
+        </span>
       </summary>
-      <div className="resource-heads-grid">
-        <div className="head-list">
+      <div className="resource-state-grid">
+        <div className="resource-head-list" aria-label="Current resource heads">
           {Object.entries(snapshot.heads).map(([path, id]) => {
             const node = snapshot.graph.nodes.find((node) => node.id === id);
             return (
               <button
-                className={`head-row ${resource === path ? 'selected' : ''}`}
                 key={path}
+                className={`resource-head ${chosen === path ? 'selected' : ''}`}
+                aria-pressed={chosen === path}
                 onClick={() => {
                   setResource(path);
                   if (node) inspect(node);
                 }}
               >
-                <span>{path}</span>
-                <b>
-                  @{node?.generation ?? '—'} {node?.state !== 'CLEAN' ? '⚠' : ''}
-                </b>
+                <code>{path}</code>
+                <span className="mono">{node ? `@${node.generation}` : id.slice(0, 8)}</span>
+                <StatusIndicator
+                  state={node?.state === 'CLEAN' ? 'CURRENT' : (node?.state ?? 'NORMAL')}
+                />
               </button>
             );
           })}
         </div>
-        <div className="version-history">
-          {resource ? (
-            <>
-              <strong>{resource}</strong>
-              {history.map((node) => {
-                const creator = snapshot.timeline.find(
-                  (event) => event.action !== 'OBSERVE' && event.versionId === node.id,
-                );
-                return (
-                  <button className="head-row" key={node.id} onClick={() => inspect(node)}>
-                    <span>
-                      @{node.generation} · {creator?.agentName ?? 'Initial repository'}
-                      {creator ? ` · sequence ${creator.runtimeSeq}` : ''}
-                    </span>
-                    <b>{node.currentHead ? 'HEAD' : '↓ successor'}</b>
-                  </button>
-                );
-              })}
-            </>
-          ) : (
-            <p className="muted">Select a resource to follow its immutable versions.</p>
-          )}
+        <div className="resource-history" aria-label="Resource version history">
+          <div className="section-label">{chosen ?? 'No resources'} · VERSION HISTORY</div>
+          {versions.map((node) => {
+            const event = snapshot.timeline.find(
+              (event) => event.versionId === node.id && event.action !== 'OBSERVE',
+            );
+            const fact = events.find(
+              (e) => 'version' in e.payload && e.payload.version.id === node.id,
+            );
+            const version = fact && 'version' in fact.payload ? fact.payload.version : null;
+            const prior = events.find(
+              (e) => 'version' in e.payload && e.payload.version.id === version?.previousVersionId,
+            );
+            const identical =
+              version &&
+              prior &&
+              'version' in prior.payload &&
+              prior.payload.version.contentHash === version.contentHash;
+            return (
+              <button
+                className={`resource-version ${selectedId === node.id ? 'selected' : ''}`}
+                key={node.id}
+                aria-pressed={selectedId === node.id}
+                onClick={() => inspect(node)}
+              >
+                <strong className="mono">@{node.generation}</strong>
+                <span>
+                  {event?.agentName ?? 'Initial / recorded version'}
+                  <small>
+                    {event
+                      ? `sequence ${event.runtimeSeq}`
+                      : 'Select to inspect content and provenance'}
+                  </small>
+                  {version && (
+                    <small className="mono">
+                      hash {version.contentHash?.slice(0, 10) ?? 'absent'} · attempt{' '}
+                      {version.producerAttemptId?.slice(0, 8) ?? 'initial'}
+                    </small>
+                  )}
+                  {identical && <small>New immutable version · content / hash unchanged</small>}
+                </span>
+                <StatusIndicator
+                  state={
+                    node.currentHead ? (node.state === 'CLEAN' ? 'CURRENT' : node.state) : 'NORMAL'
+                  }
+                >
+                  {node.currentHead ? 'current head' : 'historical'}
+                </StatusIndicator>
+              </button>
+            );
+          })}
         </div>
       </div>
     </details>

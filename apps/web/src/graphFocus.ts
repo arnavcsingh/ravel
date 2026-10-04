@@ -15,8 +15,10 @@ export function visibleVersionIds(
     ? new Set([
         hazard.observedVersionId,
         hazard.staleSinceVersionId,
+        hazard.validationHeadVersionId,
         hazard.consumerVersionId,
         ...hazard.activeBlastRadius,
+        ...(!hazard.active ? hazard.historicalBlastRadius : []),
       ])
     : new Set(Object.values(snapshot.heads));
   if (!hazard) {

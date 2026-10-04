@@ -6,7 +6,7 @@ import re
 import threading
 
 from .gemini import DEFAULT_MODEL, model_name
-from .live_demo import FILES, safe_error
+from .live_demo import FILES, safe_error, EvidenceSession
 from .repair import REPAIR_INSTRUCTIONS
 
 LAB_FILES = {
@@ -198,6 +198,7 @@ def run_agent(manager, run, key, repair=False):
             manager.records[run].setdefault("repairAttemptIds", []).append(session.attempt_id)
     agent_update(manager, run, key, state="running", taskId=session.identity["taskId"],
                  attemptId=session.attempt_id, attempt=session.identity["number"], observed=[], pending=None, startedAt=now(), error=None)
+    session = EvidenceSession(manager, run, session)
     try:
         prompt = repair["prompt"] + REPAIR_INSTRUCTIONS if repair else record["prompts"][key]
         result = manager.factory().run_agent({"name": prior["name"], "prompt": prompt},
@@ -212,6 +213,7 @@ def run_agent(manager, run, key, repair=False):
                                     and e["attemptId"] == result["attemptId"] for e in manager.client.events(run))
     with manager.lock:
         manager.records[run]["results"][key] = result
+        manager.records[run].setdefault("resultHistory", {})[result["attemptId"]] = result
         if not result["committedWrites"] and not repair:
             manager.records[run]["warnings"].append(prior["name"] + " produced no committed mutation.")
         agent_update(manager, run, key, state="done", completedAt=now())
@@ -304,7 +306,6 @@ def trace_extras(record, events, nodes):
     """Additional timeline markers projected from Go facts, never runtime events."""
     result, observations, intents, heads = [], {}, {}, {}
     names = {agent["agentId"]: agent["name"] for agent in record["agents"].values()}
-    repairs = set(record.get("repairAttemptIds", []))
     def marker(event, action, description, version=None, suffix="", state="CLEAN", resource=None):
         node = nodes.get(version, {})
         result.append({"id": event["id"] + suffix, "runtimeSeq": event["runtimeSeq"],
@@ -337,6 +338,6 @@ def trace_extras(record, events, nodes):
             marker(event, "GUARD REJECT", f'{name}: Guard rejected {intent.get("resourceId", "candidate")} · ' + "; ".join(differences), state="STALE_INPUT", resource=intent.get("resourceId"))
         elif event["kind"] == "TASK_ATTEMPT_START" and payload["attempt"]["number"] > 1:
             attempt = payload["attempt"]
-            action = "REPAIR" if attempt["id"] in repairs else "RETRY"
+            action = "REPAIR" if attempt.get("repairOf") else "RETRY"
             marker(event, action, f'{name} started {action.lower()} attempt #{attempt["number"]}')
     return result
