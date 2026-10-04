@@ -265,6 +265,7 @@ pnpm benchmark:upstream setup
 pnpm benchmark:upstream check
 pnpm benchmark:upstream dry-run
 pnpm benchmark:upstream runner-check
+pnpm benchmark:upstream doctor
 pnpm benchmark:upstream run --task asyncodebench:cachetools --protocol single
 ```
 
@@ -272,16 +273,17 @@ pnpm benchmark:upstream run --task asyncodebench:cachetools --protocol single
 
 Default budgets are 100 manager iterations, 100 specialist iterations, and two chat rounds. `--protocol` also accepts `serial_specialists`, `async_private`, `caid_manager`, and `async_manager`. Raw bundles remain under ignored `.ravel/benchmark-source/native-*`; UTF-8 launcher logs are under `.ravel/benchmark-source/reports/`.
 
-`pnpm benchmark:upstream results` exports `.ravel/benchmark-source/comparison.json` and prints a native-results table. It includes a comparison row only when the saved upstream bundle records valid instrumentation and official aggregate eligibility. Excluded attempts remain diagnostic records; missing metrics remain null. Ravel metrics remain null until a genuine adapter is available.
+`pnpm benchmark:upstream results` exports `.ravel/benchmark-source/comparison.json` and prints a native-results table. It includes a comparison row only when the saved upstream bundle records valid instrumentation and official aggregate eligibility, and every recorded artifact size and SHA-256 checksum matches. Excluded attempts remain diagnostic records; missing metrics remain null. Ravel metrics remain null until a genuine adapter is available.
 
-The upstream `doctor` uses OpenAI-style HTTP endpoints, so it cannot validate the native Gemini URL. A successful one-turn tool call also does not verify multi-turn signature preservation. All five protocol dry runs and the adapter/doctor contract tests passed; the separate event HTTP smoke exceeded its upstream five-second startup deadline on `/mnt/c`, so `runner-check` has not fully passed.
+The upstream online `doctor` uses OpenAI-style HTTP endpoints. For native Gemini, the launcher runs its offline infrastructure checks, then a real two-turn echo-tool diagnostic through LiteLLM and the pinned SDK's message conversion. This verifies tool-result continuation and signature preservation; it is not a benchmark score. The diagnostic passed after a transient per-minute Gemini input-token quota reset. All five protocol dry runs and the adapter/doctor contract tests passed; the separate event HTTP smoke exceeded its upstream five-second startup deadline on `/mnt/c`, so `runner-check` has not fully passed.
 
-The first verified official subset result is one `asyncodebench:cachetools` repetition with the built-in OpenHands scaffold. The `--release v0.4` launcher resolves cachetools to its upstream v0.3 scenario; the saved bundle records that resolution. The bundle is valid, matches the official execution profile, has complete provenance, and records `official_aggregate=true`.
+Verified official subset results use one `asyncodebench:cachetools` repetition per protocol with the built-in OpenHands scaffold and identical model and budgets. The `--release v0.4` launcher resolves cachetools to its upstream v0.3 scenarios; saved bundles record that resolution. The reported bundles are valid, match the official execution profile, have complete provenance, and record `official_aggregate=true`.
 
-| Protocol | Tests   | ADPR      | Strict DRS step | Normalized DRS | Harness wall time | Tokens  | Reported cost |
-| -------- | ------- | --------- | --------------- | -------------- | ----------------- | ------- | ------------- |
-| single   | 215/215 | 5/5 = 1.0 | 1               | unavailable    | 314.16 s          | 793,306 | $0.06445      |
+| Protocol      | Tests   | ADPR      | Strict DRS step | Normalized DRS | Harness wall time | Tokens    | Reported cost |
+| ------------- | ------- | --------- | --------------- | -------------- | ----------------- | --------- | ------------- |
+| single        | 215/215 | 5/5 = 1.0 | 1               | unavailable    | 314.16 s          | 793,306   | $0.06445      |
+| async_private | 215/215 | 5/5 = 1.0 | 2–4             | unavailable    | 658.59 s          | 1,974,772 | $0.20837      |
 
-This run used 22/100 iterations. Token counts include cached input; the harness cost is a reported estimate. Harness wall time excludes launcher and SDK startup overhead. The normalized DRS field was unavailable and is not substituted with ADPR or dependency-resolution step. Machine-readable subset results are saved in `benchmarks/results/cachetools-native.json`; complete local artifacts are in `.ravel/benchmark-source/native-20261004T052326`.
+Single used 22/100 iterations; async_private used 27 and 30 iterations across its two specialists. Token counts include cached input; the harness cost is a reported estimate. Harness wall time excludes launcher and SDK startup overhead, and upstream excludes deterministic worktree source-build preparation from multi-agent runtime. The normalized DRS field was unavailable and is not substituted with ADPR or dependency-resolution step. Machine-readable subset results are saved in `benchmarks/results/cachetools-native.json`; complete local artifacts are in `.ravel/benchmark-source/native-20261004T052326` and `.ravel/benchmark-source/native-20261004T054035`.
 
 There is no Ravel-versus-baselines comparison yet. The earlier OpenAI-compatible Gemini attempt ended with a missing thought signature; the initial native-transport attempt used an incorrect URL prefix and made zero model calls. Both bundles are **invalid**, and their evaluator counts are diagnostic only. Ravel mediation at the benchmark's private-workspace integration boundary is still pending. Keep these infrastructure attempts separate from the synthetic benchmark above.

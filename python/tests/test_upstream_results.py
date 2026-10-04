@@ -3,6 +3,7 @@
 import contextlib
 import io
 import json
+import hashlib
 from pathlib import Path
 import tempfile
 import unittest
@@ -13,7 +14,10 @@ from ravel.upstream_results import export, summarize
 class UpstreamResultsTests(unittest.TestCase):
     def write_bundle(self, path, valid=True, eligible=True):
         path.mkdir()
+        artifact = b"{}"
+        (path / "report.json").write_bytes(artifact)
         bundle = {
+            "artifacts": {"report.json": {"bytes": len(artifact), "sha256": hashlib.sha256(artifact).hexdigest()}},
             "status": "valid" if valid else "invalid",
             "instrumentation": {"valid": valid},
             "eligibility": {"official_aggregate": eligible},
@@ -43,3 +47,12 @@ class UpstreamResultsTests(unittest.TestCase):
             self.assertIsNone(result["native"]["normalized_drs"])
             self.assertIsNone(result["native"]["total_tokens"])
             self.assertIsNone(result["ravel"])
+
+    def test_modified_artifact_excludes_recorded_valid_bundle(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "native-1"
+            self.write_bundle(path)
+            (path / "report.json").write_text('{"changed":true}', encoding="utf-8")
+            result = summarize(path)
+            self.assertFalse(result["admitted"])
+            self.assertEqual(result["local_artifact_issues"], ["artifact_checksum_mismatch:report.json"])

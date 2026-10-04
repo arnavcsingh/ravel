@@ -1,6 +1,7 @@
 """Allowlisted native results; invalid attempts never enter comparison rows."""
 
 import json
+import hashlib
 from pathlib import Path
 
 
@@ -10,6 +11,18 @@ def read_json(path):
 
 def summarize(directory):
     bundle = read_json(directory / "run_bundle.json")
+    artifact_issues = []
+    inventory = bundle.get("artifacts", {})
+    if not inventory:
+        artifact_issues.append("missing_artifact_inventory")
+    for name, expected in inventory.items():
+        path = (directory / name).resolve()
+        if not path.is_relative_to(directory.resolve()) or not path.is_file():
+            artifact_issues.append(f"missing_or_external_artifact:{name}")
+            continue
+        data = path.read_bytes()
+        if len(data) != expected.get("bytes") or hashlib.sha256(data).hexdigest() != expected.get("sha256"):
+            artifact_issues.append(f"artifact_checksum_mismatch:{name}")
     cost = read_json(directory / "cost.json").get("total", {})
     dependencies = read_json(directory / "strict_dependency_metrics.json")
     process = read_json(directory / "process_metrics_summary.json")
@@ -18,6 +31,7 @@ def summarize(directory):
         bundle.get("status") == "valid"
         and bundle.get("instrumentation", {}).get("valid") is True
         and eligibility.get("official_aggregate") is True
+        and not artifact_issues
     )
     return {
         "artifact_directory": directory.name,
@@ -26,6 +40,7 @@ def summarize(directory):
         "release": bundle.get("release"),
         "status": bundle.get("status"),
         "admitted": admitted,
+        "local_artifact_issues": artifact_issues,
         "hard_failures": bundle.get("instrumentation", {}).get("hard_failures", []),
         "provenance": {key: bundle.get("provenance", {}).get(key) for key in (
             "benchmark_revision", "sdk_revision", "model", "subagent_model",
@@ -57,7 +72,7 @@ def export(root):
         "benchmark": "AsynCodeBench",
         "scope": "local task subset; not a full benchmark score",
         "notes": [
-            "Comparison rows require upstream valid instrumentation and official aggregate eligibility.",
+            "Comparison rows require upstream valid instrumentation, official aggregate eligibility, and matching artifact checksums.",
             "Invalid attempts are retained only as diagnostics.",
             "Null metrics are unavailable; reported cost zero does not establish free API usage.",
             "Ravel adapter and comparison are pending; native and Ravel metrics remain separate.",

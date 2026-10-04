@@ -3,6 +3,7 @@
 import argparse
 from datetime import datetime, timezone
 import os
+import re
 import subprocess
 import sys
 
@@ -59,15 +60,27 @@ def main(args):
     if os.name == "nt":
         command = ["wsl.exe", *(["-d", os.environ["RAVEL_WSL_DISTRO"]] if os.environ.get("RAVEL_WSL_DISTRO") else []), "--", *command]
     print(f"AsynCodeBench {action}; log: {log_path}", flush=True)
+    bundle_directory = None
     with log_path.open("w", encoding="utf-8") as log:
         with subprocess.Popen(command, cwd=ROOT, env=environment, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, encoding="utf-8", errors="replace") as child:
             for line in child.stdout:
                 for key in ("LLM_API_KEY", "GEMINI_API_KEY", "AGENTVERSE_AGENT_URI", "ASI_ONE_API_KEY"):
                     if environment.get(key):
                         line = line.replace(environment[key], "[redacted]")
+                if line.startswith("[AsynCodeBench] Result bundle: "):
+                    name = line.strip().replace("\\", "/").split("/")[-2]
+                    if re.fullmatch(r"native-\d{8}T\d{6}", name):
+                        bundle_directory = reports.parent / name
                 print(line, end="", flush=True)
                 log.write(line)
                 log.flush()
             code = child.wait()
+            if action == "run" and code == 0:
+                from .upstream_results import summarize
+                if bundle_directory is None or not summarize(bundle_directory)["admitted"]:
+                    code = 2
+                    message = "Harness finished, but its result is not admitted to the official comparison.\n"
+                    print(message, end="", flush=True)
+                    log.write(message)
             log.write(f"\nExit: {code}\n")
     return code

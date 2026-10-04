@@ -68,7 +68,14 @@ case "$action" in
     ;;
   doctor)
     cd "$RUNNER"
-    "$UV" run --frozen --no-sync asyncodebench doctor
+    if [[ "$LLM_MODEL" == gemini/* ]]; then
+      # Upstream's online doctor assumes OpenAI HTTP routes. Keep its local
+      # checks, then exercise the configured native route through SDK messages.
+      "$UV" run --frozen --no-sync asyncodebench doctor --offline
+      "$UV" run --frozen --no-sync python "$ROOT/python/ravel/upstream_probe.py"
+    else
+      "$UV" run --frozen --no-sync asyncodebench doctor
+    fi
     ;;
   run)
     if ! timeout 20 docker info >/dev/null; then

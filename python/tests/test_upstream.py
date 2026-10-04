@@ -67,6 +67,14 @@ class UpstreamTests(unittest.TestCase):
                 main(["run", "--max-iterations", "0"])
             spawn.assert_not_called()
 
+    def test_run_without_admitted_bundle_fails_even_if_harness_exits_zero(self):
+        spawn_child = subprocess.Popen
+        with tempfile.TemporaryDirectory() as directory:
+            def launch(command, **kwargs):
+                return spawn_child([sys.executable, "-c", "print('finished without an admitted bundle')"], **kwargs)
+            with patch("ravel.upstream.ROOT", Path(directory)), patch.dict("os.environ", {"GEMINI_API_KEY": "test"}, clear=True), patch("ravel.upstream.subprocess.Popen", side_effect=launch), contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(main(["run"]), 2)
+
 
 if __name__ == "__main__":
     unittest.main()
