@@ -21,13 +21,28 @@ export function Timeline({
   selectedVersionId?: string | null;
   agentStates?: Record<string, string>;
 }) {
-  const width = Math.max(760, snapshot.timeline.length * 85 + 175),
+  const points = [
+    ...new Set([
+      ...snapshot.timeline.map((event) => event.runtimeSeq),
+      ...snapshot.staleWindows.flatMap((window) => [window.startSeq, window.endSeq]),
+    ]),
+  ].sort((a, b) => a - b);
+  if (points.length < 2) points.push((points[0] ?? snapshot.currentRuntimeSeq) + 6);
+  if (points.length === 1) points.unshift(snapshot.currentRuntimeSeq);
+  const width = Math.max(760, (points.length - 1) * 170 + 280),
     left = 180,
     right = width - 45,
     height = Math.max(220, snapshot.agents.length * 66 + 65);
-  const min = Math.min(...snapshot.timeline.map((e) => e.runtimeSeq), snapshot.currentRuntimeSeq);
-  const max = Math.max(...snapshot.timeline.map((e) => e.runtimeSeq), min + 6);
-  const x = (seq: number) => left + ((seq - min) / (max - min)) * (right - left);
+  const x = (seq: number) => {
+    let index = points.findIndex((point) => point >= seq);
+    if (index < 0) index = points.length - 1;
+    const previous = points[Math.max(0, index - 1)];
+    const offset =
+      index && seq < points[index]
+        ? index - 1 + (seq - previous) / (points[index] - previous)
+        : index;
+    return left + (offset / (points.length - 1)) * (right - left);
+  };
   return (
     <section className="panel timeline-panel">
       <div className="panel-heading">
@@ -80,8 +95,8 @@ export function Timeline({
           role="group"
           aria-label="Agent observations, writes, and continuous stale intervals"
         >
-          {Array.from({ length: 7 }, (_, i) => {
-            const cx = left + (i * (right - left)) / 6;
+          {points.map((seq, i) => {
+            const cx = x(seq);
             return (
               <g key={i}>
                 <line
@@ -100,7 +115,7 @@ export function Timeline({
                   fontSize={11}
                   fontFamily="monospace"
                 >
-                  {Math.round(min + (i * (max - min)) / 6)}
+                  {seq}
                 </text>
               </g>
             );
@@ -157,6 +172,13 @@ export function Timeline({
             );
           })}
           {snapshot.timeline.map((event) => {
+            const siblings = snapshot.timeline.filter(
+              (other) =>
+                other.runtimeSeq === event.runtimeSeq &&
+                other.agentId === event.agentId &&
+                other.action === event.action,
+            );
+            if (siblings[0].id !== event.id) return null;
             const y = 40 + snapshot.agents.findIndex((a) => a.id === event.agentId) * 66,
               cx = x(event.runtimeSeq);
             const read = event.action === 'OBSERVE';
@@ -184,7 +206,7 @@ export function Timeline({
                 }}
                 onClick={select}
               >
-                <title>{event.description}</title>
+                <title>{siblings.map((item) => item.description).join('\n')}</title>
                 {highlighted && <circle cx={cx} cy={y} r={14} fill={color} opacity={0.16} />}
                 <circle
                   cx={cx}
@@ -202,7 +224,8 @@ export function Timeline({
                   fill={color}
                   fontFamily="monospace"
                 >
-                  {read ? 'OBSERVE' : event.action} {label}
+                  {read ? 'OBSERVE' : event.action} {label}{' '}
+                  {siblings.length > 1 ? `+${siblings.length - 1}` : ''}
                 </text>
               </g>
             );
