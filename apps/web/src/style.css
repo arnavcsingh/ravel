@@ -151,7 +151,7 @@ pre {
 }
 .nav-count {
   margin-left: auto;
-  color: var(--red);
+  color: var(--muted);
   font: 11px var(--mono);
 }
 .sidebar-bottom {
@@ -418,9 +418,10 @@ h2 {
 .agent-roster {
   display: flex;
   border-block: 1px solid var(--line);
+  overflow: auto;
 }
 .agent-summary {
-  flex: 1;
+  flex: 1 0 100px;
   padding: 10px 16px;
   min-width: 0;
 }
@@ -438,8 +439,12 @@ h2 {
   font: 10px var(--mono);
   color: var(--muted);
 }
-.agent-summary .agent-issue {
+.agent-summary .agent-stale_input,
+.agent-summary .agent-semantic_conflict {
   color: var(--red);
+}
+.agent-summary .agent-downstream {
+  color: var(--amber);
 }
 .diagram-scroll {
   overflow: auto;
@@ -447,7 +452,7 @@ h2 {
 .diagram-scroll svg {
   display: block;
   width: 100%;
-  min-width: 760px;
+  min-width: 640px;
 }
 .timeline-panel svg text {
   font-family: var(--mono);

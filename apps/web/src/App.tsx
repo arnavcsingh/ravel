@@ -223,7 +223,9 @@ export default function App() {
             aria-pressed={!eventView}
           >
             Causal debugger
-            <span className="nav-count">
+            <span
+              className={snapshot?.hazards.some((h) => h.active) ? 'nav-count danger' : 'nav-count'}
+            >
               {snapshot?.hazards.filter((h) => h.active).length ?? 0}
             </span>
           </button>

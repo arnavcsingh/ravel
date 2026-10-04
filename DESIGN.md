@@ -27,3 +27,9 @@ Keep: truthful provenance, separate semantic assessment, working demo controls, 
 ## Impeccable
 
 Installed project-locally from https://github.com/pbakaus/impeccable (.agents/skills/impeccable, version 4.5.0) using the Codex skill installer. The upstream Windows context launcher fails at its cache-directory label in this environment; guidance was read directly (audit, operate, craft-floor, polish). Skill payload is local tooling, not a frontend dependency. Reinstall with the skill installer using `--repo pbakaus/impeccable --path .agents/skills/impeccable --dest .agents/skills`.
+
+## Verification
+
+Frontend typecheck, production Vite build, all four existing contract tests, and repository formatting checks pass. Browser checks cover event log, input/output diffs, keyboard incident/version inspection, first-event navigation, incident replay, help dialog, reassessment, Observe hold/release, repair with preserved history, and Guard hold/release with fresh retry. No browser console errors were observed. Responsive inspection covers 390px, 860px, and desktop widths; traces and tables scroll locally. Reduced motion keeps replay state highlights while disabling animated graph edges.
+
+Preview runs in an isolated worktree with its own runtime data on port 4327; Vite proxies that runtime on port 5173. Build environment uses `GOFLAGS=-buildvcs=false` to avoid the host's Git executable access restriction. No backend source or API contracts changed.
