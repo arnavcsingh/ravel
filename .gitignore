@@ -10,5 +10,4 @@ demo/workspace/
 .pnpm-cache/
 __pycache__/
 *.pyc
-*.md
-!/README.md
+docs/
