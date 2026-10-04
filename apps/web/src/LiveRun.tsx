@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { api } from './api';
+import { LiveRunDetails } from './LiveRunDetails';
 
 export type LiveRunStatus = {
   runId: string;
@@ -137,56 +138,7 @@ export function LiveRunPanel({
           Start <code>pnpm demo:live</code> to enable live runs.
         </p>
       )}
-      {status && (
-        <div className="live-run-status" role="status">
-          <strong>
-            {status.phase.toUpperCase()} · {status.scheduler}
-          </strong>
-          {status.phase === 'held' && (
-            <p>
-              Backend’s real candidate is held while Database runs. It will be released through
-              normal validation.
-            </p>
-          )}
-          {status.phase === 'completed' && (
-            <p>
-              {status.activeAffectedCount === 0
-                ? 'No active stale lineage in the recorded state.'
-                : `${status.activeAffectedCount} active affected versions.`}{' '}
-              {status.hazardCount === 0 ? 'No hazard occurred; this is a valid outcome.' : ''}
-            </p>
-          )}
-          <div className="live-health" aria-label="Task attempts">
-            {status.attempts?.map((attempt) => (
-              <span key={attempt.id}>
-                {attempt.role} #{attempt.number} · {attempt.status} · {attempt.id.slice(0, 8)}
-              </span>
-            ))}
-          </div>
-          {Object.entries(status.results ?? {}).map(([role, result]) => (
-            <p key={role}>
-              <b>{role}</b> · {result.committedWrites} writes ·{' '}
-              <span className="mono">{result.attemptId.slice(0, 8)}</span> · {result.summary}
-            </p>
-          ))}
-          {status.error && (
-            <p className="error" role="alert">
-              {status.error}
-            </p>
-          )}
-          {status.warnings?.map((warning, i) => (
-            <p className="live-warning" key={i}>
-              {warning}
-            </p>
-          ))}
-          {status.repairs?.map((repair, i) => (
-            <p key={i}>
-              Repair: {repair.status} · {repair.replacements.length} replacement versions.
-              Historical versions retained.
-            </p>
-          ))}
-        </div>
-      )}
+      {status && <LiveRunDetails status={status} />}
       <dialog ref={dialog} className="live-run-dialog">
         <button
           className="icon-button dialog-close"

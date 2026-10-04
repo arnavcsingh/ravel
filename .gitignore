@@ -11,3 +11,6 @@ demo/workspace/
 __pycache__/
 *.pyc
 docs/
+
+.design-tools/
+.frontend-design*/
