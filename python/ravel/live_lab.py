@@ -7,6 +7,7 @@ import threading
 
 from .gemini import DEFAULT_MODEL, model_name
 from .live_demo import FILES, safe_error
+from .repair import REPAIR_INSTRUCTIONS
 
 LAB_FILES = {
     **FILES,
@@ -190,14 +191,16 @@ def run_agent(manager, run, key, repair=False):
     record = manager.status(run)
     prior = record["agents"][key]
     session = manager.client.create_attempt(run, prior["agentId"], prior["name"] + " task",
-                                          record["prompts"][key], task_id=prior.get("taskId"))
+                                          record["prompts"][key], task_id=repair["taskId"] if repair else prior.get("taskId"),
+                                          repair_of=repair["sourceAttemptId"] if repair else None)
     if repair:
         with manager.lock:
             manager.records[run].setdefault("repairAttemptIds", []).append(session.attempt_id)
     agent_update(manager, run, key, state="running", taskId=session.identity["taskId"],
                  attemptId=session.attempt_id, attempt=session.identity["number"], observed=[], pending=None, startedAt=now(), error=None)
     try:
-        result = manager.factory().run_agent({"name": prior["name"], "prompt": record["prompts"][key]},
+        prompt = repair["prompt"] + REPAIR_INSTRUCTIONS if repair else record["prompts"][key]
+        result = manager.factory().run_agent({"name": prior["name"], "prompt": prompt},
                                            ScheduledSession(manager, run, key, session), record["model"])
     except Exception:
         try:
@@ -209,7 +212,7 @@ def run_agent(manager, run, key, repair=False):
                                     and e["attemptId"] == result["attemptId"] for e in manager.client.events(run))
     with manager.lock:
         manager.records[run]["results"][key] = result
-        if not result["committedWrites"]:
+        if not result["committedWrites"] and not repair:
             manager.records[run]["warnings"].append(prior["name"] + " produced no committed mutation.")
         agent_update(manager, run, key, state="done", completedAt=now())
     return result

@@ -8,6 +8,7 @@ import threading
 
 from .client import Client
 from .gemini import GeminiRESTTransport, Limits, TOOLS, DEFAULT_MODEL, semantic_input, model_name
+from .repair import repair_plan, REPAIR_INSTRUCTIONS
 
 FILES = {
     "schema.sql": "CREATE TABLE users (\n  id INTEGER PRIMARY KEY,\n  email TEXT NOT NULL\n);\n",
@@ -181,7 +182,8 @@ class LiveDemo:
         transport = self.factory()
         if repair:
             prior = record["agents"][role]
-            session = self.client.create_attempt(run, prior["agentId"], task_id=prior["taskId"])
+            session = self.client.create_attempt(run, prior["agentId"], task_id=repair["taskId"],
+                                                 repair_of=repair["sourceAttemptId"])
         else:
             identity = self.client.create_agent(run, role, "gemini/" + record["model"])
             session = self.client.create_attempt(run, identity, role + " live task", record["prompts"][role])
@@ -189,12 +191,15 @@ class LiveDemo:
                 self.records[run]["agents"][role] = {"agentId": identity, "taskId": session.identity["taskId"], "attemptId": session.attempt_id}
                 self.save(self.records[run])
         try:
-            result = transport.run_agent({"name": role, "prompt": record["prompts"][role]}, MediatedSession(session, role, gate), record["model"])
+            prompt = repair["prompt"] + REPAIR_INSTRUCTIONS if repair else record["prompts"][role]
+            # Regeneration uses task provenance, not deterministic role ownership.
+            result = transport.run_agent({"name": role, "prompt": prompt},
+                                         session if repair else MediatedSession(session, role, gate), record["model"])
             events = self.client.events(run)
             writes = sum(e["kind"] == "WRITE_COMMIT" and e["attemptId"] == result["attemptId"] for e in events)
             result["committedWrites"] = writes
             with self.lock:
-                if not writes:
+                if not writes and not repair:
                     self.records[run]["warnings"].append(role + " produced no committed mutation.")
                 self.records[run]["results"][role] = result
                 self.save(self.records[run])
@@ -287,37 +292,12 @@ class LiveDemo:
         final = {"phase": "failed", "canRepair": False}
         try:
             before = self.client.snapshot(run)
-            # Order supported affected tasks by their actual provenance edges.
-            affected = set(v for h in before["hazards"] if h["active"] for v in h["activeBlastRadius"])
-            versions = {v: self.client.request("/versions/" + v + "/content") for v in affected}
-            starts = {e["attemptId"]: e["payload"]["attempt"] for e in self.client.events(run) if e["kind"] == "TASK_ATTEMPT_START"}
-            version_tasks = {v: starts[data["producerAttemptId"]]["taskId"] for v, data in versions.items() if data["producerAttemptId"] in starts}
-            tasks = set(version_tasks.values())
-            record = self.status(run)
-            task_roles = {data["taskId"]: role for role, data in record["agents"].items()}
-            if tasks - set(task_roles):
-                raise ValueError("Affected lineage includes a task outside this live demo")
-            dependencies = {task: set() for task in tasks}
-            for edge in before["graph"]["edges"]:
-                source, target = version_tasks.get(edge["source"]), version_tasks.get(edge["target"])
-                if edge["kind"] == "DERIVED_FROM" and source and target and source != target:
-                    dependencies[target].add(source)
-            roles = []
-            while dependencies:
-                ready = sorted(task for task, parents in dependencies.items() if not parents)
-                if not ready:
-                    raise ValueError("Affected tasks have cyclic dependencies; automatic repair is unsupported")
-                for task in ready:
-                    roles.append(task_roles[task])
-                    del dependencies[task]
-                    for parents in dependencies.values():
-                        parents.discard(task)
-            if not roles:
-                raise ValueError("No supported affected live task found")
+            plan = repair_plan(before, self.client.events(run), self.status(run)["agents"])
+            result["plan"] = plan
             self.client.request(f"/runs/{run}/resume", {})
             try:
-                for role in roles:
-                    result["attempts"].append(self.agent(run, role, repair=True)["attemptId"])
+                for step in plan:
+                    result["attempts"].append(self.agent(run, step["agentKey"], repair=step)["attemptId"])
             finally:
                 self.client.end(run)
             self.assess(run)

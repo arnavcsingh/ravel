@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError
+from ravel.client import RuntimeErrorResponse
 
 from ravel.live_demo import LiveDemo
 from ravel.process import RuntimeProcess
@@ -15,7 +16,7 @@ from ravel.live_demo_server import make_server
 
 class LabFixture:
     def run_agent(self, task, session, model):
-        source, target, transform = task["prompt"].split("|")
+        source, target, transform = task["prompt"].splitlines()[0].split("|")
         retries = 0
         for _ in range(3):
             value = session.observe_resource(source)["content"]
@@ -107,6 +108,45 @@ class LiveLabTests(unittest.TestCase):
         self.assertIn("schema.sql@1 → @2", reject["description"])
         self.assertIsNone(reject["versionId"])
         self.assertTrue(any(marker["action"] == "RETRY" for marker in extras))
+
+    def test_repair_identical_downstream_and_blocked_self_read(self):
+        class RegenerationFixture(LabFixture):
+            def run_agent(provider, task, session, model):
+                if task["name"] != "Client Builder":
+                    return super().run_agent(task, session, model)
+                if session.identity.get("repairOf"):
+                    try:
+                        session.observe_resource("client.ts")
+                    except RuntimeErrorResponse as error:
+                        if error.status != 400:
+                            raise
+                    else:
+                        raise AssertionError("Affected self-read must be rejected")
+                session.observe_resource("types.ts")
+                session.write_resource("client.ts", "// identical client generated against the observed contract")
+                session.complete()
+                return {"attemptId": session.attempt_id, "summary": "Regeneration regression fixture"}
+        self.manager.factory = RegenerationFixture
+        run = self.race()
+        before = self.manager.client.snapshot(run)
+        self.manager.repair(run, before["hazards"][0]["id"])
+        result = self.wait_for(run, lambda r:r["phase"] in ("completed", "failed"))
+        self.assertEqual(result["repairs"][-1]["status"], "clean", result)
+        after = self.manager.client.snapshot(run)
+        self.assertEqual(after["activeAffectedCount"], 0)
+        self.assertEqual(len(after["hazards"]), 1)
+        old = self.manager.client.request("/versions/" + before["heads"]["client.ts"] + "/content")
+        new = self.manager.client.request("/versions/" + after["heads"]["client.ts"] + "/content")
+        self.assertEqual(old["contentHash"], new["contentHash"])
+        self.assertNotEqual(old["id"], new["id"])
+        plan = result["repairs"][-1]["plan"]
+        self.assertEqual([step["agentKey"] for step in plan], ["reader", "consumer"])
+        events = self.manager.client.events(run)
+        attempts = [e["payload"]["attempt"] for e in events if e["kind"] == "TASK_ATTEMPT_START" and e["payload"]["attempt"].get("repairOf")]
+        self.assertEqual(len(attempts), 2)
+        self.assertTrue(all(not a["frontier"] and not a["observedVersions"] for a in attempts))
+        observations = [e["payload"]["observation"] for e in events if e["kind"] == "OBSERVE_RESOURCE" and e["attemptId"] == new["producerAttemptId"]]
+        self.assertEqual([o["versionId"] for o in observations], [after["heads"]["types.ts"]])
 
     def test_pause_after_observation_happens_before_intent(self):
         run = self.manager.start(self.config)["runId"]

@@ -77,6 +77,14 @@ replace heads; historical versions remain. Cyclic or unsupported task lineages
 are reported rather than silently repaired. A clean lineage does not prove all
 generated code is semantically correct.
 
+Repair attempts record `repairOf`, referencing an ended attempt of the same agent
+and task. Go prevents those attempts from reading affected artifacts as inputs and
+requires fresh source observations at publication. Regenerating an affected head
+creates a new version with the actual repair provenance even when the generated
+bytes are identical; ordinary byte-identical writes remain no-ops. Historical
+version succession is retained separately from derivation, so it does not carry
+stale impact into a freshly regenerated version.
+
 For a 60–90 second presentation: load the sample and start a fresh Deterministic
 Race Reproduction in Observe, point out
 Backend's observation and held mutation, watch Database's new schema version and

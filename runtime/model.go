@@ -44,6 +44,7 @@ type Attempt struct {
 	Frontier         map[string]string `json:"frontier"`
 	ObservedVersions []string          `json:"observedVersions"`
 	ProducedVersions []string          `json:"producedVersions"`
+	RepairOf         *string           `json:"repairOf,omitempty"`
 }
 type Version struct {
 	ID                string  `json:"id"`
