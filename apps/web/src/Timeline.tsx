@@ -15,9 +15,9 @@ export function Timeline({
   step: ReplayStep | null;
   selectHazard: (id: string) => void;
 }) {
-  const width = 900,
-    left = 145,
-    right = 855,
+  const width = Math.max(760, snapshot.timeline.length * 85 + 175),
+    left = 130,
+    right = width - 45,
     height = Math.max(220, snapshot.agents.length * 66 + 65);
   const min = Math.min(...snapshot.timeline.map((e) => e.runtimeSeq), snapshot.currentRuntimeSeq);
   const max = Math.max(...snapshot.timeline.map((e) => e.runtimeSeq), min + 6);
@@ -47,12 +47,18 @@ export function Timeline({
       <div className="agent-roster" aria-label="Agents in this execution">
         {snapshot.agents.map((agent) => {
           const entries = snapshot.timeline.filter((event) => event.agentId === agent.id);
-          const affected = entries.some((event) => event.state !== 'CLEAN');
+          const affected = entries.find(
+            (event) =>
+              event.action !== 'OBSERVE' &&
+              event.state !== 'CLEAN' &&
+              snapshot.graph.nodes.some((node) => node.id === event.versionId && node.currentHead),
+          );
           return (
             <div className="agent-summary" key={agent.id}>
               <strong>{agent.name}</strong>
-              <span className={affected ? 'agent-issue' : ''}>
-                {agent.status} · {entries.length} trace events
+              <span className={affected ? `agent-${affected.state.toLowerCase()}` : ''}>
+                {affected ? affected.state.toLowerCase().replaceAll('_', ' ') : agent.status} ·{' '}
+                {entries.length} trace event{entries.length === 1 ? '' : 's'}
               </span>
             </div>
           );
@@ -61,6 +67,7 @@ export function Timeline({
       <div className="diagram-scroll">
         <svg
           viewBox={`0 0 ${width} ${height}`}
+          style={snapshot.timeline.length > 6 ? { minWidth: width } : undefined}
           role="group"
           aria-label="Agent observations, writes, and continuous stale intervals"
         >
@@ -177,7 +184,7 @@ export function Timeline({
                 <text
                   x={cx}
                   y={y + (read ? -12 : 22)}
-                  textAnchor={cx > 785 ? 'end' : cx < 170 ? 'start' : 'middle'}
+                  textAnchor={cx > right - 50 ? 'end' : cx < 155 ? 'start' : 'middle'}
                   fontSize={11}
                   fill={color}
                   fontFamily="monospace"

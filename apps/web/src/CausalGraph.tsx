@@ -13,11 +13,24 @@ import {
 import type { DebuggerSnapshot, GraphNode, ReplayStep } from '@ravel/shared';
 import '@xyflow/react/dist/style.css';
 
-type ResourceNode = Node<GraphNode & { highlighted: boolean }, 'resource'>;
+type ResourceNode = Node<
+  GraphNode & { highlighted: boolean; inspect: (node: GraphNode) => void },
+  'resource'
+>;
 function VersionNode({ data }: NodeProps<ResourceNode>) {
   return (
     <div
       className={`version-node ${data.state.toLowerCase()} ${data.highlighted ? 'highlighted' : ''}`}
+      role="button"
+      tabIndex={0}
+      aria-label={`Inspect ${data.label}, ${data.state.replaceAll('_', ' ').toLowerCase()}${data.currentHead ? ', current head' : ''}`}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          event.stopPropagation();
+          data.inspect(data);
+        }
+      }}
     >
       <Handle type="target" position={Position.Left} />
       <span className="node-resource">{data.resourceId}</span>
@@ -49,9 +62,9 @@ export function CausalGraph({
         id: node.id,
         type: 'resource',
         position: { x: node.x, y: node.y },
-        data: { ...node, highlighted: step?.highlightNodes.includes(node.id) ?? false },
+        data: { ...node, highlighted: step?.highlightNodes.includes(node.id) ?? false, inspect },
       })),
-    [snapshot.graph.nodes, step],
+    [snapshot.graph.nodes, step, inspect],
   );
   const edges: Edge[] = useMemo(
     () =>
@@ -89,6 +102,7 @@ export function CausalGraph({
           fitView
           fitViewOptions={{ padding: 0.22, maxZoom: 1.1 }}
           nodesDraggable={false}
+          nodesFocusable={false}
           nodesConnectable={false}
           deleteKeyCode={null}
           colorMode="dark"
