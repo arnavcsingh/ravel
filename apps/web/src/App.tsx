@@ -401,7 +401,7 @@ export default function App() {
             />
             Pause before the stale write commits
           </label>
-          <span>Scripted demo · no API keys</span>
+          <span>Next scripted fixture · no API keys</span>
         </div>
         {error && (
           <div className="error" role="alert">
@@ -727,7 +727,13 @@ export default function App() {
                       )}
                     <Inspector
                       hasIncident={!!hazardId}
-                      analysisLabel={liveRun ? 'Reassess with Gemini ↗' : undefined}
+                      analysisLabel={
+                        liveRun?.phase === 'assessing'
+                          ? 'Analyzing with Gemini…'
+                          : liveRun
+                            ? 'Reassess with Gemini ↗'
+                            : undefined
+                      }
                       detail={detail}
                       version={
                         version && version.creationSeq <= snapshot.currentRuntimeSeq
