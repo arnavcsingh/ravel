@@ -17,7 +17,7 @@ def create_app(base_url, port=9999, initialized=False):
     from a2a.server.request_handlers import DefaultRequestHandler
     from a2a.server.routes import create_agent_card_routes, create_jsonrpc_routes
     from a2a.server.tasks import InMemoryTaskStore
-    from a2a.types import AgentCard, AgentCapabilities, AgentInterface, AgentSkill, Message, Part, Role
+    from a2a.types import AgentCard, AgentCapabilities, AgentInterface, AgentSkill, Message, Part, Role, Task, TaskStatus, TaskState, TaskStatusUpdateEvent
     from starlette.applications import Starlette
     from starlette.responses import JSONResponse
     from starlette.routing import Route
@@ -45,10 +45,18 @@ def create_app(base_url, port=9999, initialized=False):
                     self.sessions.popitem(last=False)
                 text = "\n".join(p.text for p in context.message.parts if p.WhichOneof("content") == "text")
                 result = await asyncio.to_thread(conversation.respond, text)
-                await event_queue.enqueue_event(Message(
-                    message_id=str(uuid4()), context_id=identity, role=Role.ROLE_AGENT,
+                task_id = context.task_id or str(uuid4())
+                reply = Message(
+                    message_id=str(uuid4()), context_id=identity, task_id=task_id, role=Role.ROLE_AGENT,
                     parts=[Part(text=result["text"]), Part(text="Ravel tool result:\n" + json.dumps(result, ensure_ascii=False))],
-                ))
+                )
+                # INPUT_REQUIRED keeps the ACP session's task/context mapping.
+                # A plain Message is terminal in Agentverse SDK 0.2.1 and drops
+                # selection before the next conversation turn.
+                status = TaskStatus(state=TaskState.TASK_STATE_INPUT_REQUIRED, message=reply)
+                event = (TaskStatusUpdateEvent(task_id=task_id, context_id=identity, status=status)
+                         if context.current_task else Task(id=task_id, context_id=identity, status=status))
+                await event_queue.enqueue_event(event)
 
         async def cancel(self, context, event_queue):
             from a2a.utils.errors import TaskNotCancelableError

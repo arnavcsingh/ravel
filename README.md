@@ -47,7 +47,10 @@ also available using explicit messages such as
 
 For local JSON-RPC testing, POST to `http://localhost:9999/` with
 `A2A-Version: 1.0`, method `SendMessage`, and a user message containing text
-parts. Reuse the returned `contextId` for subsequent requests. Optional transport
+parts. Replies are A2A tasks in `INPUT_REQUIRED`, with response text in the task's
+status message. Reuse both the returned `contextId` and task `id` for subsequent
+requests. This lets Agentverse retain the selected hazard across ACP messages.
+Optional transport
 tests run when the Inspector requirements are installed; the normal runtime
 and frontend work without them. `ASI_ONE_API_KEY` is only needed for separate
 ASI:One API checks, not mailbox registration. Keep it and the URI out of Git.

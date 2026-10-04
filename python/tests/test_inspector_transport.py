@@ -25,14 +25,30 @@ class InspectorTransportTests(unittest.TestCase):
                 time.sleep(.05)
             with TestClient(create_app(runtime.url)) as transport:
                 context = None
+                task_id = None
                 for index, prompt in enumerate(("Analyze my latest Ravel run", "Show the blast radius", "Replay the race", "Repair it")):
                     message = {"role": "ROLE_USER", "messageId": f"test-{index}", "parts": [{"text": prompt}]}
                     if context:
                         message["contextId"] = context
+                        message["taskId"] = task_id
                     response = transport.post("/", headers={"A2A-Version": "1.0"}, json={"jsonrpc": "2.0", "id": index, "method": "SendMessage", "params": {"message": message}})
                     payload = response.json()
                     self.assertNotIn("error", payload)
-                    reply = payload["result"]["message"]
+                    task = payload["result"]["task"]
+                    reply = task["status"]["message"]
+                    self.assertEqual(task["status"]["state"], "TASK_STATE_INPUT_REQUIRED")
+                    from a2a.types import Task
+                    from google.protobuf.json_format import ParseDict
+                    from agentverse_sdk.a2a.content import is_task_complete
+                    from agentverse_sdk.a2a.session import A2ASessionStore
+                    from types import SimpleNamespace
+                    event = ParseDict(task, Task())
+                    self.assertFalse(is_task_complete(event))
+                    store = A2ASessionStore()
+                    envelope = SimpleNamespace(session="test-session")
+                    store.update(envelope, event)
+                    self.assertEqual(store.get(envelope).context_id, reply["contextId"])
+                    task_id = task["id"]
                     context = reply["contextId"]
                     result = json.loads(reply["parts"][1]["text"].removeprefix("Ravel tool result:\n"))
                     self.assertTrue(result["ok"], result)
