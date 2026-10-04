@@ -1,0 +1,363 @@
+{
+  "schema_version": 1,
+  "benchmark": "AsynCodeBench",
+  "scope": "local task subset; not a full benchmark score",
+  "notes": [
+    "Comparison rows require upstream valid instrumentation and official aggregate eligibility.",
+    "Invalid attempts are retained only as diagnostics.",
+    "Null metrics are unavailable; reported cost zero does not establish free API usage.",
+    "Ravel adapter and comparison are pending; native and Ravel metrics remain separate."
+  ],
+  "comparison": [
+    {
+      "artifact_directory": "native-20261004T052326",
+      "task": "asyncodebench:cachetools",
+      "protocol": "single",
+      "release": "v0.3",
+      "status": "valid",
+      "admitted": true,
+      "hard_failures": [],
+      "provenance": {
+        "benchmark_revision": "566c32b6f4ad209ecfe95f10970b02d4b79289c1",
+        "sdk_revision": "944284310d9a5f1ccad0ef8c2d7c4c38342b9952",
+        "model": "gemini/gemini-3.5-flash-lite",
+        "subagent_model": "gemini/gemini-3.5-flash-lite"
+      },
+      "budgets": {
+        "final_evaluator_source": "asyncodebench_manifest",
+        "final_pytest_timeout_seconds": 900,
+        "manager_max_iterations": 100,
+        "max_rounds_chat": 2,
+        "max_subagents": 1,
+        "probe_timeout_seconds": 60,
+        "scenario_declared_agents": 1,
+        "subagent_max_iterations": 100
+      },
+      "native": {
+        "final_test": {
+          "collected": 215,
+          "errors": 0,
+          "evaluation_failure_kind": null,
+          "exit_code": 0,
+          "failed": 0,
+          "outcome": "passed",
+          "passed": 215,
+          "success": true,
+          "synthetic_summary": false,
+          "timed_out": false
+        },
+        "adpr": {
+          "resolved": 5,
+          "total": 5,
+          "value": 1.0
+        },
+        "strict_drs": {
+          "max": 1,
+          "min": 1,
+          "observed_count": 5,
+          "unresolved_count": 0
+        },
+        "normalized_drs": null,
+        "dependencies": [
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.keys_to_func.untyped_key_contract",
+            "downstream_resolution_step": 1,
+            "final_integrated_pass": true,
+            "producer_agent": "key_agent",
+            "status": "resolved",
+            "strict_CAIL": 0,
+            "strict_DRS": 1,
+            "upstream_resolution_step": 1
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.keys_to_func.typed_key_contract",
+            "downstream_resolution_step": 1,
+            "final_integrated_pass": true,
+            "producer_agent": "key_agent",
+            "status": "resolved",
+            "strict_CAIL": 0,
+            "strict_DRS": 1,
+            "upstream_resolution_step": 1
+          },
+          {
+            "consumer_agent": "integrator",
+            "dependency_id": "cachetools.keys_to_cachedmethod.typed_method_key_contract",
+            "downstream_resolution_step": 1,
+            "final_integrated_pass": true,
+            "producer_agent": "key_agent",
+            "status": "resolved",
+            "strict_CAIL": 0,
+            "strict_DRS": 1,
+            "upstream_resolution_step": 1
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.core_to_func.wrapper_metadata_contract",
+            "downstream_resolution_step": 1,
+            "final_integrated_pass": true,
+            "producer_agent": "integrator",
+            "status": "resolved",
+            "strict_CAIL": 0,
+            "strict_DRS": 1,
+            "upstream_resolution_step": 1
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.core_to_func.maxsize_and_lock_contract",
+            "downstream_resolution_step": 1,
+            "final_integrated_pass": true,
+            "producer_agent": "integrator",
+            "status": "resolved",
+            "strict_CAIL": 0,
+            "strict_DRS": 1,
+            "upstream_resolution_step": 1
+          }
+        ],
+        "checkpoint_count": 1,
+        "wall_seconds": 314.161325,
+        "agent_seconds": 257.046405,
+        "input_tokens": 789112,
+        "output_tokens": 4194,
+        "total_tokens": 793306,
+        "reported_cost_usd": 0.06445263000000001
+      },
+      "ravel": null
+    }
+  ],
+  "excluded_attempts": [
+    {
+      "artifact_directory": "native-20261004T030310",
+      "task": "asyncodebench:cachetools",
+      "protocol": "single",
+      "release": "v0.3",
+      "status": "invalid",
+      "admitted": false,
+      "hard_failures": ["execution_error"],
+      "provenance": {
+        "benchmark_revision": "566c32b6f4ad209ecfe95f10970b02d4b79289c1",
+        "sdk_revision": "944284310d9a5f1ccad0ef8c2d7c4c38342b9952",
+        "model": "openai/gemini-3.5-flash-lite",
+        "subagent_model": "openai/gemini-3.5-flash-lite"
+      },
+      "budgets": {
+        "final_evaluator_source": "asyncodebench_manifest",
+        "final_pytest_timeout_seconds": 900,
+        "manager_max_iterations": 100,
+        "max_rounds_chat": 2,
+        "max_subagents": 1,
+        "probe_timeout_seconds": 60,
+        "scenario_declared_agents": 1,
+        "subagent_max_iterations": 100
+      },
+      "native": {
+        "final_test": {
+          "collected": 215,
+          "errors": 0,
+          "evaluation_failure_kind": null,
+          "exit_code": 1,
+          "failed": 62,
+          "outcome": "failed",
+          "passed": 153,
+          "success": false,
+          "synthetic_summary": false,
+          "timed_out": false
+        },
+        "adpr": {
+          "resolved": 0,
+          "total": 5,
+          "value": 0.0
+        },
+        "strict_drs": {
+          "max": null,
+          "min": null,
+          "observed_count": 0,
+          "unresolved_count": 5
+        },
+        "normalized_drs": null,
+        "dependencies": [
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.keys_to_func.untyped_key_contract",
+            "downstream_resolution_step": null,
+            "final_integrated_pass": false,
+            "producer_agent": "key_agent",
+            "status": "unresolved_final_integrated",
+            "strict_CAIL": null,
+            "strict_DRS": null,
+            "upstream_resolution_step": null
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.keys_to_func.typed_key_contract",
+            "downstream_resolution_step": null,
+            "final_integrated_pass": false,
+            "producer_agent": "key_agent",
+            "status": "unresolved_final_integrated",
+            "strict_CAIL": null,
+            "strict_DRS": null,
+            "upstream_resolution_step": null
+          },
+          {
+            "consumer_agent": "integrator",
+            "dependency_id": "cachetools.keys_to_cachedmethod.typed_method_key_contract",
+            "downstream_resolution_step": null,
+            "final_integrated_pass": false,
+            "producer_agent": "key_agent",
+            "status": "unresolved_final_integrated",
+            "strict_CAIL": null,
+            "strict_DRS": null,
+            "upstream_resolution_step": null
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.core_to_func.wrapper_metadata_contract",
+            "downstream_resolution_step": null,
+            "final_integrated_pass": false,
+            "producer_agent": "integrator",
+            "status": "unresolved_final_integrated",
+            "strict_CAIL": null,
+            "strict_DRS": null,
+            "upstream_resolution_step": 1
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.core_to_func.maxsize_and_lock_contract",
+            "downstream_resolution_step": null,
+            "final_integrated_pass": false,
+            "producer_agent": "integrator",
+            "status": "unresolved_final_integrated",
+            "strict_CAIL": null,
+            "strict_DRS": null,
+            "upstream_resolution_step": 1
+          }
+        ],
+        "checkpoint_count": 1,
+        "wall_seconds": 426.231723,
+        "agent_seconds": 6.246085,
+        "input_tokens": 7991,
+        "output_tokens": 61,
+        "total_tokens": 8052,
+        "reported_cost_usd": 0.0
+      },
+      "ravel": null
+    },
+    {
+      "artifact_directory": "native-20261004T051418",
+      "task": "asyncodebench:cachetools",
+      "protocol": "single",
+      "release": "v0.3",
+      "status": "invalid",
+      "admitted": false,
+      "hard_failures": ["zero_model_iterations", "no_model_execution_evidence", "execution_error"],
+      "provenance": {
+        "benchmark_revision": "566c32b6f4ad209ecfe95f10970b02d4b79289c1",
+        "sdk_revision": "944284310d9a5f1ccad0ef8c2d7c4c38342b9952",
+        "model": "gemini/gemini-3.5-flash-lite",
+        "subagent_model": "gemini/gemini-3.5-flash-lite"
+      },
+      "budgets": {
+        "final_evaluator_source": "asyncodebench_manifest",
+        "final_pytest_timeout_seconds": 900,
+        "manager_max_iterations": 100,
+        "max_rounds_chat": 2,
+        "max_subagents": 1,
+        "probe_timeout_seconds": 60,
+        "scenario_declared_agents": 1,
+        "subagent_max_iterations": 100
+      },
+      "native": {
+        "final_test": {
+          "collected": 215,
+          "errors": 0,
+          "evaluation_failure_kind": null,
+          "exit_code": 1,
+          "failed": 62,
+          "outcome": "failed",
+          "passed": 153,
+          "success": false,
+          "synthetic_summary": false,
+          "timed_out": false
+        },
+        "adpr": {
+          "resolved": 0,
+          "total": 5,
+          "value": 0.0
+        },
+        "strict_drs": {
+          "max": null,
+          "min": null,
+          "observed_count": 0,
+          "unresolved_count": 5
+        },
+        "normalized_drs": null,
+        "dependencies": [
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.keys_to_func.untyped_key_contract",
+            "downstream_resolution_step": null,
+            "final_integrated_pass": false,
+            "producer_agent": "key_agent",
+            "status": "unresolved_final_integrated",
+            "strict_CAIL": null,
+            "strict_DRS": null,
+            "upstream_resolution_step": null
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.keys_to_func.typed_key_contract",
+            "downstream_resolution_step": null,
+            "final_integrated_pass": false,
+            "producer_agent": "key_agent",
+            "status": "unresolved_final_integrated",
+            "strict_CAIL": null,
+            "strict_DRS": null,
+            "upstream_resolution_step": null
+          },
+          {
+            "consumer_agent": "integrator",
+            "dependency_id": "cachetools.keys_to_cachedmethod.typed_method_key_contract",
+            "downstream_resolution_step": null,
+            "final_integrated_pass": false,
+            "producer_agent": "key_agent",
+            "status": "unresolved_final_integrated",
+            "strict_CAIL": null,
+            "strict_DRS": null,
+            "upstream_resolution_step": null
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.core_to_func.wrapper_metadata_contract",
+            "downstream_resolution_step": null,
+            "final_integrated_pass": false,
+            "producer_agent": "integrator",
+            "status": "unresolved_final_integrated",
+            "strict_CAIL": null,
+            "strict_DRS": null,
+            "upstream_resolution_step": 1
+          },
+          {
+            "consumer_agent": "decorator_agent",
+            "dependency_id": "cachetools.core_to_func.maxsize_and_lock_contract",
+            "downstream_resolution_step": null,
+            "final_integrated_pass": false,
+            "producer_agent": "integrator",
+            "status": "unresolved_final_integrated",
+            "strict_CAIL": null,
+            "strict_DRS": null,
+            "upstream_resolution_step": 1
+          }
+        ],
+        "checkpoint_count": 1,
+        "wall_seconds": 73.078495,
+        "agent_seconds": 5.446085,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "reported_cost_usd": 0.0
+      },
+      "ravel": null
+    }
+  ]
+}

@@ -253,3 +253,35 @@ The API binds loopback for trusted local clients and has no remote authenticatio
 Go/Python tests and frozen replay fixtures preserve the original concurrency behavior.
 
 `pnpm benchmark` runs six deterministic scenarios in OFF, Observe and Guard. It independently executes generated artifacts and records correctness, hazards, retries, generation work and elapsed time. It is **not an official AsynCodeBench score**.
+
+### Official AsynCodeBench baseline launcher
+
+The external benchmark is pinned to `566c32b6f4ad209ecfe95f10970b02d4b79289c1`, with OpenHands SDK `944284310d9a5f1ccad0ef8c2d7c4c38342b9952` (packages 1.29.2). On Windows, use Ubuntu-22.04 in WSL with Docker Desktop integration:
+
+```powershell
+$env:RAVEL_WSL_DISTRO = 'Ubuntu-22.04'
+$env:RAVEL_PYTHON = (Resolve-Path .ravel/sponsors-venv/Scripts/python.exe).Path
+pnpm benchmark:upstream setup
+pnpm benchmark:upstream check
+pnpm benchmark:upstream dry-run
+pnpm benchmark:upstream runner-check
+pnpm benchmark:upstream run --task asyncodebench:cachetools --protocol single
+```
+
+`GEMINI_API_KEY` is read from ignored `.env`. The default is the same Gemini 3.5 Flash-Lite model through LiteLLM's native `gemini/gemini-3.5-flash-lite` transport at `https://generativelanguage.googleapis.com/v1beta`. This preserves tool-call thought signatures across the pinned SDK's message conversion. An explicitly configured `LLM_API_KEY`, `LLM_MODEL`, and `LLM_BASE_URL` takes precedence. Credentials travel through environment variables, and known secrets are redacted from launcher output.
+
+Default budgets are 100 manager iterations, 100 specialist iterations, and two chat rounds. `--protocol` also accepts `serial_specialists`, `async_private`, `caid_manager`, and `async_manager`. Raw bundles remain under ignored `.ravel/benchmark-source/native-*`; UTF-8 launcher logs are under `.ravel/benchmark-source/reports/`.
+
+`pnpm benchmark:upstream results` exports `.ravel/benchmark-source/comparison.json` and prints a native-results table. It includes a comparison row only when the saved upstream bundle records valid instrumentation and official aggregate eligibility. Excluded attempts remain diagnostic records; missing metrics remain null. Ravel metrics remain null until a genuine adapter is available.
+
+The upstream `doctor` uses OpenAI-style HTTP endpoints, so it cannot validate the native Gemini URL. A successful one-turn tool call also does not verify multi-turn signature preservation. All five protocol dry runs and the adapter/doctor contract tests passed; the separate event HTTP smoke exceeded its upstream five-second startup deadline on `/mnt/c`, so `runner-check` has not fully passed.
+
+The first verified official subset result is one `asyncodebench:cachetools` repetition with the built-in OpenHands scaffold. The `--release v0.4` launcher resolves cachetools to its upstream v0.3 scenario; the saved bundle records that resolution. The bundle is valid, matches the official execution profile, has complete provenance, and records `official_aggregate=true`.
+
+| Protocol | Tests   | ADPR      | Strict DRS step | Normalized DRS | Harness wall time | Tokens  | Reported cost |
+| -------- | ------- | --------- | --------------- | -------------- | ----------------- | ------- | ------------- |
+| single   | 215/215 | 5/5 = 1.0 | 1               | unavailable    | 314.16 s          | 793,306 | $0.06445      |
+
+This run used 22/100 iterations. Token counts include cached input; the harness cost is a reported estimate. Harness wall time excludes launcher and SDK startup overhead. The normalized DRS field was unavailable and is not substituted with ADPR or dependency-resolution step. Machine-readable subset results are saved in `benchmarks/results/cachetools-native.json`; complete local artifacts are in `.ravel/benchmark-source/native-20261004T052326`.
+
+There is no Ravel-versus-baselines comparison yet. The earlier OpenAI-compatible Gemini attempt ended with a missing thought signature; the initial native-transport attempt used an incorrect URL prefix and made zero model calls. Both bundles are **invalid**, and their evaluator counts are diagnostic only. Ravel mediation at the benchmark's private-workspace integration boundary is still pending. Keep these infrastructure attempts separate from the synthetic benchmark above.
