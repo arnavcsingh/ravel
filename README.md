@@ -1,5 +1,57 @@
 # Ravel
 
+Ravel Inspector is an optional Python Agentverse mailbox agent, registered as
+`@ravel-inspector`. It calls the existing Go HTTP API; concurrency decisions,
+immutable history, replay, and repair remain in Go.
+
+Install the optional environment with Python 3.12+:
+
+```powershell
+python -m venv .ravel/inspector-venv
+.ravel/inspector-venv/Scripts/python.exe -m pip install -r python/requirements-inspector.txt
+$env:RAVEL_PYTHON=(Resolve-Path .ravel/inspector-venv/Scripts/python.exe).Path
+```
+
+Start Ravel with `pnpm dev` or `pnpm start`. Set `AGENTVERSE_AGENT_URI` to the
+existing agent's A2A registration URI in your ignored `.env`, and set
+`RAVEL_API_BASE=http://localhost:4317` (change this if Ravel uses another port).
+Run `pnpm inspector` and leave it running while evaluating or messaging the
+agent in ASI:One. The SDK bridges ACP messages through Agentverse's mailbox to
+the local A2A server; no publicly accessible localhost port is needed.
+
+Before clicking Evaluate, check `http://localhost:9999/health`: `ready` must be
+true, meaning initialization, registration, a running mailbox task and an
+authenticated relay response were all observed. A local server listening is
+insufficient. If registration returns HTTP 404 `Agent not found`, verify the
+existing registration URI and corresponding public address with Agentverse;
+the Inspector never generates a replacement identity or treats that response
+as success. `pnpm inspector --local` runs local A2A without registration; it
+intentionally reports `ready=false`. Use `--port 9998` for a second local test.
+
+In one ASI:One conversation with `@ravel-inspector`, send:
+
+1. `Analyze my latest Ravel run`
+2. `Show the blast radius`
+3. `Replay the race`
+4. `Repair it`
+
+The responses use deterministic API facts, identify affected artifacts,
+preserve ordered replay, and confirm replacement versions only after fetching
+updated state. Repair failures and unknown outcomes are reported without
+automatic mutation retries. Historical hazards remain available after repair.
+Each conversation has its own selected run and hazard. All seven tools are
+also available using explicit messages such as
+`{"tool":"get_hazard","arguments":{"hazard_id":"your-hazard-id"}}`:
+`get_latest_run`, `get_run`, `get_hazards`, `get_hazard`, `get_blast_radius`,
+`get_replay`, `repair_hazard`.
+
+For local JSON-RPC testing, POST to `http://localhost:9999/` with
+`A2A-Version: 1.0`, method `SendMessage`, and a user message containing text
+parts. Reuse the returned `contextId` for subsequent requests. Optional transport
+tests run when the Inspector requirements are installed; the normal runtime
+and frontend work without them. `ASI_ONE_API_KEY` is only needed for separate
+ASI:One API checks, not mailbox registration. Keep it and the URI out of Git.
+
 **A causal concurrency debugger for asynchronous coding agents.**
 
 Ravel records what repository state each agent observed, detects when that state changed before publication, and follows resulting artifacts through immutable version provenance.
