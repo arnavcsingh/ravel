@@ -202,6 +202,8 @@ func sequence(r *http.Request) (int, error) {
 func (s *Service) routes(staticRoot string) {
 	mux := http.NewServeMux()
 	s.handler = mux
+	mux.Handle("GET /api/live-demo/", liveDemoProxy())
+	mux.Handle("POST /api/live-demo/", liveDemoProxy())
 	route := func(method, path string, h http.HandlerFunc) {
 		mux.HandleFunc(method+" /api"+path, h)
 		mux.HandleFunc(method+" "+path, h)

@@ -11,6 +11,7 @@ export function Inspector({
   repair,
   analyze,
   back,
+  analysisLabel = 'Reassess with local heuristic ↗',
 }: {
   detail: HazardDetail | null;
   version: (Version & { content: string | null }) | null;
@@ -21,6 +22,7 @@ export function Inspector({
   repair: () => void;
   analyze: () => void;
   back: () => void;
+  analysisLabel?: string;
 }) {
   const [tab, setTab] = useState<'change' | 'output'>('change');
   const chain = (label: string, v: Version, name: string, seq: number, kind: string) => (
@@ -175,7 +177,7 @@ export function Inspector({
                 'Content staleness is already established. Semantic analysis runs separately.'}
             </p>
             <button className="text-button assess-button" disabled={busy} onClick={analyze}>
-              Reassess with local heuristic ↗
+              {analysisLabel}
             </button>
           </div>
           <div className="incident-block">
@@ -200,7 +202,7 @@ export function Inspector({
               ↶ Replay race
             </button>
             <button className="button" disabled={busy || !canRepair} onClick={repair}>
-              {!detail.active ? '✓ Repaired' : 'Repair demo ↗'}
+              {!detail.active ? '✓ Repaired' : 'Repair affected tasks ↗'}
             </button>
           </div>
         </>

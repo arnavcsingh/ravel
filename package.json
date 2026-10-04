@@ -11,6 +11,8 @@
   "scripts": {
     "start": "node scripts/python.mjs serve",
     "demo": "pnpm build && pnpm start",
+    "demo:live": "pnpm build && node scripts/python.mjs live-demo serve",
+    "live": "node scripts/python.mjs live-demo",
     "demo:reset": "node scripts/python.mjs reset",
     "dev": "node scripts/python.mjs dev",
     "test": "node scripts/python.mjs test",

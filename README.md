@@ -1,5 +1,80 @@
 # Ravel
 
+## Live Gemini demo
+
+Set `GEMINI_API_KEY` in your ignored `.env`, install Go 1.26+, Python 3.11+,
+Node 22.18+, and pnpm, then run:
+
+```sh
+pnpm install
+pnpm demo:live
+```
+
+Open **http://localhost:4317/**. This command builds the debugger and Go runtime,
+starts the optional Python live-demo controller, and enables the Spacetime
+projection when `RAVEL_SPACETIME_ENABLED=true`. Stop an older Ravel process on
+port4317 first. The controller defaults to loopback port4318; override with
+`RAVEL_DEMO_PORT`. `RAVEL_DEMO_URL` is wired automatically by this launcher.
+Fetch remains a separate `pnpm inspector` process with its optional Python
+environment (see below).
+
+Click **New Live Run**, edit the three prompts or initial repository, select
+**Controlled Interleaving** or **Natural concurrency**, and start. Every start
+creates a fresh Run ID and template workspace without deleting previous runs.
+Use the run selector to inspect history. The scripted offline fixture is
+separately labeled and is not the live Gemini demo.
+
+Controlled mode holds Backend's real write intent, lets Database run, then
+releases that intent through the ordinary Go validator and starts Frontend.
+Natural mode starts all agents concurrently. Scheduling uses synchronization
+events, never timing sleeps. The model generates all mutations through mediated
+tools. No hazard or semantic result is guaranteed: no mutation, an unchanged
+write, and a clean run are legitimate outcomes shown in the UI.
+
+For a fresh run from the terminal:
+
+```sh
+pnpm live start
+pnpm live start --config examples/live-demo.json
+pnpm live status --run RUN_ID
+pnpm live repair --run RUN_ID --hazard HAZARD_ID
+```
+
+`examples/live-demo.json` contains editable prompts and initial files, not agent
+outputs. Reset means starting another run; do not delete `.ravel` or use the
+offline archive-reset command to repeat a judge demo. Provider/controller status
+is saved alongside runtime data; SQLite and immutable blobs remain authoritative
+for observations, writes, provenance, replay, and hazard state.
+
+Repair derives affected producing tasks and their order from the actual
+provenance graph, reruns supported tasks with fresh Gemini transcripts against
+current heads, and verifies active lineage afterward. New immutable versions
+replace heads; historical versions remain. Cyclic or unsupported task lineages
+are reported rather than silently repaired. A clean lineage does not prove all
+generated code is semantically correct.
+
+For a 60–90 second presentation: start a fresh controlled Observe run, point out
+Backend's observation and held mutation, watch Database's new schema version and
+the released stale write, inspect the input diff and Gemini assessment, click
+**Replay race**, then **Repair affected tasks** and show the new versions and
+zero active affected heads. Model latency and quota can extend this sequence;
+the UI reports failures and preserves the trace. A follow-up Guard run shows
+normal rejection and fresh-attempt retry. Natural mode demonstrates outcomes
+without a forced interleaving.
+
+Health shows API readiness, Gemini configuration, Spacetime availability/SSE
+fallback, optional Inspector readiness, and template availability. Configuration
+is not a provider quota guarantee. Gemini authentication, timeout, quota, no-write,
+and semantic-analysis errors are visible; semantic failure never erases runtime
+facts. Set `RAVEL_AGENT_MODEL` and `RAVEL_SEMANTIC_MODEL` to override the default
+`gemini-3.5-flash-lite`. Empty values use that default. A coding attempt has a
+12-call budget, 45-second call timeout, and at most two Guard retries.
+
+Use `RAVEL_SPACETIME_ENABLED=false` for a fully working SSE-only demo. When
+enabled, cloud publishing failures automatically fall back to SSE. Keep the
+debugger page open; for Fetch also keep the ASI:One conversation with
+`@ravel-inspector` and its local Inspector process running.
+
 Ravel Inspector is an optional Python Agentverse mailbox agent, registered as
 `@ravel-inspector`. It calls the existing Go HTTP API; concurrency decisions,
 immutable history, replay, and repair remain in Go.

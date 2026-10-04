@@ -16,6 +16,7 @@ import { connectLive, type LiveMode } from './live';
 import { Timeline } from './Timeline';
 import { CausalGraph } from './CausalGraph';
 import { Inspector } from './Inspector';
+import { LiveRunPanel, useLiveRun } from './LiveRun';
 
 type DemoStatus = {
   phase: string;
@@ -26,6 +27,7 @@ type DemoStatus = {
 export default function App() {
   const [runs, setRuns] = useState<Run[]>([]),
     [runId, setRunId] = useState('');
+  const liveRun = useLiveRun(runId);
   const [snapshot, setSnapshot] = useState<DebuggerSnapshot | null>(null),
     [selected, setSelected] = useState<string | null>(null),
     [detail, setDetail] = useState<HazardDetail | null>(null);
@@ -277,9 +279,16 @@ export default function App() {
             disabled={busy || ['held', 'running', 'ready'].includes(demo?.phase ?? '')}
             onClick={action(newDemo)}
           >
-            {busy ? 'Working…' : 'Run live demo'}
+            {busy ? 'Working…' : 'Run scripted fixture'}
           </button>
         </div>
+        <LiveRunPanel
+          status={liveRun}
+          onCreated={async (id) => {
+            await loadRuns();
+            setRunId(id);
+          }}
+        />
         <div className="runbar">
           <div className="run-choice">
             <label htmlFor="run-select">Run</label>
@@ -616,23 +625,41 @@ export default function App() {
                     </section>
                   </div>
                   <Inspector
+                    analysisLabel={liveRun ? 'Reassess with Gemini ↗' : undefined}
                     detail={detail}
                     version={version}
                     versionLabels={Object.fromEntries(
                       snapshot.graph.nodes.map((node) => [node.id, node.label]),
                     )}
-                    canRepair={snapshot.canRepair}
-                    busy={busy}
+                    canRepair={liveRun ? liveRun.canRepair : snapshot.canRepair}
+                    busy={
+                      busy ||
+                      !!(
+                        liveRun &&
+                        ['repairing', 'assessing', 'running', 'held'].includes(liveRun.phase)
+                      )
+                    }
                     replay={action(replayRace)}
                     repair={action(async () => {
                       stop();
-                      await api(`/hazards/${hazardId}/repair`, { method: 'POST' });
+                      await api(
+                        liveRun ? `/live-demo/runs/${runId}/repair` : `/hazards/${hazardId}/repair`,
+                        {
+                          method: 'POST',
+                          ...(liveRun ? { body: JSON.stringify({ hazardId }) } : {}),
+                        },
+                      );
                       setLive(true);
                       setHistory(true);
                       await load();
                     })}
                     analyze={action(async () => {
-                      await api(`/hazards/${hazardId}/analyze`, { method: 'POST' });
+                      await api(
+                        liveRun
+                          ? `/live-demo/runs/${runId}/analyze`
+                          : `/hazards/${hazardId}/analyze`,
+                        { method: 'POST' },
+                      );
                       setLive(true);
                       await load();
                     })}

@@ -105,11 +105,12 @@ SEMANTIC_SCHEMA = {
 class GeminiRESTTransport:
     """No SDK dependency, implicit fallback, provider retry, or unrestricted tools."""
 
-    def __init__(self, api_key=None, limits=None, opener=None):
+    def __init__(self, api_key=None, limits=None, opener=None, tools=None):
         self._key = (api_key if api_key is not None else os.getenv("GEMINI_API_KEY", "")).strip()
         if not self._key:
             raise GeminiError("Gemini integration disabled: GEMINI_API_KEY is not set")
         self.limits = limits or Limits()
+        self.tools = TOOLS if tools is None else tools
         self._open = opener or urlopen
         self.calls = 0
         self.usage = {"promptTokens": 0, "outputTokens": 0, "totalTokens": 0}
@@ -181,7 +182,7 @@ class GeminiRESTTransport:
                 response = self.generate(model, {
                     "systemInstruction": {"parts": [{"text": AGENT_INSTRUCTIONS}]},
                     "contents": contents,
-                    "tools": [{"functionDeclarations": TOOLS}],
+                    "tools": [{"functionDeclarations": self.tools}],
                     "toolConfig": {"functionCallingConfig": {"mode": "ANY"}},
                     "generationConfig": {"maxOutputTokens": self.limits.max_output_tokens},
                 })
@@ -201,6 +202,8 @@ class GeminiRESTTransport:
                 call = calls[0]
                 name, args = call.get("name"), call.get("args", {})
                 error = self._arguments(name, args)
+                if name not in {tool["name"] for tool in self.tools}:
+                    error = "This operation is not available for this task. Use a declared tool."
                 if error:
                     contents.append({"role": "user", "parts": [self._response(call, {"error": error})]})
                     continue
