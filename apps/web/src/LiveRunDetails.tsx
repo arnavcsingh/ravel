@@ -29,7 +29,9 @@ export function LiveRunDetails({ status }: { status: LiveRunStatus }) {
       ))}
       {status.repairs?.map((repair, i) => (
         <p key={i}>
-          <StatusIndicator state={repair.status === 'completed' ? 'REPAIRED' : repair.status}>
+          <StatusIndicator
+            state={['completed', 'clean'].includes(repair.status) ? 'REPAIRED' : repair.status}
+          >
             Repair {repair.status}
           </StatusIndicator>{' '}
           · {repair.replacements.length} replacement versions. Historical versions retained.
