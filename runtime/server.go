@@ -418,10 +418,11 @@ func (s *Service) routes(staticRoot string) {
 	})
 	route("POST", "/runs/{runId}/attempts", func(w http.ResponseWriter, r *http.Request) {
 		var input struct {
-			AgentID string `json:"agentId"`
-			Name    string `json:"name"`
-			Prompt  string `json:"prompt"`
-			TaskID  string `json:"taskId"`
+			AgentID  string `json:"agentId"`
+			Name     string `json:"name"`
+			Prompt   string `json:"prompt"`
+			TaskID   string `json:"taskId"`
+			RepairOf string `json:"repairOf"`
 		}
 		if err := decode(w, r, &input); err != nil {
 			respond(w, nil, err)
@@ -432,7 +433,12 @@ func (s *Service) routes(staticRoot string) {
 			respond(w, nil, err)
 			return
 		}
-		a, err := c.CreateAttempt(input.AgentID, input.Name, input.Prompt, input.TaskID)
+		var a *Attempt
+		if input.RepairOf != "" {
+			a, err = c.CreateRepairAttempt(input.AgentID, input.TaskID, input.RepairOf)
+		} else {
+			a, err = c.CreateAttempt(input.AgentID, input.Name, input.Prompt, input.TaskID)
+		}
 		respond(w, a, err)
 	})
 	route("POST", "/runs/{runId}/attempts/{attemptId}/{operation}", s.agentOperation)

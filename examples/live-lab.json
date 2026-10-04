@@ -1,0 +1,22 @@
+{
+  "name": "Interactive account status experiment",
+  "scheduler": "interactive",
+  "mode": "observe",
+  "agents": [
+    {
+      "id": "contract",
+      "name": "Contract Builder",
+      "task": "Inspect the user schema and implement the backend User interface to match its current fields. Choose the files you need to inspect and publish the changes."
+    },
+    {
+      "id": "migration",
+      "name": "Migration Author",
+      "task": "Add account_status with active and suspended values to the user schema and migration. Inspect relevant files and publish changes."
+    },
+    {
+      "id": "client",
+      "name": "Client Builder",
+      "task": "Inspect the backend user contract and update frontend types and client to match it. Choose relevant files and publish changes."
+    }
+  ]
+}

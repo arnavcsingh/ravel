@@ -92,7 +92,10 @@ export default function App() {
         api<unknown>(`/runs/${runId}/debugger${seq ? `?seq=${seq}` : ''}`, {
           signal: controller.signal,
         }),
-        api<DemoStatus>(`/runs/${runId}/demo`, { signal: controller.signal }),
+        api<DemoStatus>(`/runs/${runId}/demo`, { signal: controller.signal }).catch((failure) => {
+          report(failure);
+          return null;
+        }),
       ]);
       if (controller.signal.aborted) return;
       const parsed = DebuggerSnapshotSchema.parse(value);
@@ -101,7 +104,7 @@ export default function App() {
       setDemo(status);
       return parsed;
     },
-    [runId],
+    [runId, report],
   );
   useEffect(() => {
     loadRuns()
@@ -196,7 +199,12 @@ export default function App() {
         return;
       }
       setStep(next);
-      await load(next.runtimeSeq);
+      const frame = await load(next.runtimeSeq);
+      const event = frame?.timeline.find((e) => e.runtimeSeq === next.runtimeSeq);
+      setSelectedAgent(
+        event?.agentId ?? frame?.agents.find((a) => a.name === next.agent)?.id ?? null,
+      );
+      setSelectedVersion(event?.versionId ?? next.highlightNodes[0] ?? null);
       if (token === playback.current)
         timer.current = setTimeout(() => tick(index + 1).catch(report), 950);
     };
@@ -240,6 +248,11 @@ export default function App() {
     setSelectedVersion(node.id);
     setSelectedEvent(null);
     versionRequest.current++;
+    setSelectedVersion(node.id);
+    setSelectedAgent(
+      snapshot?.timeline.find((e) => e.versionId === node.id && e.action !== 'OBSERVE')?.agentId ??
+        null,
+    );
     if (node.hazardIds[0]) {
       setSelected(node.hazardIds[0]);
       setVersion(null);
@@ -247,7 +260,7 @@ export default function App() {
     } else await inspectVersion(node);
   }
   const shownHazards = snapshot?.hazards.filter((h) => history || h.active) ?? [];
-  const trace = snapshot ? executionView(snapshot, events) : null;
+  const trace = snapshot ? executionView(snapshot, events, liveRun?.timelineExtras) : null;
   return (
     <>
       <aside className="sidebar">
@@ -325,6 +338,9 @@ export default function App() {
         </div>
         <LiveRunPanel
           status={liveRun}
+          historical={!live}
+          selectAgent={setSelectedAgent}
+          selectedAgentId={selectedAgent}
           onCreated={async (id) => {
             await loadRuns();
             setRunId(id);
@@ -436,7 +452,9 @@ export default function App() {
           <div className="empty-state" role="status">
             {error
               ? 'Execution unavailable. Check the runtime connection and reload.'
-              : 'Loading the recorded execution…'}
+              : runId
+                ? 'Loading the recorded execution…'
+                : 'Create a New Live Run to begin an experiment.'}
           </div>
         ) : (
           <>
@@ -550,7 +568,7 @@ export default function App() {
                         <option key={hazard.id} value={hazard.id}>
                           Incident {i + 1} · {hazard.observed.resourceId} →{' '}
                           {hazard.consumer.resourceId}
-                          {hazard.active ? '' : ' · repaired'}
+                          {hazard.active ? '' : ' · no active impact'}
                         </option>
                       ))}
                     </select>
@@ -566,7 +584,14 @@ export default function App() {
                   selectedEventId={selectedEvent?.id ?? null}
                   selectedAgentId={selectedAgent}
                   selectAgent={(id) => setSelectedAgent(id || null)}
-                  attempts={live ? liveRun?.attempts : undefined}
+                  events={events}
+                  agentStates={
+                    live && liveRun?.generic
+                      ? Object.fromEntries(
+                          Object.values(liveRun.agents ?? {}).map((a) => [a.agentId, a.state]),
+                        )
+                      : undefined
+                  }
                   step={step}
                   selectHazard={(id) => {
                     setSelected(id);
@@ -688,29 +713,38 @@ export default function App() {
                     </section>
                   </div>
                   <div className="evidence-column">
-                    {selectedEvent && (
+                    {selectedEvent && selectedEvent.runtimeSeq <= snapshot.currentRuntimeSeq && (
                       <EventDetails
                         event={selectedEvent}
                         snapshot={snapshot}
+                        facts={events}
                         close={() => setSelectedEvent(null)}
                       />
                     )}
-                    {selectedEvent?.action === 'GUARD_REJECT' && (
-                      <GuardValidationPanel event={selectedEvent} events={events} />
-                    )}
+                    {selectedEvent?.action === 'GUARD_REJECT' &&
+                      selectedEvent.runtimeSeq <= snapshot.currentRuntimeSeq && (
+                        <GuardValidationPanel event={selectedEvent} events={events} />
+                      )}
                     <Inspector
+                      hasIncident={!!hazardId}
                       analysisLabel={liveRun ? 'Reassess with Gemini ↗' : undefined}
                       detail={detail}
-                      version={version}
+                      version={
+                        version && version.creationSeq <= snapshot.currentRuntimeSeq
+                          ? version
+                          : null
+                      }
                       versionLabels={Object.fromEntries(
                         snapshot.graph.nodes.map((node) => [node.id, node.label]),
                       )}
-                      canRepair={liveRun ? liveRun.canRepair : snapshot.canRepair}
+                      canRepair={live && (liveRun ? liveRun.canRepair : snapshot.canRepair)}
                       busy={
                         busy ||
                         !!(
                           liveRun &&
-                          ['repairing', 'assessing', 'running', 'held'].includes(liveRun.phase)
+                          ['repairing', 'assessing', 'running', 'held', 'ready'].includes(
+                            liveRun.phase,
+                          )
                         )
                       }
                       replay={action(replayRace)}
@@ -759,7 +793,8 @@ export default function App() {
                   </div>
                 </WorkspaceSplit>
                 <ResourceHeads
-                  snapshot={snapshot}
+                  snapshot={trace!}
+                  events={events}
                   selectedId={selectedVersion}
                   inspect={(node) => {
                     inspectVersion(node).catch(report);

@@ -43,6 +43,7 @@ export const AttemptSchema = z.object({
   frontier: z.record(Id),
   observedVersions: z.array(Id),
   producedVersions: z.array(Id),
+  repairOf: Id.nullable().optional(),
 });
 export const VersionSchema = z
   .object({

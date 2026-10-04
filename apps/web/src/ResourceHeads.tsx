@@ -1,15 +1,17 @@
 import { useState } from 'react';
-import type { DebuggerSnapshot, GraphNode } from '@ravel/shared';
+import type { DebuggerSnapshot, GraphNode, RavelEvent } from '@ravel/shared';
 import { StatusIndicator } from './StatusIndicator';
 
 export function ResourceHeads({
   snapshot,
   selectedId,
   inspect,
+  events = [],
 }: {
   snapshot: DebuggerSnapshot;
   selectedId: string | null;
   inspect: (node: GraphNode) => void;
+  events?: RavelEvent[];
 }) {
   const [resource, setResource] = useState<string | null>(null);
   const chosen =
@@ -56,6 +58,18 @@ export function ResourceHeads({
             const event = snapshot.timeline.find(
               (event) => event.versionId === node.id && event.action !== 'OBSERVE',
             );
+            const fact = events.find(
+              (e) => 'version' in e.payload && e.payload.version.id === node.id,
+            );
+            const version = fact && 'version' in fact.payload ? fact.payload.version : null;
+            const prior = events.find(
+              (e) => 'version' in e.payload && e.payload.version.id === version?.previousVersionId,
+            );
+            const identical =
+              version &&
+              prior &&
+              'version' in prior.payload &&
+              prior.payload.version.contentHash === version.contentHash;
             return (
               <button
                 className={`resource-version ${selectedId === node.id ? 'selected' : ''}`}
@@ -71,6 +85,13 @@ export function ResourceHeads({
                       ? `sequence ${event.runtimeSeq}`
                       : 'Select to inspect content and provenance'}
                   </small>
+                  {version && (
+                    <small className="mono">
+                      hash {version.contentHash?.slice(0, 10) ?? 'absent'} · attempt{' '}
+                      {version.producerAttemptId?.slice(0, 8) ?? 'initial'}
+                    </small>
+                  )}
+                  {identical && <small>New immutable version · content / hash unchanged</small>}
                 </span>
                 <StatusIndicator
                   state={

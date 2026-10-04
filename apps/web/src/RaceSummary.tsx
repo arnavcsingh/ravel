@@ -44,7 +44,7 @@ export function RaceSummary({
               {detail.consumer.resourceId}@{detail.consumer.generation}
             </code>
           </span>
-          <StatusIndicator state={detail.active ? 'STALE' : 'REPAIRED'}>
+          <StatusIndicator state={detail.active ? 'STALE' : 'CURRENT'}>
             {detail.active
               ? `${detail.activeBlastRadius.length} affected heads`
               : '0 affected heads · history retained'}

@@ -19,6 +19,9 @@ export const TimelineEventSchema = z.object({
   resourceId: z.string().nullable(),
   state: VersionStateSchema,
   hazardIds: z.array(z.string()),
+  attemptId: z.string().nullable().optional(),
+  taskId: z.string().nullable().optional(),
+  repairOf: z.string().nullable().optional(),
 });
 export const GraphNodeSchema = z.object({
   id: z.string(),

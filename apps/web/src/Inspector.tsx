@@ -15,6 +15,7 @@ export function Inspector({
   analysisLabel = 'Reassess with local heuristic ↗',
   currentVersion = false,
   producerName,
+  hasIncident = false,
 }: {
   detail: HazardDetail | null;
   version: (Version & { content: string | null }) | null;
@@ -28,6 +29,7 @@ export function Inspector({
   analysisLabel?: string;
   currentVersion?: boolean;
   producerName?: string;
+  hasIncident?: boolean;
 }) {
   const [tab, setTab] = useState<'change' | 'output'>('change');
   const chain = (label: string, v: Version, name: string, seq: number, kind: string) => (
@@ -91,7 +93,11 @@ export function Inspector({
         </>
       ) : !detail ? (
         <div className="empty-state">
-          <h3>No published stale lineage.</h3>
+          <h3>
+            {hasIncident
+              ? 'Incident details loading or unavailable.'
+              : 'No published stale lineage.'}
+          </h3>
           <p>
             Select a timeline event to inspect observations, pending candidates, or Guard rejection.
             Select a resource version for its content.
@@ -103,7 +109,7 @@ export function Inspector({
             <span className={`hazard-badge ${!detail.active ? 'resolved' : ''}`}>
               {detail.active ? 'STALE INPUT' : 'HISTORICAL INCIDENT'}
             </span>
-            <h3>{detail.active ? 'Stale derivation detected' : 'Recovery recorded'}</h3>
+            <h3>{detail.active ? 'Stale derivation detected' : 'No active impact'}</h3>
             <p>
               {detail.observerName} produced <code>{detail.consumer.resourceId}</code> from an
               earlier version of <code>{detail.observed.resourceId}</code>.
@@ -187,7 +193,9 @@ export function Inspector({
                 ? 'Gemini'
                 : detail.assessment?.analyzer.startsWith('heuristic')
                   ? 'local heuristic'
-                  : 'pending'}
+                  : detail.assessment
+                    ? 'interpretation'
+                    : 'pending'}
             </h4>
             <div className="semantic-label">
               <strong>
@@ -238,7 +246,7 @@ export function Inspector({
               ↶ Replay race
             </button>
             <button className="button" disabled={busy || !canRepair} onClick={repair}>
-              {!detail.active ? '✓ Repaired' : 'Repair affected tasks ↗'}
+              {!detail.active ? 'No active impact' : 'Repair affected tasks ↗'}
             </button>
           </div>
         </>

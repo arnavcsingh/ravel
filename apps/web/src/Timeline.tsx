@@ -1,7 +1,8 @@
-import type { DebuggerSnapshot, ReplayStep, TimelineEvent } from '@ravel/shared';
+import type { DebuggerSnapshot, RavelEvent, ReplayStep, TimelineEvent } from '@ravel/shared';
 import { useState } from 'react';
 import { AgentCard } from './AgentCard';
 import { statusTone } from './StatusIndicator';
+import { attemptAction, attemptViews } from './traceView';
 
 export function Timeline({
   snapshot,
@@ -11,7 +12,8 @@ export function Timeline({
   selectedEventId,
   selectedAgentId,
   selectAgent,
-  attempts = [],
+  events = [],
+  agentStates,
 }: {
   snapshot: DebuggerSnapshot;
   step: ReplayStep | null;
@@ -20,15 +22,28 @@ export function Timeline({
   selectedEventId: string | null;
   selectedAgentId: string | null;
   selectAgent: (id: string) => void;
-  attempts?: { role: string; number: number; status: string }[];
+  events?: RavelEvent[];
+  agentStates?: Record<string, string>;
 }) {
   const [details, setDetails] = useState(false);
+  const attempts = attemptViews(snapshot, events);
   const shownEvents = snapshot.timeline.filter(
     (event) =>
       details ||
-      ['OBSERVE', 'WRITE', 'DELETE', 'GUARD_REJECT', 'RETRY', 'REPLACEMENT'].includes(
-        event.action,
-      ) ||
+      [
+        'OBSERVE',
+        'WRITE',
+        'DELETE',
+        'GUARD_REJECT',
+        'START',
+        'RETRY',
+        'REPAIR',
+        'REPLACEMENT',
+        'FAILED',
+        'TOOL_FAILED',
+        'INVALIDATED',
+        'COMPLETED',
+      ].includes(event.action) ||
       event.id === selectedEventId ||
       event.runtimeSeq === step?.runtimeSeq ||
       (event.action === 'WRITE_INTENT' &&
@@ -120,9 +135,13 @@ export function Timeline({
       <div className="agent-roster" aria-label="Agents in this execution">
         {snapshot.agents.map((agent) => {
           const allEntries = snapshot.timeline.filter((event) => event.agentId === agent.id);
+          const attempt = attempts.filter((attempt) => attempt.agentId === agent.id).at(-1);
           const attemptStart =
-            allEntries.filter((event) => ['START', 'RETRY'].includes(event.action)).at(-1)
-              ?.runtimeSeq ?? 0;
+            attempt?.startedSeq ??
+            allEntries
+              .filter((event) => ['START', 'RETRY', 'REPAIR', 'REPLACEMENT'].includes(event.action))
+              .at(-1)?.runtimeSeq ??
+            0;
           const entries = allEntries.filter((event) => event.runtimeSeq >= attemptStart);
           const observed = [
             ...new Map(
@@ -146,9 +165,6 @@ export function Timeline({
             snapshot.graph.nodes.find(
               (node) => node.id === output.versionId && node.currentHead && node.state !== 'CLEAN',
             );
-          const attempt = attempts
-            .filter((attempt) => attempt.role.toLowerCase() === agent.name.toLowerCase())
-            .at(-1);
           const latest = entries.at(-1);
           const pending =
             latest && /INTENT/.test(latest.action) ? (latest.resourceId ?? undefined) : undefined;
@@ -166,7 +182,7 @@ export function Timeline({
                     ? 'REJECTED'
                     : latest?.action === 'FAILED'
                       ? 'FAILED'
-                      : (attempt?.status ?? agent.status),
+                      : (agentStates?.[agent.id] ?? attempt?.status ?? agent.status),
                 attempt: attempt?.number,
                 observed,
                 pendingMutation: pending,
@@ -185,6 +201,61 @@ export function Timeline({
           );
         })}
       </div>
+      {!!attempts.length && (
+        <details className="attempt-history" open>
+          <summary>Attempt history · {attempts.length} immutable executions</summary>
+          {attempts.map((attempt) => (
+            <details key={attempt.id}>
+              <summary>
+                {snapshot.agents.find((a) => a.id === attempt.agentId)?.name} ·{' '}
+                {attemptAction(attempt)} #{attempt.number} · {attempt.status}
+                {attempt.rejected.length ? ` · ${attempt.rejected.length} rejected candidates` : ''}
+                {attempt.repairOf && !attempt.outputs.length ? ' · no replacement recorded' : ''}
+                {attempt.repairOf && attempt.status === 'completed' && !attempt.outputs.length
+                  ? ' · incomplete'
+                  : ''}
+                {attempt.repairOf &&
+                attempt.outputs.length &&
+                attempt.outputs.every(
+                  (id) => snapshot.graph.nodes.find((node) => node.id === id)?.state === 'CLEAN',
+                )
+                  ? ' · clean output lineage'
+                  : ''}
+              </summary>
+              <p className="mono">
+                Attempt {attempt.id} · task {attempt.taskId}
+                {attempt.repairOf ? ` · repair of ${attempt.repairOf}` : ''}
+              </p>
+              <p>
+                {attempt.observed.length} observations · {attempt.outputs.length} immutable outputs
+              </p>
+              {[
+                attempt.startEventId,
+                ...(attempt.endedEventId ? [attempt.endedEventId] : []),
+                ...attempt.rejected.map((e) => e.id),
+                ...attempt.failures.map((e) => e.id),
+              ].map((id) => {
+                const event = snapshot.timeline.find((e) => e.id === id);
+                return event ? (
+                  <button key={id} className="text-button" onClick={() => selectEvent(event)}>
+                    Inspect {event.action} · seq {event.runtimeSeq}
+                  </button>
+                ) : null;
+              })}
+              {attempt.outputs.map((id) => {
+                const event = snapshot.timeline.find(
+                  (e) => e.versionId === id && e.action !== 'OBSERVE',
+                );
+                return event ? (
+                  <button key={id} className="text-button" onClick={() => selectEvent(event)}>
+                    Inspect {snapshot.graph.nodes.find((n) => n.id === id)?.label}
+                  </button>
+                ) : null;
+              })}
+            </details>
+          ))}
+        </details>
+      )}
       <div className="diagram-scroll">
         <svg
           viewBox={`0 0 ${width} ${height}`}
@@ -236,7 +307,7 @@ export function Timeline({
               ? 42 + laneIndex(hazard.invalidatingAgentId) * 82
               : y;
             return (
-              <g key={window.hazardId}>
+              <g key={`${window.hazardId}:${window.resourceId}:${window.startSeq}`}>
                 <title>{`Observed ${window.resourceId} changed at sequence ${window.startSeq}; stale interval through sequence ${window.endSeq}`}</title>
                 <rect
                   x={start}

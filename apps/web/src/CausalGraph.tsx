@@ -13,6 +13,7 @@ import {
 import type { DebuggerSnapshot, GraphNode, ReplayStep } from '@ravel/shared';
 import '@xyflow/react/dist/style.css';
 import { layoutVersions } from './graphLayout';
+import { visibleVersionIds } from './graphFocus';
 
 type ResourceNode = Node<
   GraphNode & { highlighted: boolean; selected: boolean; inspect: (node: GraphNode) => void },
@@ -71,6 +72,9 @@ export function CausalGraph({
 }) {
   const [history, setHistory] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
+  const [dimensions, setDimensions] = useState<Record<string, { width: number; height: number }>>(
+    {},
+  );
   const hazard = snapshot.hazards.find((value) => value.id === hazardId);
   const focus = new Set([
     ...(!step && hazard
@@ -88,11 +92,13 @@ export function CausalGraph({
     ...focusVersionIds,
   ]);
   // Keep the immediate recorded inputs of current heads. Extra history is opt-in.
-  const visibleIds = new Set(
-    snapshot.graph.nodes
-      .filter((node) => node.currentHead || focus.has(node.id))
-      .map((node) => node.id),
-  );
+  const visibleIds = visibleVersionIds(snapshot, {
+    hazardId,
+    selectedVersionId,
+    highlightNodes: [...focus],
+    showHistory: history,
+  });
+  Object.values(snapshot.heads).forEach((id) => visibleIds.add(id));
   snapshot.graph.edges.forEach((edge) => {
     if (visibleIds.has(edge.target)) visibleIds.add(edge.source);
   });
@@ -103,6 +109,7 @@ export function CausalGraph({
         .map((node) => ({
           id: node.id,
           type: 'resource',
+          measured: dimensions[node.id],
           position: { x: node.x, y: node.y },
           data: {
             ...node,
@@ -112,7 +119,7 @@ export function CausalGraph({
           },
           style: { opacity: focus.size && !focus.has(node.id) ? 0.45 : 1 },
         })),
-    [snapshot, step, inspect, hazardId, selectedVersionId, history, focusVersionIds],
+    [snapshot, step, inspect, hazardId, selectedVersionId, history, focusVersionIds, dimensions],
   );
   const edges: Edge[] = useMemo(
     () =>
@@ -170,6 +177,22 @@ export function CausalGraph({
           <ReactFlow
             key={`${snapshot.run.id}:${nodes.map((node) => node.id).join(',')}`}
             nodes={nodes}
+            onNodesChange={(changes) =>
+              setDimensions((old) => {
+                let next = old;
+                for (const change of changes) {
+                  if (change.type !== 'dimensions' || !change.dimensions) continue;
+                  if (
+                    old[change.id]?.width === change.dimensions.width &&
+                    old[change.id]?.height === change.dimensions.height
+                  )
+                    continue;
+                  if (next === old) next = { ...old };
+                  next[change.id] = change.dimensions;
+                }
+                return next;
+              })
+            }
             edges={edges}
             nodeTypes={nodeTypes}
             fitView
@@ -191,7 +214,7 @@ export function CausalGraph({
       <div className="graph-foot">
         <span>
           <i className="line-key" />
-          Candidate derivation
+          Derived from observed version
         </span>
         <span>
           <i className="line-key dashed" />
