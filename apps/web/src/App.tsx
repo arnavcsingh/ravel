@@ -212,7 +212,6 @@ export default function App() {
           WORKSPACE <span>LOCAL</span>
         </div>
         <div className="workspace-name">
-          <span className="repo-icon">⌘</span>
           {snapshot?.run.scenario ?? snapshot?.run.name ?? 'Select a run'}
         </div>
         <div className="nav-label">OBSERVABILITY</div>
@@ -221,8 +220,9 @@ export default function App() {
             className={`nav-item ${!eventView ? 'active' : ''}`}
             onClick={() => setEventView(false)}
             aria-label="Causal debugger"
+            aria-pressed={!eventView}
           >
-            <span>⌁</span>Causal debugger
+            Causal debugger
             <span className="nav-count">
               {snapshot?.hazards.filter((h) => h.active).length ?? 0}
             </span>
@@ -231,21 +231,13 @@ export default function App() {
             className={`nav-item ${eventView ? 'active' : ''}`}
             onClick={() => setEventView(true)}
             aria-label="Event log"
+            aria-pressed={eventView}
           >
-            <span>≡</span>Event log
+            Event log
           </button>
         </nav>
-        <div className="sidebar-note">
-          <div className="mini-threads">
-            <i />
-            <i />
-            <i />
-          </div>
-          <strong>Follow the cause.</strong>
-          <p>See where shared context drifts, and what follows.</p>
-        </div>
         <div className="sidebar-bottom">
-          <span className="connection-dot" />
+          <span className={`connection-dot ${connected ? '' : 'disconnected'}`} />
           <span>{connected ? 'Runtime connected' : 'Reconnecting…'}</span>
           <span>v0.3</span>
         </div>
@@ -254,7 +246,8 @@ export default function App() {
         <header className="topbar">
           <div>
             <span className="muted">Workspace</span>
-            <span className="slash">/</span>Causal debugger
+            <span className="slash">/</span>
+            {eventView ? 'Event log' : 'Causal debugger'}
           </div>
           <button className="text-button" onClick={() => about.current?.showModal()}>
             How to read this trace <span>↗</span>
@@ -262,23 +255,19 @@ export default function App() {
         </header>
         <div className="page-heading">
           <div>
-            <div className="eyebrow">SHARED STATE. VISIBLE CONSEQUENCES.</div>
-            <h1>
-              A race, unraveled<span>.</span>
-            </h1>
-            <p>Trace an observation from the moment it becomes stale to the work it shapes.</p>
+            <h1>{eventView ? 'Event log' : 'Causal debugger'}</h1>
+            <p>Agent execution, shared state, and the consequences of stale context.</p>
           </div>
           <button
             className="button primary"
             disabled={busy || ['held', 'running', 'ready'].includes(demo?.phase ?? '')}
             onClick={action(newDemo)}
           >
-            <span>＋</span>Run live demo
+            {busy ? 'Working…' : 'Run live demo'}
           </button>
         </div>
         <div className="runbar">
           <div className="run-choice">
-            <span className="run-icon">◈</span>
             <label htmlFor="run-select">Run</label>
             <select
               id="run-select"
@@ -297,12 +286,14 @@ export default function App() {
             <span className="pill">{snapshot?.run.mode.toUpperCase() ?? 'OBSERVE'} MODE</span>
             <span className="status-label">
               {!live
-                ? '◷ REPLAYING'
+                ? playing
+                  ? 'PLAYING TRACE'
+                  : 'HISTORICAL VIEW'
                 : demo?.phase === 'held'
-                  ? 'Ⅱ MUTATION HELD'
+                  ? 'MUTATION HELD'
                   : snapshot?.run.status === 'running'
-                    ? '● RUNNING'
-                    : '● RECORDED'}
+                    ? 'RUNNING'
+                    : 'RECORDED'}
             </span>
           </div>
         </div>
@@ -374,7 +365,11 @@ export default function App() {
           </div>
         )}
         {!snapshot ? (
-          <div className="empty-state">Loading the recorded execution…</div>
+          <div className="empty-state" role="status">
+            {error
+              ? 'Execution unavailable. Check the runtime connection and reload.'
+              : 'Loading the recorded execution…'}
+          </div>
         ) : (
           <>
             {snapshot.run.mode === 'guard' && snapshot.guard.rejectedWrites > 0 && (
@@ -405,7 +400,7 @@ export default function App() {
               </div>
               <div>
                 <span className="stat-label">Active incidents</span>
-                <strong className="danger">
+                <strong className={snapshot.hazards.some((h) => h.active) ? 'danger' : ''}>
                   {snapshot.hazards.filter((h) => h.active).length}
                 </strong>
                 <span className="stat-detail">stale observations</span>
@@ -434,7 +429,16 @@ export default function App() {
                     </thead>
                     <tbody>
                       {events.map((event) => (
-                        <tr key={event.id}>
+                        <tr
+                          key={event.id}
+                          className={
+                            snapshot.timeline.some(
+                              (entry) => entry.id === event.id && entry.hazardIds.length > 0,
+                            )
+                              ? 'event-hazard'
+                              : ''
+                          }
+                        >
                           <td>{String(event.runtimeSeq).padStart(3, '0')}</td>
                           <td>
                             {snapshot.agents.find((a) => a.id === event.agentId)?.name ?? 'Runtime'}
@@ -506,7 +510,6 @@ export default function App() {
                     />
                     <section className="replay-panel">
                       <div className="replay-title">
-                        <span className="replay-symbol">↶</span>
                         <div>
                           <strong>{step ? step.description : 'Replay the execution'}</strong>
                           <span>
@@ -640,7 +643,6 @@ export default function App() {
         >
           ×
         </button>
-        <div className="eyebrow">A NOTE ON EVIDENCE</div>
         <h2>
           Stale is a fact.
           <br />
