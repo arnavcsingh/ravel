@@ -5,8 +5,9 @@
   "type": "module",
   "dependencies": {
     "@ravel/shared": "workspace:*",
+    "@xyflow/react": "^12.8.4",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "@xyflow/react": "^12.8.4"
+    "spacetimedb": "2.10.2"
   }
 }

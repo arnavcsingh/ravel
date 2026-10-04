@@ -10,8 +10,4 @@ demo/workspace/
 .pnpm-cache/
 __pycache__/
 *.pyc
-*.md
-!/README.md
-!/PRODUCT.md
-!/DESIGN.md
-.agents/skills/impeccable/
+docs/

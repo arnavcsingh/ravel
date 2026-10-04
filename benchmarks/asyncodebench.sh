@@ -9,13 +9,18 @@ export UV_PYTHON_INSTALL_DIR="$TOOLS/python"
 export LITELLM_LOCAL_MODEL_COST_MAP=True
 RUNNER="$ASYNCODEBENCH_ROOT/reproductions/async-swe-agents"
 REVISION=566c32b6f4ad209ecfe95f10970b02d4b79289c1
+FROZEN_LEGACY_REVISION=73c9877315c920867ba72750826b66421be08bc0
 UV="${RAVEL_UV:-$TOOLS/bin/uv}"
 action="${1:-check}"
+if [[ $# -gt 0 ]]; then shift; fi
+export SDK_SOURCE_DIR="$ASYNCODEBENCH_ROOT/reproductions/software-agent-sdk"
 
 if [[ ! -x "$UV" ]]; then
   echo 'uv is missing. Set RAVEL_UV to an installed uv executable.' >&2
   exit 2
 fi
+# The SDK invokes `uv build` itself while constructing its Docker image.
+export PATH="$(dirname "$UV"):$PATH"
 if [[ "$action" == setup ]]; then
   if [[ ! -d "$ASYNCODEBENCH_ROOT/.git" ]]; then
     git clone https://github.com/KaituoZhang/AsynCodeBench.git "$ASYNCODEBENCH_ROOT"
@@ -29,6 +34,11 @@ fi
 export PYTHONPATH="$RUNNER:$ASYNCODEBENCH_ROOT/src"
 case "$action" in
   setup)
+    if ! git -C "$ASYNCODEBENCH_ROOT" cat-file -e "$FROZEN_LEGACY_REVISION^{commit}" 2>/dev/null; then
+      # Async-Manager compares old engine bytes against this historical object.
+      # Fetching metadata leaves the pinned checkout and evaluator unchanged.
+      git -C "$ASYNCODEBENCH_ROOT" fetch --no-tags https://github.com/KaituoZhang/AsynCodeBench "$FROZEN_LEGACY_REVISION"
+    fi
     "$UV" python install 3.12
     "$UV" venv --python 3.12 --allow-existing "$TOOLS/validation-env"
     "$UV" pip install --python "$TOOLS/validation-env/bin/python" 'jsonschema>=4.23,<5' 'pydantic>=2.7,<3' 'pytest>=8.3,<9'
@@ -53,6 +63,8 @@ case "$action" in
   smoke)
     # This upstream diagnostic adapter intentionally cannot solve the task.
     # It makes no model calls; evaluator failure is expected, infrastructure failure is not.
+    export LLM_API_KEY=diagnostic-no-model-calls
+    export LLM_BASE_URL=http://127.0.0.1:1
     if ! timeout 20 docker info; then
       echo 'Docker is unavailable in this Linux environment. Start Docker Desktop and enable integration for this WSL distro, then retry smoke.' >&2
       exit 2
@@ -60,5 +72,28 @@ case "$action" in
     cd "$RUNNER"
     "$UV" run --frozen --no-sync asyncodebench run --release v0.4 --task asyncodebench:cachetools --protocol single --model test/no-model-call --agent-import-path examples.agents.diagnostic_adapter:DiagnosticAgentAdapter --output-dir "$TOOLS/smoke-$(date -u +%Y%m%dT%H%M%S)"
     ;;
-  *) echo 'Usage: asyncodebench.sh setup|check|runner-check|dry-run|smoke' >&2; exit 2 ;;
+  doctor)
+    cd "$RUNNER"
+    if [[ "$LLM_MODEL" == gemini/* ]]; then
+      # Upstream's online doctor assumes OpenAI HTTP routes. Keep its local
+      # checks, then exercise the configured native route through SDK messages.
+      "$UV" run --frozen --no-sync asyncodebench doctor --offline
+      "$UV" run --frozen --no-sync python "$ROOT/python/ravel/upstream_probe.py"
+    else
+      "$UV" run --frozen --no-sync asyncodebench doctor
+    fi
+    ;;
+  run)
+    if ! timeout 20 docker info >/dev/null; then
+      echo 'Docker is unavailable. Start Docker Desktop with WSL integration.' >&2
+      exit 2
+    fi
+    cd "$RUNNER"
+    native_output="$TOOLS/native-$(date -u +%Y%m%dT%H%M%S)"
+    "$UV" run --frozen --no-sync asyncodebench run --release v0.4 --model "$LLM_MODEL" --output-dir "$native_output" "$@"
+    # Some upstream protocols finalize silently; give the Windows launcher a
+    # consistent artifact location to validate after the harness exits.
+    echo "[AsynCodeBench] Result bundle: $native_output/run_bundle.json"
+    ;;
+  *) echo 'Usage: asyncodebench.sh setup|check|runner-check|dry-run|smoke|doctor|run' >&2; exit 2 ;;
 esac

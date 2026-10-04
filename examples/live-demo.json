@@ -1,0 +1,14 @@
+{
+  "scheduler": "controlled",
+  "mode": "observe",
+  "prompts": {
+    "Database": "Observe schema.sql, then change User.id from INTEGER to UUID in schema.sql using write_resource. Finish after the write succeeds; no verification reread is needed.",
+    "Backend": "Observe schema.sql and generate the complete api/types.ts to match it. Export interface User including all columns. Use write_resource, then finish after the write succeeds.",
+    "Frontend": "Observe api/types.ts and generate frontend/client.ts to match it. Import User and export function userUrl(id: User['id']): string. Use write_resource, then finish after the write succeeds."
+  },
+  "files": {
+    "schema.sql": "CREATE TABLE users (\n  id INTEGER PRIMARY KEY,\n  email TEXT NOT NULL\n);\n",
+    "api/types.ts": "// Complete this interface from schema.sql.\nexport interface User {\n  id: number;\n}\n",
+    "frontend/client.ts": "// Implement userUrl(id: User['id']): string using ../api/types.\n"
+  }
+}

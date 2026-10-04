@@ -1,0 +1,4 @@
+# Optional: core runtime, benchmark and Gemini require none of these packages.
+agentverse-sdk[a2a]==0.2.1
+a2a-sdk[http-server]==1.2.1
+uvicorn==0.41.0

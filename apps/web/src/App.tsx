@@ -3,7 +3,6 @@ import {
   DebuggerSnapshotSchema,
   HazardDetailSchema,
   ReplayPlanSchema,
-  StreamUpdateSchema,
   type DebuggerSnapshot,
   type GraphNode,
   type HazardDetail,
@@ -13,9 +12,11 @@ import {
   type Version,
 } from '@ravel/shared';
 import { api } from './api';
+import { connectLive, type LiveMode } from './live';
 import { Timeline } from './Timeline';
 import { CausalGraph } from './CausalGraph';
 import { Inspector } from './Inspector';
+import { LiveRunPanel, useLiveRun } from './LiveRun';
 
 type DemoStatus = {
   phase: string;
@@ -26,6 +27,7 @@ type DemoStatus = {
 export default function App() {
   const [runs, setRuns] = useState<Run[]>([]),
     [runId, setRunId] = useState('');
+  const liveRun = useLiveRun(runId);
   const [snapshot, setSnapshot] = useState<DebuggerSnapshot | null>(null),
     [selected, setSelected] = useState<string | null>(null),
     [detail, setDetail] = useState<HazardDetail | null>(null);
@@ -36,6 +38,7 @@ export default function App() {
     [latest, setLatest] = useState(1),
     [playing, setPlaying] = useState(false),
     [step, setStep] = useState<ReplayStep | null>(null);
+  const [liveMode, setLiveMode] = useState<LiveMode>('sse');
   const [events, setEvents] = useState<RavelEvent[]>([]),
     [eventView, setEventView] = useState(false),
     [history, setHistory] = useState(false),
@@ -110,22 +113,27 @@ export default function App() {
   }, [runId, load, stop, report]);
   useEffect(() => {
     if (!runId) return;
-    const stream = new EventSource(`/api/runs/${runId}/stream`);
-    stream.onopen = () => setConnected(true);
-    stream.onerror = () => setConnected(false);
-    const update = (message: MessageEvent) => {
-      try {
-        const event = StreamUpdateSchema.parse(JSON.parse(message.data));
-        setLatest((old) => Math.max(old, event.runtimeSeq));
+    return connectLive(runId, {
+      status: (connected, mode) => {
+        setConnected(connected);
+        setLiveMode(mode);
+      },
+      error: report,
+      snapshot: (value) => {
+        setLatest((old) => Math.max(old, value.latestRuntimeSeq));
+        if (live) {
+          loading.current?.abort();
+          setSnapshot(value);
+        }
+        api<DemoStatus>(`/runs/${runId}/demo`).then(setDemo).catch(report);
+      },
+      update: (seq, kind) => {
+        setLatest((old) => Math.max(old, seq));
         if (live) load().catch(report);
-        if (event.kind === 'DEMO_FAILED')
+        if (kind === 'DEMO_FAILED')
           setError('The demo failed. Check the runtime terminal and start a new run.');
-      } catch (failure) {
-        report(failure);
-      }
-    };
-    stream.addEventListener('update', update as EventListener);
-    return () => stream.close();
+      },
+    });
   }, [runId, live, load, report]);
   const hazardId =
     snapshot?.hazards.find((h) => h.id === selected)?.id ??
@@ -240,7 +248,13 @@ export default function App() {
         </nav>
         <div className="sidebar-bottom">
           <span className={`connection-dot ${connected ? '' : 'disconnected'}`} />
-          <span>{connected ? 'Runtime connected' : 'Reconnecting…'}</span>
+          <span>
+            {connected
+              ? liveMode === 'spacetime'
+                ? 'SpacetimeDB live'
+                : 'Runtime connected · SSE'
+              : 'Reconnecting…'}
+          </span>
           <span>v0.3</span>
         </div>
       </aside>
@@ -265,9 +279,16 @@ export default function App() {
             disabled={busy || ['held', 'running', 'ready'].includes(demo?.phase ?? '')}
             onClick={action(newDemo)}
           >
-            {busy ? 'Working…' : 'Run live demo'}
+            {busy ? 'Working…' : 'Run scripted fixture'}
           </button>
         </div>
+        <LiveRunPanel
+          status={liveRun}
+          onCreated={async (id) => {
+            await loadRuns();
+            setRunId(id);
+          }}
+        />
         <div className="runbar">
           <div className="run-choice">
             <label htmlFor="run-select">Run</label>
@@ -604,23 +625,41 @@ export default function App() {
                     </section>
                   </div>
                   <Inspector
+                    analysisLabel={liveRun ? 'Reassess with Gemini ↗' : undefined}
                     detail={detail}
                     version={version}
                     versionLabels={Object.fromEntries(
                       snapshot.graph.nodes.map((node) => [node.id, node.label]),
                     )}
-                    canRepair={snapshot.canRepair}
-                    busy={busy}
+                    canRepair={liveRun ? liveRun.canRepair : snapshot.canRepair}
+                    busy={
+                      busy ||
+                      !!(
+                        liveRun &&
+                        ['repairing', 'assessing', 'running', 'held'].includes(liveRun.phase)
+                      )
+                    }
                     replay={action(replayRace)}
                     repair={action(async () => {
                       stop();
-                      await api(`/hazards/${hazardId}/repair`, { method: 'POST' });
+                      await api(
+                        liveRun ? `/live-demo/runs/${runId}/repair` : `/hazards/${hazardId}/repair`,
+                        {
+                          method: 'POST',
+                          ...(liveRun ? { body: JSON.stringify({ hazardId }) } : {}),
+                        },
+                      );
                       setLive(true);
                       setHistory(true);
                       await load();
                     })}
                     analyze={action(async () => {
-                      await api(`/hazards/${hazardId}/analyze`, { method: 'POST' });
+                      await api(
+                        liveRun
+                          ? `/live-demo/runs/${runId}/analyze`
+                          : `/hazards/${hazardId}/analyze`,
+                        { method: 'POST' },
+                      );
                       setLive(true);
                       await load();
                     })}

@@ -39,6 +39,7 @@ class RuntimeProcess:
         self.process = subprocess.Popen(
             [str(BINARY), "-data", str(self.directory), "-port", "0", f"-seed={str(self.seed).lower()}"],
             cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
+            env={**os.environ, "RAVEL_SPACETIME_ENABLED": "false"},
         )
         messages = queue.Queue()
 
