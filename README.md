@@ -57,7 +57,30 @@ Stop the server before reset. A sibling process lease prevents simultaneous CLI 
 
 Go owns concurrency and durable state because these concerns need one explicit synchronization and transaction boundary. Python fits coding-agent and benchmark ecosystems; it makes HTTP calls and never duplicates validation decisions. React remains the debugger's presentation layer. Every client uses the same model-independent API.
 
-The Go demo scheduler and fixture heuristic remain deterministic conformance fixtures. The optional Python Gemini driver uses mediated HTTP tools; its semantic analyzer appends labeled annotations through Go. Invoke it explicitly with `pnpm gemini`; normal startup stays offline. The SpacetimeDB projection module is scaffolded under `integrations/spacetime`; runtime publishing and live subscriptions are not enabled yet. Fetch remains optional future work. Persistence remains SQLite plus SHA-256 blobs.
+The Go demo scheduler and fixture heuristic remain deterministic conformance fixtures. The optional Python Gemini driver uses mediated HTTP tools; its semantic analyzer appends labeled annotations through Go. Invoke it explicitly with `pnpm gemini`; normal startup stays offline. SpacetimeDB can mirror the debugger read model for live React subscriptions. Persistence remains SQLite plus SHA-256 blobs.
+
+## Optional SpacetimeDB live projection
+
+Authenticate the installed CLI with `spacetime login`, then publish the isolated module:
+
+```sh
+spacetime publish ravel-mhacks-2026 --server maincloud --module-path integrations/spacetime/spacetimedb
+spacetime generate --lang typescript --out-dir apps/web/src/spacetime_bindings --module-path integrations/spacetime/spacetimedb
+```
+
+Set these values in your ignored `.env`, then restart Ravel:
+
+```dotenv
+RAVEL_SPACETIME_ENABLED=true
+RAVEL_SPACETIME_URI=https://maincloud.spacetimedb.com
+RAVEL_SPACETIME_DATABASE=ravel-mhacks-2026
+```
+
+`RAVEL_SPACETIME_CLI` optionally selects an absolute CLI path. The runtime reads the existing CLI login token into memory; it never puts that token in browser configuration, projection rows, or source files. Only the module publisher identity can publish snapshots. Public subscription tables contain debugger summaries, not file contents, agent prompts, or local workspace paths. Publish only run summaries you intend to share with clients of this database.
+
+The background worker reads committed SQLite facts through its own read-only connection. It coalesces changes into complete snapshots containing the timeline in `runtime_seq` order. Failed publications retry from SQLite with capped backoff, and restart republishes existing runs. The module ignores duplicate and older cursors. React consumes generated subscription bindings and preserves SSE as a fallback for connection failure, disabled projection, or lag beyond 2.5 seconds. Replay and mutations always use the Go HTTP API. `/api/live` reports enabled configuration and the worker's latest publication status.
+
+Set `RAVEL_SPACETIME_ENABLED=false` to run entirely through SSE. The core does not need the CLI, account, or cloud connection. Automated runtime-process tests disable cloud publication regardless of local `.env` settings.
 
 ## Agent API
 
