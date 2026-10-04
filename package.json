@@ -20,6 +20,7 @@
     "benchmark": "node scripts/python.mjs benchmark",
     "benchmark:upstream": "node scripts/python.mjs upstream",
     "gemini": "node scripts/python.mjs gemini",
+    "inspector": "node scripts/python.mjs inspector",
     "typecheck": "tsc --noEmit",
     "check": "pnpm typecheck && pnpm format:check",
     "format": "prettier --write packages apps tests scripts examples integrations *.json *.yaml *.ts README.md",
