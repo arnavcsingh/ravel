@@ -51,38 +51,94 @@ export function CausalGraph({
   snapshot,
   step,
   inspect,
+  selectedVersionId,
+  hazardId,
+  showHistory = false,
 }: {
   snapshot: DebuggerSnapshot;
   step: ReplayStep | null;
   inspect: (node: GraphNode) => void;
+  selectedVersionId?: string | null;
+  hazardId?: string | null;
+  showHistory?: boolean;
 }) {
+  const hazard = snapshot.hazards.find((h) => h.id === hazardId);
+  const focus = hazard
+    ? new Set([
+        hazard.observedVersionId,
+        hazard.staleSinceVersionId,
+        hazard.consumerVersionId,
+        ...hazard.activeBlastRadius,
+      ])
+    : null;
+  const derived = new Set(
+    snapshot.graph.edges
+      .filter((edge) => edge.kind === 'DERIVED_FROM')
+      .flatMap((edge) => [edge.source, edge.target]),
+  );
+  const visible = new Set(
+    snapshot.graph.nodes
+      .filter(
+        (node) =>
+          showHistory ||
+          node.id === selectedVersionId ||
+          (focus ? focus.has(node.id) : node.currentHead || derived.has(node.id)) ||
+          step?.highlightNodes.includes(node.id),
+      )
+      .map((node) => node.id),
+  );
+  const resources = [
+    ...new Set(
+      snapshot.graph.nodes.filter((node) => visible.has(node.id)).map((node) => node.resourceId),
+    ),
+  ];
   const nodes: ResourceNode[] = useMemo(
     () =>
-      snapshot.graph.nodes.map((node) => ({
-        id: node.id,
-        type: 'resource',
-        position: { x: node.x, y: node.y },
-        data: { ...node, highlighted: step?.highlightNodes.includes(node.id) ?? false, inspect },
-      })),
-    [snapshot.graph.nodes, step, inspect],
+      snapshot.graph.nodes
+        .filter((node) => visible.has(node.id))
+        .map((node) => ({
+          id: node.id,
+          type: 'resource',
+          position: {
+            x: resources.indexOf(node.resourceId) * 270,
+            y:
+              snapshot.graph.nodes.filter(
+                (other) =>
+                  visible.has(other.id) &&
+                  other.resourceId === node.resourceId &&
+                  other.generation < node.generation,
+              ).length * 120,
+          },
+          data: {
+            ...node,
+            highlighted:
+              node.id === selectedVersionId ||
+              (step?.highlightNodes.includes(node.id) ?? false) ||
+              !!focus?.has(node.id),
+            inspect,
+          },
+        })),
+    [snapshot.graph.nodes, step, inspect, selectedVersionId, hazardId, showHistory],
   );
   const edges: Edge[] = useMemo(
     () =>
-      snapshot.graph.edges.map((edge) => ({
-        id: edge.id,
-        source: edge.source,
-        target: edge.target,
-        type: edge.kind === 'VERSION_SUCCESSOR' ? 'smoothstep' : 'default',
-        animated: step?.highlightEdges.includes(edge.id),
-        style: {
-          stroke: edge.kind === 'VERSION_SUCCESSOR' ? 'var(--muted)' : 'var(--amber)',
-          strokeWidth: 1.5,
-          strokeDasharray: edge.kind === 'VERSION_SUCCESSOR' ? '4 5' : undefined,
-        },
-        markerEnd: { type: MarkerType.ArrowClosed, color: '#a4adb5' },
-        ariaLabel: edge.label,
-      })),
-    [snapshot.graph.edges, step],
+      snapshot.graph.edges
+        .filter((edge) => visible.has(edge.source) && visible.has(edge.target))
+        .map((edge) => ({
+          id: edge.id,
+          source: edge.source,
+          target: edge.target,
+          type: edge.kind === 'VERSION_SUCCESSOR' ? 'smoothstep' : 'default',
+          animated: step?.highlightEdges.includes(edge.id),
+          style: {
+            stroke: edge.kind === 'VERSION_SUCCESSOR' ? 'var(--muted)' : 'var(--amber)',
+            strokeWidth: 1.5,
+            strokeDasharray: edge.kind === 'VERSION_SUCCESSOR' ? '4 5' : undefined,
+          },
+          markerEnd: { type: MarkerType.ArrowClosed, color: '#a4adb5' },
+          ariaLabel: edge.label,
+        })),
+    [snapshot.graph.edges, step, snapshot.graph.nodes, selectedVersionId, hazardId, showHistory],
   );
   return (
     <section className="panel graph-panel">
@@ -95,7 +151,7 @@ export function CausalGraph({
       </div>
       <div className="flow-container">
         <ReactFlow
-          key={`${snapshot.run.id}:${snapshot.graph.nodes.length}`}
+          key={`${snapshot.run.id}:${nodes.map((node) => node.id).join(',')}`}
           nodes={nodes}
           edges={edges}
           nodeTypes={nodeTypes}
@@ -107,7 +163,7 @@ export function CausalGraph({
           deleteKeyCode={null}
           colorMode="dark"
           onNodeClick={(_event, node) => inspect(node.data)}
-          minZoom={0.25}
+          minZoom={0.1}
           maxZoom={1.8}
         >
           <Background gap={22} color="var(--line)" />
@@ -117,7 +173,7 @@ export function CausalGraph({
       <div className="graph-foot">
         <span>
           <i className="line-key" />
-          Candidate derivation
+          Derived from observed version
         </span>
         <span>
           <i className="line-key dashed" />

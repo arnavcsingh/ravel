@@ -11,6 +11,7 @@ from urllib.request import urlopen
 
 from .client import Client
 from .live_demo import FILES, PROMPTS, LiveDemo, safe_error
+from .live_lab import LAB_FILES, LAB_AGENTS
 from .process import ROOT, BINARY, build
 
 
@@ -41,7 +42,7 @@ def make_server(manager, port):
                         pass
                     self.send(200, {"api": health["status"] == "ok", "gemini": bool(os.getenv("GEMINI_API_KEY", "").strip()),
                                     "spacetime": projection, "inspector": inspector, "workspace": True,
-                                    "files": FILES, "prompts": PROMPTS})
+                                    "files": FILES, "prompts": PROMPTS, "labFiles": LAB_FILES, "labAgents": LAB_AGENTS})
                 elif self.path.startswith("/runs/"):
                     self.send(200, manager.inspect(self.path.split("/")[2]))
                 else:
@@ -66,6 +67,11 @@ def make_server(manager, port):
                     self.send(202, manager.repair(self.path.split("/")[2], data["hazardId"]))
                 elif self.path.startswith("/runs/") and self.path.endswith("/analyze"):
                     self.send(202, manager.analyze(self.path.split("/")[2]))
+                elif self.path.startswith("/runs/") and self.path.endswith("/finish"):
+                    self.send(202, manager.finish(self.path.split("/")[2]))
+                elif len(self.path.split("/")) == 6 and self.path.split("/")[3] == "agents":
+                    parts = self.path.split("/")
+                    self.send(202, manager.control(parts[2], parts[4], parts[5], data))
                 else:
                     self.send(404, {"error": "Unknown live-demo endpoint"})
             except Exception as error:
@@ -118,13 +124,16 @@ def serve(args):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=("serve", "start", "status", "repair"))
+    parser.add_argument("command", choices=("serve", "start", "status", "repair", "control", "finish"))
     parser.add_argument("--url", default="http://127.0.0.1:" + os.getenv("PORT", "4317"))
     parser.add_argument("--data", default=os.getenv("RAVEL_DATA_DIR", ".ravel/v3"))
     parser.add_argument("--controller-port", type=int, default=int(os.getenv("RAVEL_DEMO_PORT", "4318")))
     parser.add_argument("--config", type=Path)
     parser.add_argument("--run")
     parser.add_argument("--hazard")
+    parser.add_argument("--agent")
+    parser.add_argument("--action", choices=("start", "retry", "pause", "resume", "pause-after-observation", "hold", "release"))
+    parser.add_argument("--task")
     args = parser.parse_args(argv)
     if args.command == "serve":
         return serve(args)
@@ -133,6 +142,14 @@ def main(argv=None):
         result = client.request("/live-demo/runs", json.loads(args.config.read_text()) if args.config else {})
     elif args.command == "repair":
         result = client.request(f"/live-demo/runs/{args.run}/repair", {"hazardId": args.hazard})
+    elif args.command == "control":
+        if not args.run or not args.agent or not args.action:
+            parser.error("control requires --run, --agent, and --action")
+        result = client.request(f"/live-demo/runs/{args.run}/agents/{args.agent}/{args.action}", {"task": args.task} if args.task else {})
+    elif args.command == "finish":
+        if not args.run:
+            parser.error("finish requires --run")
+        result = client.request(f"/live-demo/runs/{args.run}/finish", {})
     else:
         result = client.request("/live-demo/" + ("runs/" + args.run if args.run else "health"))
     print(json.dumps(result, indent=2))

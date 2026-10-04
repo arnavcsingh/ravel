@@ -53,7 +53,10 @@ export function Inspector({
             <h3>
               {version.resourceId}@{version.generation}
             </h3>
-            <p>Created at sequence {version.creationSeq}</p>
+            <p>
+              Created at sequence {version.creationSeq} · hash{' '}
+              {version.contentHash?.slice(0, 10) ?? 'absent'}
+            </p>
           </div>
           <pre className="version-code">{version.content ?? '(resource absent)'}</pre>
           <div className="incident-block">
@@ -90,7 +93,7 @@ export function Inspector({
             </div>
           </div>
           <div className="incident-block">
-            <div className="section-label">THE CAUSAL CHAIN</div>
+            <div className="section-label">DETERMINISTIC TRACE · THE CAUSAL CHAIN</div>
             {chain(
               'Observed input',
               detail.observed,
@@ -153,6 +156,10 @@ export function Inspector({
             )}
           </div>
           <div className="incident-block">
+            <div className="section-label">
+              SEMANTIC ANALYSIS ·{' '}
+              {detail.assessment?.analyzer.startsWith('gemini/') ? 'GEMINI' : 'INTERPRETATION'}
+            </div>
             <div className="semantic-label">
               <strong>
                 {detail.assessment

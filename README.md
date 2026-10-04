@@ -1,6 +1,6 @@
 # Ravel
 
-## Live Gemini demo
+## Ravel Live Lab
 
 Set `GEMINI_API_KEY` in your ignored `.env`, install Go 1.26+, Python 3.11+,
 Node 22.18+, and pnpm, then run:
@@ -12,21 +12,39 @@ pnpm demo:live
 
 Open **http://localhost:4317/**. This command builds the debugger and Go runtime,
 starts the optional Python live-demo controller, and enables the Spacetime
-projection when `RAVEL_SPACETIME_ENABLED=true`. Stop an older Ravel process on
-port4317 first. The controller defaults to loopback port4318; override with
+projection when `RAVEL_SPACETIME_ENABLED=true`. Check for an older Ravel process on
+port 4317 first. The controller defaults to loopback port 4318; override with
 `RAVEL_DEMO_PORT`. `RAVEL_DEMO_URL` is wired automatically by this launcher.
 Fetch remains a separate `pnpm inspector` process with its optional Python
 environment (see below).
 
-Click **New Live Run**, edit the three prompts or initial repository, select
-**Controlled Interleaving** or **Natural concurrency**, and start. Every start
+Click **New Live Run**, configure **2–6 agents** with editable names and natural-language
+tasks, and edit initial repository paths/content if needed. Select **Natural concurrency**,
+**Interactive**, or **Deterministic Race Reproduction**, and choose Observe or Guard. Every start
 creates a fresh Run ID and template workspace without deleting previous runs.
 Use the run selector to inspect history. The scripted offline fixture is
 separately labeled and is not the live Gemini demo.
 
-Controlled mode holds Backend's real write intent, lets Database run, then
+**Natural concurrency** launches every configured agent concurrently, with no forced
+ordering. Generic agents have no assigned output files or predeclared dependencies:
+Gemini chooses what to inspect and write through the existing mediated tools.
+
+**Interactive** creates all agents queued. Start them individually and edit a queued
+task before starting it. Every agent has generic **Hold next commit / Release pending
+commit**, **Pause / Resume**, **Pause after next observation**, and **Retry task** controls.
+Pause takes effect at a tool boundary; it cannot interrupt a provider request already
+in flight. A held candidate is a real immutable Go write intent, and release invokes
+ordinary Go validation. Hold remains armed until you release it. Resume clears pause;
+release clears hold, so an agent paused and held needs both actions. Finish with
+**Finish run & analyze** after active agents have finished; unused queued agents can
+remain unstarted. Retry is available for completed/failed agents while the experiment
+is still open. Adding agents during an active run is deliberately unsupported.
+
+**Deterministic Race Reproduction** preserves the verified three-agent sample.
+Use **Load Sample Scenario** to fill its prompts and initial repository. This mode
+holds Backend's real write intent, lets Database run, then
 releases that intent through the ordinary Go validator and starts Frontend.
-Natural mode starts all agents concurrently. Scheduling uses synchronization
+Scheduling uses synchronization
 events, never timing sleeps. The model generates all mutations through mediated
 tools. No hazard or semantic result is guaranteed: no mutation, an unchanged
 write, and a clean run are legitimate outcomes shown in the UI.
@@ -36,7 +54,13 @@ For a fresh run from the terminal:
 ```sh
 pnpm live start
 pnpm live start --config examples/live-demo.json
+pnpm live start --config examples/live-lab.json
 pnpm live status --run RUN_ID
+pnpm live control --run RUN_ID --agent contract --action hold
+pnpm live control --run RUN_ID --agent contract --action start
+pnpm live control --run RUN_ID --agent migration --action start
+pnpm live control --run RUN_ID --agent contract --action release
+pnpm live finish --run RUN_ID
 pnpm live repair --run RUN_ID --hazard HAZARD_ID
 ```
 
@@ -53,7 +77,8 @@ replace heads; historical versions remain. Cyclic or unsupported task lineages
 are reported rather than silently repaired. A clean lineage does not prove all
 generated code is semantically correct.
 
-For a 60–90 second presentation: start a fresh controlled Observe run, point out
+For a 60–90 second presentation: load the sample and start a fresh Deterministic
+Race Reproduction in Observe, point out
 Backend's observation and held mutation, watch Database's new schema version and
 the released stale write, inspect the input diff and Gemini assessment, click
 **Replay race**, then **Repair affected tasks** and show the new versions and
@@ -62,6 +87,34 @@ the UI reports failures and preserves the trace. A follow-up Guard run shows
 normal rejection and fresh-attempt retry. Natural mode demonstrates outcomes
 without a forced interleaving.
 
+For a judge-driven experiment:
+
+1. Create an **Interactive / Observe** run with at least two agents. Give one a normal
+   contract-generation task and leave another queued for the judge's requested change.
+2. Arm **Hold next commit** on the first agent, then **Start** it. Inspect its actual
+   observed resources and wait for **HELD** with a pending candidate.
+3. Ask the judge for a change. Edit the queued agent's task, then start it. Wait for
+   its real writes to advance resource heads.
+4. Release the held agent. Start any downstream agent once the output exists.
+5. Finish the run. Inspect the race, diff, focused **Replay race**, and Gemini
+   semantic assessment. If the run is clean, report that honestly.
+6. Use **Repair affected tasks** to rerun actual affected producing tasks in provenance
+   order. Show immutable replacements and retained historical hazards. Repeat in Guard
+   to show rejection and fresh-attempt retry.
+
+Agent cards show current attempts, actual reads (including search observations), real
+pending candidates, and scheduler state. Timeline selections and focused trace replay
+highlight the agent and version in the causal graph. **Resource heads** expands to
+immutable per-file history; the inspector shows sequence, short hash, and content.
+The default incident graph emphasizes the observed version, its successor, the stale
+output, and active descendants. Include historical incidents to show deeper history.
+
+Previous verified Gemini rehearsals remain in ignored `.ravel/live-validation`.
+For an emergency historical fallback, launch `pnpm demo:live --data .ravel/live-validation`,
+select the recorded Observe run `62d60261-4fe2-58bb-4f49-d903a606c0cf`, and enable
+**Include historical incidents** to inspect its repaired hazard, Gemini assessment,
+blast radius, and focused replay. Label this as a historical trace, not a fresh run.
+
 Health shows API readiness, Gemini configuration, Spacetime availability/SSE
 fallback, optional Inspector readiness, and template availability. Configuration
 is not a provider quota guarantee. Gemini authentication, timeout, quota, no-write,
@@ -69,6 +122,12 @@ and semantic-analysis errors are visible; semantic failure never erases runtime
 facts. Set `RAVEL_AGENT_MODEL` and `RAVEL_SEMANTIC_MODEL` to override the default
 `gemini-3.5-flash-lite`. Empty values use that default. A coding attempt has a
 12-call budget, 45-second call timeout, and at most two Guard retries.
+
+The launcher prefers an existing workspace `.ravel/sponsors-venv` on Windows unless
+`RAVEL_PYTHON` is set. This keeps optional Inspector tests on the installed pinned SDK
+instead of an unrelated partially configured system Python. The core still requires
+no optional sponsor packages. Controller interruption preserves the runtime trace;
+it does not silently resume agents or publish held generic candidates after restart.
 
 Use `RAVEL_SPACETIME_ENABLED=false` for a fully working SSE-only demo. When
 enabled, cloud publishing failures automatically fall back to SSE. Keep the

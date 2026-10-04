@@ -17,6 +17,7 @@ import { Timeline } from './Timeline';
 import { CausalGraph } from './CausalGraph';
 import { Inspector } from './Inspector';
 import { LiveRunPanel, useLiveRun } from './LiveRun';
+import { ResourceHeads } from './ResourceHeads';
 
 type DemoStatus = {
   phase: string;
@@ -28,6 +29,8 @@ export default function App() {
   const [runs, setRuns] = useState<Run[]>([]),
     [runId, setRunId] = useState('');
   const liveRun = useLiveRun(runId);
+  const [selectedVersionId, setSelectedVersionId] = useState<string | null>(null);
+  const [selectedAgentId, setSelectedAgentId] = useState<string | null>(null);
   const [snapshot, setSnapshot] = useState<DebuggerSnapshot | null>(null),
     [selected, setSelected] = useState<string | null>(null),
     [detail, setDetail] = useState<HazardDetail | null>(null);
@@ -102,6 +105,8 @@ export default function App() {
     setLive(true);
     setSnapshot(null);
     setSelected(null);
+    setSelectedVersionId(null);
+    setSelectedAgentId(null);
     setVersion(null);
     setStep(null);
     setDetail(null);
@@ -176,7 +181,12 @@ export default function App() {
         return;
       }
       setStep(next);
-      await load(next.runtimeSeq);
+      const frame = await load(next.runtimeSeq);
+      const event = frame?.timeline.find((e) => e.runtimeSeq === next.runtimeSeq);
+      setSelectedAgentId(
+        event?.agentId ?? frame?.agents.find((a) => a.name === next.agent)?.id ?? null,
+      );
+      setSelectedVersionId(event?.versionId ?? next.highlightNodes[0] ?? null);
       if (token === playback.current)
         timer.current = setTimeout(() => tick(index + 1).catch(report), 950);
     };
@@ -199,6 +209,11 @@ export default function App() {
     setRunId(result.runId);
   }
   async function inspect(node: GraphNode) {
+    setSelectedVersionId(node.id);
+    setSelectedAgentId(
+      snapshot?.timeline.find((e) => e.versionId === node.id && e.action !== 'OBSERVE')?.agentId ??
+        null,
+    );
     if (node.hazardIds[0]) {
       setSelected(node.hazardIds[0]);
       setVersion(null);
@@ -284,6 +299,7 @@ export default function App() {
         </div>
         <LiveRunPanel
           status={liveRun}
+          selectedAgentId={selectedAgentId}
           onCreated={async (id) => {
             await loadRuns();
             setRunId(id);
@@ -391,7 +407,9 @@ export default function App() {
           <div className="empty-state" role="status">
             {error
               ? 'Execution unavailable. Check the runtime connection and reload.'
-              : 'Loading the recorded execution…'}
+              : runId
+                ? 'Loading the recorded execution…'
+                : 'Create a New Live Run to begin an experiment.'}
           </div>
         ) : (
           <>
@@ -514,19 +532,68 @@ export default function App() {
                     <span>Current heads are clean. Historical evidence is preserved.</span>
                   )}
                 </div>
+                <Timeline
+                  snapshot={
+                    liveRun?.generic
+                      ? {
+                          ...snapshot,
+                          timeline: [
+                            ...snapshot.timeline,
+                            ...(liveRun.timelineExtras ?? []).filter(
+                              (event) => event.runtimeSeq <= snapshot.currentRuntimeSeq,
+                            ),
+                          ].sort((a, b) => a.runtimeSeq - b.runtimeSeq),
+                        }
+                      : snapshot
+                  }
+                  step={step}
+                  agentStates={
+                    liveRun?.generic
+                      ? Object.fromEntries(
+                          Object.values(liveRun.agents ?? {}).map((agent) => [
+                            agent.agentId,
+                            agent.state,
+                          ]),
+                        )
+                      : undefined
+                  }
+                  selectedVersionId={selectedVersionId}
+                  selectEvent={(versionId, agentId) => {
+                    setSelectedAgentId(agentId);
+                    setSelectedVersionId(versionId);
+                    const node = snapshot.graph.nodes.find((n) => n.id === versionId);
+                    if (node)
+                      inspect(node)
+                        .then(() => setSelectedAgentId(agentId))
+                        .catch(report);
+                  }}
+                  selectHazard={(id) => {
+                    setSelected(id);
+                    setVersion(null);
+                  }}
+                />
+                <ResourceHeads
+                  snapshot={snapshot}
+                  inspect={(node) => {
+                    setSelectedVersionId(node.id);
+                    setSelectedAgentId(
+                      snapshot.timeline.find(
+                        (event) => event.versionId === node.id && event.action !== 'OBSERVE',
+                      )?.agentId ?? null,
+                    );
+                    api<Version & { content: string | null }>(`/versions/${node.id}/content`)
+                      .then(setVersion)
+                      .catch(report);
+                  }}
+                />
                 <div className="debugger-grid">
                   <div className="visuals">
-                    <Timeline
-                      snapshot={snapshot}
-                      step={step}
-                      selectHazard={(id) => {
-                        setSelected(id);
-                        setVersion(null);
-                      }}
-                    />
                     <CausalGraph
                       snapshot={snapshot}
                       step={step}
+                      selectedVersionId={selectedVersionId}
+                      hazardId={hazardId}
+                      showHistory={history}
                       inspect={(node) => {
                         inspect(node).catch(report);
                       }}
@@ -636,7 +703,9 @@ export default function App() {
                       busy ||
                       !!(
                         liveRun &&
-                        ['repairing', 'assessing', 'running', 'held'].includes(liveRun.phase)
+                        ['repairing', 'assessing', 'running', 'held', 'ready'].includes(
+                          liveRun.phase,
+                        )
                       )
                     }
                     replay={action(replayRace)}

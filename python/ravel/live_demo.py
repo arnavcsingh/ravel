@@ -67,17 +67,32 @@ class LiveDemo:
         self.records = {}
         self.gates = {}
         self.jobs = ThreadPoolExecutor(max_workers=2)
+        self.lab_workers = ThreadPoolExecutor(max_workers=6)
+        self.lab_controls = {}
+        self.closing = False
         for path in self.directory.glob("*.json"):
             value = json.loads(path.read_text(encoding="utf-8"))
-            if value["phase"] in ("running", "held", "repairing", "assessing"):
+            if value["phase"] in ("running", "held", "repairing", "assessing", "ready"):
                 value.update(phase="interrupted", error="Controller stopped. The durable Ravel trace remains available.")
+                for agent in value.get("agents", {}).values():
+                    if agent.get("state") not in ("done", "failed"):
+                        agent["state"] = "interrupted"
             self.records[value["runId"]] = value
 
     def save(self, record):
         path = self.directory / (record["runId"] + ".json")
         temp = path.with_suffix(".tmp")
         temp.write_text(json.dumps(record, indent=2), encoding="utf-8")
-        temp.replace(path)
+        # Windows scanners can briefly hold the closed file during replacement.
+        # This retries controller persistence only; it never schedules runtime work.
+        for retry in range(10):
+            try:
+                temp.replace(path)
+                break
+            except PermissionError:
+                if retry == 9:
+                    raise
+                threading.Event().wait(.02)
 
     def update(self, run, **values):
         with self.lock:
@@ -93,19 +108,47 @@ class LiveDemo:
         if record["phase"] == "unmanaged":
             return record
         attempts = {}
-        names = {data["agentId"]: role for role, data in record["agents"].items()}
-        for event in self.client.events(run):
+        names = {data["agentId"]: data.get("name", role) for role, data in record["agents"].items()}
+        events = self.client.events(run)
+        for event in events:
             if event["kind"] == "TASK_ATTEMPT_START":
                 value = event["payload"]["attempt"]
                 attempts[value["id"]] = {"id": value["id"], "role": names.get(value["agentId"], "Agent"), "number": value["number"], "status": value["status"]}
             elif event["kind"] == "TASK_ATTEMPT_END" and event["attemptId"] in attempts:
                 attempts[event["attemptId"]]["status"] = event["payload"]["status"]
         record["attempts"] = list(attempts.values())
+        if record.get("generic"):
+            snapshot = self.client.snapshot(run)
+            nodes = {node["id"]: node for node in snapshot["graph"]["nodes"]}
+            from .live_lab import trace_extras
+            record["timelineExtras"] = trace_extras(record, events, nodes)
+            for agent in record["agents"].values():
+                with self.lock:
+                    control = self.lab_controls.get((run, agent["id"]))
+                    if control:
+                        agent["scheduling"] = {key: control[key] for key in ("paused", "pauseAfter", "hold")}
+                observed = []
+                for event in events:
+                    if event["attemptId"] != agent.get("attemptId"):
+                        continue
+                    payload = event["payload"]
+                    observations = payload.get("observations", [])
+                    if event["kind"] == "OBSERVE_RESOURCE":
+                        observations = [payload["observation"]]
+                    for observation in observations:
+                        node = nodes.get(observation["versionId"])
+                        if node:
+                            observed.append({"path": node["resourceId"], "versionId": node["id"], "generation": node["generation"], "at": event["wallTime"]})
+                agent["observed"] = observed
+                agent["activeHazards"] = sum(h["active"] and h["observingAgentId"] == agent["agentId"] for h in snapshot["hazards"])
         return record
 
     def start(self, config):
         if not isinstance(config, dict):
             raise ValueError("Expected live-run configuration")
+        if "agents" in config or config.get("scheduler") == "interactive":
+            from .live_lab import start_lab
+            return start_lab(self, config)
         scheduler = config.get("scheduler", "controlled")
         mode = config.get("mode", "observe")
         prompts, files = config.get("prompts", PROMPTS), config.get("files", FILES)
@@ -118,7 +161,7 @@ class LiveDemo:
         agent_model = model_name(os.getenv("RAVEL_AGENT_MODEL", "").strip() or DEFAULT_MODEL)
         semantic_model = model_name(os.getenv("RAVEL_SEMANTIC_MODEL", "").strip() or DEFAULT_MODEL)
         with self.lock:
-            if any(r["phase"] in ("running", "held", "repairing", "assessing") for r in self.records.values()):
+            if any(r["phase"] in ("running", "held", "repairing", "assessing", "ready") for r in self.records.values()):
                 raise ValueError("A live run is already active")
             run = self.client.create_run(config.get("name", "Live Gemini run")[:120], mode, files)
             record = {"runId": run, "phase": "running", "scheduler": scheduler, "mode": mode,
@@ -132,6 +175,9 @@ class LiveDemo:
 
     def agent(self, run, role, gate=None, repair=False):
         record = self.status(run)
+        if record.get("generic"):
+            from .live_lab import run_agent
+            return run_agent(self, run, role, repair=repair)
         transport = self.factory()
         if repair:
             prior = record["agents"][role]
@@ -290,6 +336,23 @@ class LiveDemo:
                 self.save(self.records[run])
 
     def close(self):
+        with self.lock:
+            self.closing = True
+            for control in self.lab_controls.values():
+                control["cancelled"] = True
+                control["condition"].notify_all()
+            for run, record in self.records.items():
+                if record.get("generic") and record["phase"] in ("ready", "running", "assessing", "repairing"):
+                    self.update(run, phase="interrupted", error="Controller stopped. The durable Ravel trace remains available.")
+        self.lab_workers.shutdown(wait=True)
         for gate in list(self.gates.values()):
             gate["release"].set()
         self.jobs.shutdown(wait=True)
+
+    def control(self, run, agent, action, data=None):
+        from .live_lab import control_agent
+        return control_agent(self, run, agent, action, data or {})
+
+    def finish(self, run):
+        from .live_lab import finish_lab
+        return finish_lab(self, run)

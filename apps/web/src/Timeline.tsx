@@ -10,13 +10,19 @@ export function Timeline({
   snapshot,
   step,
   selectHazard,
+  selectEvent,
+  selectedVersionId,
+  agentStates,
 }: {
   snapshot: DebuggerSnapshot;
   step: ReplayStep | null;
   selectHazard: (id: string) => void;
+  selectEvent?: (versionId: string | null, agentId: string | null) => void;
+  selectedVersionId?: string | null;
+  agentStates?: Record<string, string>;
 }) {
   const width = Math.max(760, snapshot.timeline.length * 85 + 175),
-    left = 130,
+    left = 180,
     right = width - 45,
     height = Math.max(220, snapshot.agents.length * 66 + 65);
   const min = Math.min(...snapshot.timeline.map((e) => e.runtimeSeq), snapshot.currentRuntimeSeq);
@@ -47,6 +53,7 @@ export function Timeline({
       <div className="agent-roster" aria-label="Agents in this execution">
         {snapshot.agents.map((agent) => {
           const entries = snapshot.timeline.filter((event) => event.agentId === agent.id);
+          const eventCount = new Set(entries.map((event) => event.runtimeSeq)).size;
           const affected = entries.find(
             (event) =>
               event.action !== 'OBSERVE' &&
@@ -57,8 +64,10 @@ export function Timeline({
             <div className="agent-summary" key={agent.id}>
               <strong>{agent.name}</strong>
               <span className={affected ? `agent-${affected.state.toLowerCase()}` : ''}>
-                {affected ? affected.state.toLowerCase().replaceAll('_', ' ') : agent.status} ·{' '}
-                {entries.length} trace event{entries.length === 1 ? '' : 's'}
+                {affected
+                  ? affected.state.toLowerCase().replaceAll('_', ' ')
+                  : (agentStates?.[agent.id] ?? agent.status)}{' '}
+                · {eventCount} trace event{eventCount === 1 ? '' : 's'}
               </span>
             </div>
           );
@@ -105,7 +114,7 @@ export function Timeline({
                   {agent.name[0]}
                 </text>
                 <text x={56} y={y + 4} fontSize={12} fill="var(--ink)">
-                  {agent.name}
+                  {agent.name.length > 18 ? `${agent.name.slice(0, 17)}…` : agent.name}
                 </text>
                 <line x1={left - 10} x2={right + 16} y1={y} y2={y} stroke="var(--line)" />
               </g>
@@ -116,7 +125,7 @@ export function Timeline({
             const start = x(window.startSeq),
               end = x(window.endSeq);
             return (
-              <g key={window.hazardId}>
+              <g key={`${window.hazardId}:${window.resourceId}:${window.startSeq}`}>
                 <title>{`Stale ${window.resourceId}: sequence ${window.startSeq} to ${window.endSeq}`}</title>
                 <rect
                   x={start}
@@ -153,23 +162,27 @@ export function Timeline({
             const read = event.action === 'OBSERVE';
             const color = read ? 'var(--accent)' : colors[event.state];
             const label = snapshot.graph.nodes.find((n) => n.id === event.versionId)?.label;
-            const highlighted = step?.runtimeSeq === event.runtimeSeq;
+            const highlighted =
+              step?.runtimeSeq === event.runtimeSeq ||
+              (!!selectedVersionId && selectedVersionId === event.versionId);
+            const select = () => {
+              selectEvent?.(event.versionId, event.agentId);
+              if (event.hazardIds[0]) selectHazard(event.hazardIds[0]);
+            };
             return (
               <g
                 key={event.id}
                 className="timeline-event"
-                role={event.hazardIds.length > 0 ? 'button' : undefined}
-                tabIndex={event.hazardIds.length > 0 ? 0 : undefined}
-                aria-label={
-                  event.hazardIds.length > 0 ? `Inspect incident: ${event.description}` : undefined
-                }
+                role="button"
+                tabIndex={0}
+                aria-label={`Inspect ${event.description}`}
                 onKeyDown={(key) => {
-                  if (event.hazardIds[0] && (key.key === 'Enter' || key.key === ' ')) {
+                  if (key.key === 'Enter' || key.key === ' ') {
                     key.preventDefault();
-                    selectHazard(event.hazardIds[0]);
+                    select();
                   }
                 }}
-                onClick={() => event.hazardIds[0] && selectHazard(event.hazardIds[0])}
+                onClick={select}
               >
                 <title>{event.description}</title>
                 {highlighted && <circle cx={cx} cy={y} r={14} fill={color} opacity={0.16} />}
@@ -189,7 +202,7 @@ export function Timeline({
                   fill={color}
                   fontFamily="monospace"
                 >
-                  {read ? 'READ' : event.action} {label}
+                  {read ? 'OBSERVE' : event.action} {label}
                 </text>
               </g>
             );
