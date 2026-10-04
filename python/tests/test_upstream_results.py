@@ -47,6 +47,19 @@ class UpstreamResultsTests(unittest.TestCase):
             self.assertIsNone(result["native"]["normalized_drs"])
             self.assertIsNone(result["native"]["total_tokens"])
             self.assertIsNone(result["ravel"])
+            self.assertIsNone(result["native"]["assignment_attempts"])
+
+    def test_attempts_and_frozen_manager_limits_are_reported_from_artifacts(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "native-1"
+            self.write_bundle(path)
+            events = [{"event_type": "agent_response"}, {"event_type": "manager_review"}, {"event_type": "agent_response"}]
+            (path / "outputs.jsonl").write_text("\n".join(json.dumps(event) for event in events), encoding="utf-8")
+            (path / "async_manager_profile_snapshot.json").write_text(json.dumps({"manager_max_iterations_per_event": 30, "manager_max_iterations_total": 100}), encoding="utf-8")
+            result = summarize(path)
+            self.assertEqual(result["native"]["assignment_attempts"], 2)
+            self.assertEqual(result["manager_budget"]["manager_max_iterations_per_event"], 30)
+            self.assertEqual(result["manager_budget"]["manager_max_iterations_total"], 100)
 
     def test_modified_artifact_excludes_recorded_valid_bundle(self):
         with tempfile.TemporaryDirectory() as directory:

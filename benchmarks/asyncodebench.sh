@@ -9,6 +9,7 @@ export UV_PYTHON_INSTALL_DIR="$TOOLS/python"
 export LITELLM_LOCAL_MODEL_COST_MAP=True
 RUNNER="$ASYNCODEBENCH_ROOT/reproductions/async-swe-agents"
 REVISION=566c32b6f4ad209ecfe95f10970b02d4b79289c1
+FROZEN_LEGACY_REVISION=73c9877315c920867ba72750826b66421be08bc0
 UV="${RAVEL_UV:-$TOOLS/bin/uv}"
 action="${1:-check}"
 if [[ $# -gt 0 ]]; then shift; fi
@@ -33,6 +34,11 @@ fi
 export PYTHONPATH="$RUNNER:$ASYNCODEBENCH_ROOT/src"
 case "$action" in
   setup)
+    if ! git -C "$ASYNCODEBENCH_ROOT" cat-file -e "$FROZEN_LEGACY_REVISION^{commit}" 2>/dev/null; then
+      # Async-Manager compares old engine bytes against this historical object.
+      # Fetching metadata leaves the pinned checkout and evaluator unchanged.
+      git -C "$ASYNCODEBENCH_ROOT" fetch --no-tags https://github.com/KaituoZhang/AsynCodeBench "$FROZEN_LEGACY_REVISION"
+    fi
     "$UV" python install 3.12
     "$UV" venv --python 3.12 --allow-existing "$TOOLS/validation-env"
     "$UV" pip install --python "$TOOLS/validation-env/bin/python" 'jsonschema>=4.23,<5' 'pydantic>=2.7,<3' 'pytest>=8.3,<9'
@@ -83,7 +89,11 @@ case "$action" in
       exit 2
     fi
     cd "$RUNNER"
-    "$UV" run --frozen --no-sync asyncodebench run --release v0.4 --model "$LLM_MODEL" --output-dir "$TOOLS/native-$(date -u +%Y%m%dT%H%M%S)" "$@"
+    native_output="$TOOLS/native-$(date -u +%Y%m%dT%H%M%S)"
+    "$UV" run --frozen --no-sync asyncodebench run --release v0.4 --model "$LLM_MODEL" --output-dir "$native_output" "$@"
+    # Some upstream protocols finalize silently; give the Windows launcher a
+    # consistent artifact location to validate after the harness exits.
+    echo "[AsynCodeBench] Result bundle: $native_output/run_bundle.json"
     ;;
   *) echo 'Usage: asyncodebench.sh setup|check|runner-check|dry-run|smoke|doctor|run' >&2; exit 2 ;;
 esac

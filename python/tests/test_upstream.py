@@ -75,6 +75,18 @@ class UpstreamTests(unittest.TestCase):
             with patch("ravel.upstream.ROOT", Path(directory)), patch.dict("os.environ", {"GEMINI_API_KEY": "test"}, clear=True), patch("ravel.upstream.subprocess.Popen", side_effect=launch), contextlib.redirect_stdout(io.StringIO()):
                 self.assertEqual(main(["run"]), 2)
 
+    def test_native_protocol_defaults_keep_official_task_budgets(self):
+        spawn_child = subprocess.Popen
+        for protocol, cap in (("single", "100"), ("async_private", "100"), ("caid_manager", "100"), ("async_manager", "30")):
+            with self.subTest(protocol=protocol), tempfile.TemporaryDirectory() as directory:
+                def launch(command, **kwargs):
+                    self.assertEqual(command[command.index("--max-iterations") + 1], cap)
+                    self.assertEqual(command[command.index("--sub-iterations") + 1], "100")
+                    self.assertEqual(command[command.index("--rounds-of-chat") + 1], "2")
+                    return spawn_child([sys.executable, "-c", "import sys; sys.exit(7)"], **kwargs)
+                with patch("ravel.upstream.ROOT", Path(directory)), patch.dict("os.environ", {"GEMINI_API_KEY": "test"}, clear=True), patch("ravel.upstream.subprocess.Popen", side_effect=launch), contextlib.redirect_stdout(io.StringIO()):
+                    self.assertEqual(main(["run", "--protocol", protocol]), 7)
+
 
 if __name__ == "__main__":
     unittest.main()

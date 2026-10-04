@@ -45,10 +45,12 @@ def main(args):
         parser = argparse.ArgumentParser(description="Run the unmodified OpenHands benchmark baseline")
         parser.add_argument("--task", default="asyncodebench:cachetools")
         parser.add_argument("--protocol", choices=("single", "serial_specialists", "async_private", "caid_manager", "async_manager"), default="single")
-        parser.add_argument("--max-iterations", type=int, default=100)
+        parser.add_argument("--max-iterations", type=int, help="Manager cap; default 100, or the frozen 30-per-event cap for async_manager (100 total)")
         parser.add_argument("--sub-iterations", type=int, default=100)
         parser.add_argument("--rounds-of-chat", type=int, default=2)
         parsed = parser.parse_args(args[1:])
+        if parsed.max_iterations is None:
+            parsed.max_iterations = 30 if parsed.protocol == "async_manager" else 100
         if min(parsed.max_iterations, parsed.sub_iterations, parsed.rounds_of_chat) < 1:
             parser.error("Budgets must be positive")
         for key, value in vars(parsed).items():

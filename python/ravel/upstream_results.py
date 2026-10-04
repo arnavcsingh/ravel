@@ -26,6 +26,15 @@ def summarize(directory):
     cost = read_json(directory / "cost.json").get("total", {})
     dependencies = read_json(directory / "strict_dependency_metrics.json")
     process = read_json(directory / "process_metrics_summary.json")
+    timing = read_json(directory / "infrastructure_timing.json")
+    manager_profile = read_json(directory / "async_manager_profile_snapshot.json")
+    execution_events = directory / "outputs.jsonl"
+    assignment_attempts = None
+    if execution_events.exists():
+        assignment_attempts = sum(
+            json.loads(line).get("event_type") in ("agent_response", "single_agent_complete")
+            for line in execution_events.read_text(encoding="utf-8").splitlines() if line.strip()
+        )
     eligibility = bundle.get("eligibility", {})
     admitted = (
         bundle.get("status") == "valid"
@@ -46,7 +55,16 @@ def summarize(directory):
             "benchmark_revision", "sdk_revision", "model", "subagent_model",
         )},
         "budgets": bundle.get("execution_profile", {}).get("observed", {}),
+        "execution_profile": {key: bundle.get("execution_profile", {}).get(key) for key in (
+            "profile_id", "path", "sha256",
+        )},
+        "manager_budget": {key: manager_profile.get(key) for key in (
+            "manager_max_iterations_per_event", "manager_max_iterations_total",
+            "manager_max_tokens_total", "manager_max_active_seconds_total", "manager_max_interventions",
+        )} if manager_profile else None,
         "native": {
+            "assignment_attempts": assignment_attempts,
+            "model_calls": bundle.get("instrumentation", {}).get("model_execution", {}).get("model_calls"),
             "final_test": bundle.get("final_test"),
             "adpr": dependencies.get("final_integrated_ADPR"),
             "strict_drs": dependencies.get("strict_DRS"),
@@ -54,6 +72,9 @@ def summarize(directory):
             "dependencies": dependencies.get("dependency_metrics", []),
             "checkpoint_count": dependencies.get("checkpoint_count"),
             "wall_seconds": cost.get("wall_clock_duration"),
+            "infrastructure_timing": {key: timing.get(key) for key in (
+                "raw_protocol_seconds", "worktree_preparation_seconds", "reported_protocol_seconds",
+            )} if timing else None,
             "agent_seconds": cost.get("duration"),
             "input_tokens": cost.get("prompt_tokens"),
             "output_tokens": cost.get("completion_tokens"),
