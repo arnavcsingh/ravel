@@ -40,10 +40,12 @@ class Client:
     def create_agent(self, run_id, name, adapter="python"):
         return self.request(f"/runs/{quote(run_id)}/agents", {"name": name, "adapter": adapter})["agentId"]
 
-    def create_attempt(self, run_id, agent_id, name="", prompt="", task_id=None):
+    def create_attempt(self, run_id, agent_id, name="", prompt="", task_id=None, repair_of=None):
         payload = {"agentId": agent_id, "name": name, "prompt": prompt}
         if task_id is not None:
             payload["taskId"] = task_id
+        if repair_of is not None:
+            payload["repairOf"] = repair_of
         identity = self.request(f"/runs/{quote(run_id)}/attempts", payload)
         return Session(self, run_id, identity)
 
@@ -97,4 +99,5 @@ class Session:
         return self.call("complete", status=status)
 
     def retry(self):
-        return self.client.create_attempt(self.run_id, self.identity["agentId"], task_id=self.identity["taskId"])
+        return self.client.create_attempt(self.run_id, self.identity["agentId"], task_id=self.identity["taskId"],
+                                          repair_of=self.identity.get("repairOf"))

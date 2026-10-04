@@ -47,6 +47,9 @@ importers:
       react-dom:
         specifier: ^19.1.1
         version: 19.3.0(react@19.3.0)
+      spacetimedb:
+        specifier: 2.10.2
+        version: 2.10.2(react@19.3.0)
 
   integrations/spacetime/spacetimedb:
     dependencies:

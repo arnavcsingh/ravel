@@ -3,7 +3,6 @@ import {
   DebuggerSnapshotSchema,
   HazardDetailSchema,
   ReplayPlanSchema,
-  StreamUpdateSchema,
   type DebuggerSnapshot,
   type GraphNode,
   type HazardDetail,
@@ -13,9 +12,12 @@ import {
   type Version,
 } from '@ravel/shared';
 import { api } from './api';
+import { connectLive, type LiveMode } from './live';
 import { Timeline } from './Timeline';
 import { CausalGraph } from './CausalGraph';
 import { Inspector } from './Inspector';
+import { LiveRunPanel, useLiveRun } from './LiveRun';
+import { ResourceHeads } from './ResourceHeads';
 
 type DemoStatus = {
   phase: string;
@@ -26,6 +28,9 @@ type DemoStatus = {
 export default function App() {
   const [runs, setRuns] = useState<Run[]>([]),
     [runId, setRunId] = useState('');
+  const liveRun = useLiveRun(runId);
+  const [selectedVersionId, setSelectedVersionId] = useState<string | null>(null);
+  const [selectedAgentId, setSelectedAgentId] = useState<string | null>(null);
   const [snapshot, setSnapshot] = useState<DebuggerSnapshot | null>(null),
     [selected, setSelected] = useState<string | null>(null),
     [detail, setDetail] = useState<HazardDetail | null>(null);
@@ -36,6 +41,7 @@ export default function App() {
     [latest, setLatest] = useState(1),
     [playing, setPlaying] = useState(false),
     [step, setStep] = useState<ReplayStep | null>(null);
+  const [liveMode, setLiveMode] = useState<LiveMode>('sse');
   const [events, setEvents] = useState<RavelEvent[]>([]),
     [eventView, setEventView] = useState(false),
     [history, setHistory] = useState(false),
@@ -99,6 +105,8 @@ export default function App() {
     setLive(true);
     setSnapshot(null);
     setSelected(null);
+    setSelectedVersionId(null);
+    setSelectedAgentId(null);
     setVersion(null);
     setStep(null);
     setDetail(null);
@@ -110,22 +118,27 @@ export default function App() {
   }, [runId, load, stop, report]);
   useEffect(() => {
     if (!runId) return;
-    const stream = new EventSource(`/api/runs/${runId}/stream`);
-    stream.onopen = () => setConnected(true);
-    stream.onerror = () => setConnected(false);
-    const update = (message: MessageEvent) => {
-      try {
-        const event = StreamUpdateSchema.parse(JSON.parse(message.data));
-        setLatest((old) => Math.max(old, event.runtimeSeq));
+    return connectLive(runId, {
+      status: (connected, mode) => {
+        setConnected(connected);
+        setLiveMode(mode);
+      },
+      error: report,
+      snapshot: (value) => {
+        setLatest((old) => Math.max(old, value.latestRuntimeSeq));
+        if (live) {
+          loading.current?.abort();
+          setSnapshot(value);
+        }
+        api<DemoStatus>(`/runs/${runId}/demo`).then(setDemo).catch(report);
+      },
+      update: (seq, kind) => {
+        setLatest((old) => Math.max(old, seq));
         if (live) load().catch(report);
-        if (event.kind === 'DEMO_FAILED')
+        if (kind === 'DEMO_FAILED')
           setError('The demo failed. Check the runtime terminal and start a new run.');
-      } catch (failure) {
-        report(failure);
-      }
-    };
-    stream.addEventListener('update', update as EventListener);
-    return () => stream.close();
+      },
+    });
   }, [runId, live, load, report]);
   const hazardId =
     snapshot?.hazards.find((h) => h.id === selected)?.id ??
@@ -168,7 +181,12 @@ export default function App() {
         return;
       }
       setStep(next);
-      await load(next.runtimeSeq);
+      const frame = await load(next.runtimeSeq);
+      const event = frame?.timeline.find((e) => e.runtimeSeq === next.runtimeSeq);
+      setSelectedAgentId(
+        event?.agentId ?? frame?.agents.find((a) => a.name === next.agent)?.id ?? null,
+      );
+      setSelectedVersionId(event?.versionId ?? next.highlightNodes[0] ?? null);
       if (token === playback.current)
         timer.current = setTimeout(() => tick(index + 1).catch(report), 950);
     };
@@ -191,6 +209,11 @@ export default function App() {
     setRunId(result.runId);
   }
   async function inspect(node: GraphNode) {
+    setSelectedVersionId(node.id);
+    setSelectedAgentId(
+      snapshot?.timeline.find((e) => e.versionId === node.id && e.action !== 'OBSERVE')?.agentId ??
+        null,
+    );
     if (node.hazardIds[0]) {
       setSelected(node.hazardIds[0]);
       setVersion(null);
@@ -212,7 +235,6 @@ export default function App() {
           WORKSPACE <span>LOCAL</span>
         </div>
         <div className="workspace-name">
-          <span className="repo-icon">⌘</span>
           {snapshot?.run.scenario ?? snapshot?.run.name ?? 'Select a run'}
         </div>
         <div className="nav-label">OBSERVABILITY</div>
@@ -221,9 +243,12 @@ export default function App() {
             className={`nav-item ${!eventView ? 'active' : ''}`}
             onClick={() => setEventView(false)}
             aria-label="Causal debugger"
+            aria-pressed={!eventView}
           >
-            <span>⌁</span>Causal debugger
-            <span className="nav-count">
+            Causal debugger
+            <span
+              className={snapshot?.hazards.some((h) => h.active) ? 'nav-count danger' : 'nav-count'}
+            >
               {snapshot?.hazards.filter((h) => h.active).length ?? 0}
             </span>
           </button>
@@ -231,22 +256,20 @@ export default function App() {
             className={`nav-item ${eventView ? 'active' : ''}`}
             onClick={() => setEventView(true)}
             aria-label="Event log"
+            aria-pressed={eventView}
           >
-            <span>≡</span>Event log
+            Event log
           </button>
         </nav>
-        <div className="sidebar-note">
-          <div className="mini-threads">
-            <i />
-            <i />
-            <i />
-          </div>
-          <strong>Follow the cause.</strong>
-          <p>See where shared context drifts, and what follows.</p>
-        </div>
         <div className="sidebar-bottom">
-          <span className="connection-dot" />
-          <span>{connected ? 'Runtime connected' : 'Reconnecting…'}</span>
+          <span className={`connection-dot ${connected ? '' : 'disconnected'}`} />
+          <span>
+            {connected
+              ? liveMode === 'spacetime'
+                ? 'SpacetimeDB live'
+                : 'Runtime connected · SSE'
+              : 'Reconnecting…'}
+          </span>
           <span>v0.3</span>
         </div>
       </aside>
@@ -254,7 +277,8 @@ export default function App() {
         <header className="topbar">
           <div>
             <span className="muted">Workspace</span>
-            <span className="slash">/</span>Causal debugger
+            <span className="slash">/</span>
+            {eventView ? 'Event log' : 'Causal debugger'}
           </div>
           <button className="text-button" onClick={() => about.current?.showModal()}>
             How to read this trace <span>↗</span>
@@ -262,23 +286,27 @@ export default function App() {
         </header>
         <div className="page-heading">
           <div>
-            <div className="eyebrow">SHARED STATE. VISIBLE CONSEQUENCES.</div>
-            <h1>
-              A race, unraveled<span>.</span>
-            </h1>
-            <p>Trace an observation from the moment it becomes stale to the work it shapes.</p>
+            <h1>{eventView ? 'Event log' : 'Causal debugger'}</h1>
+            <p>Agent execution, shared state, and the consequences of stale context.</p>
           </div>
           <button
             className="button primary"
             disabled={busy || ['held', 'running', 'ready'].includes(demo?.phase ?? '')}
             onClick={action(newDemo)}
           >
-            <span>＋</span>Run live demo
+            {busy ? 'Working…' : 'Run scripted fixture'}
           </button>
         </div>
+        <LiveRunPanel
+          status={liveRun}
+          selectedAgentId={selectedAgentId}
+          onCreated={async (id) => {
+            await loadRuns();
+            setRunId(id);
+          }}
+        />
         <div className="runbar">
           <div className="run-choice">
-            <span className="run-icon">◈</span>
             <label htmlFor="run-select">Run</label>
             <select
               id="run-select"
@@ -297,12 +325,14 @@ export default function App() {
             <span className="pill">{snapshot?.run.mode.toUpperCase() ?? 'OBSERVE'} MODE</span>
             <span className="status-label">
               {!live
-                ? '◷ REPLAYING'
+                ? playing
+                  ? 'PLAYING TRACE'
+                  : 'HISTORICAL VIEW'
                 : demo?.phase === 'held'
-                  ? 'Ⅱ MUTATION HELD'
+                  ? 'MUTATION HELD'
                   : snapshot?.run.status === 'running'
-                    ? '● RUNNING'
-                    : '● RECORDED'}
+                    ? 'RUNNING'
+                    : 'RECORDED'}
             </span>
           </div>
         </div>
@@ -374,7 +404,13 @@ export default function App() {
           </div>
         )}
         {!snapshot ? (
-          <div className="empty-state">Loading the recorded execution…</div>
+          <div className="empty-state" role="status">
+            {error
+              ? 'Execution unavailable. Check the runtime connection and reload.'
+              : runId
+                ? 'Loading the recorded execution…'
+                : 'Create a New Live Run to begin an experiment.'}
+          </div>
         ) : (
           <>
             {snapshot.run.mode === 'guard' && snapshot.guard.rejectedWrites > 0 && (
@@ -405,7 +441,7 @@ export default function App() {
               </div>
               <div>
                 <span className="stat-label">Active incidents</span>
-                <strong className="danger">
+                <strong className={snapshot.hazards.some((h) => h.active) ? 'danger' : ''}>
                   {snapshot.hazards.filter((h) => h.active).length}
                 </strong>
                 <span className="stat-detail">stale observations</span>
@@ -434,7 +470,16 @@ export default function App() {
                     </thead>
                     <tbody>
                       {events.map((event) => (
-                        <tr key={event.id}>
+                        <tr
+                          key={event.id}
+                          className={
+                            snapshot.timeline.some(
+                              (entry) => entry.id === event.id && entry.hazardIds.length > 0,
+                            )
+                              ? 'event-hazard'
+                              : ''
+                          }
+                        >
                           <td>{String(event.runtimeSeq).padStart(3, '0')}</td>
                           <td>
                             {snapshot.agents.find((a) => a.id === event.agentId)?.name ?? 'Runtime'}
@@ -487,26 +532,74 @@ export default function App() {
                     <span>Current heads are clean. Historical evidence is preserved.</span>
                   )}
                 </div>
+                <Timeline
+                  snapshot={
+                    liveRun?.generic
+                      ? {
+                          ...snapshot,
+                          timeline: [
+                            ...snapshot.timeline,
+                            ...(liveRun.timelineExtras ?? []).filter(
+                              (event) => event.runtimeSeq <= snapshot.currentRuntimeSeq,
+                            ),
+                          ].sort((a, b) => a.runtimeSeq - b.runtimeSeq),
+                        }
+                      : snapshot
+                  }
+                  step={step}
+                  agentStates={
+                    liveRun?.generic
+                      ? Object.fromEntries(
+                          Object.values(liveRun.agents ?? {}).map((agent) => [
+                            agent.agentId,
+                            agent.state,
+                          ]),
+                        )
+                      : undefined
+                  }
+                  selectedVersionId={selectedVersionId}
+                  selectEvent={(versionId, agentId) => {
+                    setSelectedAgentId(agentId);
+                    setSelectedVersionId(versionId);
+                    const node = snapshot.graph.nodes.find((n) => n.id === versionId);
+                    if (node)
+                      inspect(node)
+                        .then(() => setSelectedAgentId(agentId))
+                        .catch(report);
+                  }}
+                  selectHazard={(id) => {
+                    setSelected(id);
+                    setVersion(null);
+                  }}
+                />
+                <ResourceHeads
+                  snapshot={snapshot}
+                  inspect={(node) => {
+                    setSelectedVersionId(node.id);
+                    setSelectedAgentId(
+                      snapshot.timeline.find(
+                        (event) => event.versionId === node.id && event.action !== 'OBSERVE',
+                      )?.agentId ?? null,
+                    );
+                    api<Version & { content: string | null }>(`/versions/${node.id}/content`)
+                      .then(setVersion)
+                      .catch(report);
+                  }}
+                />
                 <div className="debugger-grid">
                   <div className="visuals">
-                    <Timeline
-                      snapshot={snapshot}
-                      step={step}
-                      selectHazard={(id) => {
-                        setSelected(id);
-                        setVersion(null);
-                      }}
-                    />
                     <CausalGraph
                       snapshot={snapshot}
                       step={step}
+                      selectedVersionId={selectedVersionId}
+                      hazardId={hazardId}
+                      showHistory={history}
                       inspect={(node) => {
                         inspect(node).catch(report);
                       }}
                     />
                     <section className="replay-panel">
                       <div className="replay-title">
-                        <span className="replay-symbol">↶</span>
                         <div>
                           <strong>{step ? step.description : 'Replay the execution'}</strong>
                           <span>
@@ -599,23 +692,43 @@ export default function App() {
                     </section>
                   </div>
                   <Inspector
+                    analysisLabel={liveRun ? 'Reassess with Gemini ↗' : undefined}
                     detail={detail}
                     version={version}
                     versionLabels={Object.fromEntries(
                       snapshot.graph.nodes.map((node) => [node.id, node.label]),
                     )}
-                    canRepair={snapshot.canRepair}
-                    busy={busy}
+                    canRepair={liveRun ? liveRun.canRepair : snapshot.canRepair}
+                    busy={
+                      busy ||
+                      !!(
+                        liveRun &&
+                        ['repairing', 'assessing', 'running', 'held', 'ready'].includes(
+                          liveRun.phase,
+                        )
+                      )
+                    }
                     replay={action(replayRace)}
                     repair={action(async () => {
                       stop();
-                      await api(`/hazards/${hazardId}/repair`, { method: 'POST' });
+                      await api(
+                        liveRun ? `/live-demo/runs/${runId}/repair` : `/hazards/${hazardId}/repair`,
+                        {
+                          method: 'POST',
+                          ...(liveRun ? { body: JSON.stringify({ hazardId }) } : {}),
+                        },
+                      );
                       setLive(true);
                       setHistory(true);
                       await load();
                     })}
                     analyze={action(async () => {
-                      await api(`/hazards/${hazardId}/analyze`, { method: 'POST' });
+                      await api(
+                        liveRun
+                          ? `/live-demo/runs/${runId}/analyze`
+                          : `/hazards/${hazardId}/analyze`,
+                        { method: 'POST' },
+                      );
                       setLive(true);
                       await load();
                     })}
@@ -640,7 +753,6 @@ export default function App() {
         >
           ×
         </button>
-        <div className="eyebrow">A NOTE ON EVIDENCE</div>
         <h2>
           Stale is a fact.
           <br />

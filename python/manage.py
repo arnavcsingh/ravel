@@ -19,6 +19,12 @@ def main():
     action = sys.argv[1] if len(sys.argv) > 1 else "serve"
     args = sys.argv[2:]
     os.chdir(ROOT)
+    if action == "live-demo":
+        from ravel.live_demo_server import main as live_demo
+        return live_demo(args)
+    if action == "inspector":
+        from ravel.inspector_server import main as inspector
+        return inspector(args)
     if action == "gemini":
         from ravel.gemini_cli import main as gemini
         return gemini(args)

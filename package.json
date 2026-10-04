@@ -11,6 +11,8 @@
   "scripts": {
     "start": "node scripts/python.mjs serve",
     "demo": "pnpm build && pnpm start",
+    "demo:live": "pnpm build && node scripts/python.mjs live-demo serve",
+    "live": "node scripts/python.mjs live-demo",
     "demo:reset": "node scripts/python.mjs reset",
     "dev": "node scripts/python.mjs dev",
     "test": "node scripts/python.mjs test",
@@ -20,6 +22,7 @@
     "benchmark": "node scripts/python.mjs benchmark",
     "benchmark:upstream": "node scripts/python.mjs upstream",
     "gemini": "node scripts/python.mjs gemini",
+    "inspector": "node scripts/python.mjs inspector",
     "typecheck": "tsc --noEmit",
     "check": "pnpm typecheck && pnpm format:check",
     "format": "prettier --write packages apps tests scripts examples integrations *.json *.yaml *.ts README.md",

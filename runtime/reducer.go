@@ -109,6 +109,12 @@ func ApplyEvent(s *State, e Event) error {
 		if s.Agents[a.AgentID] == nil || p.Task.RunID != e.RunID || a.TaskID != p.Task.ID || a.ID != val(e.AttemptID) || a.Number < 1 {
 			return fmt.Errorf("invalid task attempt")
 		}
+		if a.RepairOf != nil {
+			prior := s.Attempts[*a.RepairOf]
+			if prior == nil || prior.Status == "running" || prior.TaskID != a.TaskID || prior.AgentID != a.AgentID || len(a.Frontier) != 0 || len(a.ObservedVersions) != 0 || len(a.ProducedVersions) != 0 {
+				return fmt.Errorf("invalid repair attempt")
+			}
+		}
 		if a.Frontier == nil {
 			a.Frontier = map[string]string{}
 		}

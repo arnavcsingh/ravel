@@ -10,6 +10,7 @@ import (
 	"os/signal"
 	"path/filepath"
 	ravel "ravel/runtime"
+	"ravel/runtime/integrations/spacetime"
 	"syscall"
 	"time"
 )
@@ -53,6 +54,8 @@ func run() error {
 		return err
 	}
 	defer service.Close()
+	projectionConfig := spacetime.FromEnvironment()
+	service.ConfigureProjection(ravel.Object{"enabled": projectionConfig.Enabled, "uri": projectionConfig.URI, "database": projectionConfig.Database}, spacetime.New(projectionConfig))
 	listener, err := net.Listen("tcp", "127.0.0.1:"+*port)
 	if err != nil {
 		return err
